@@ -12,12 +12,13 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.imageio.ImageIO;
 
 import org.apache.commons.io.IOUtils;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.apache.commons.io.comparator.NameFileComparator;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
@@ -29,19 +30,29 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
+ * Exposes image-related endpoints.
+ * 
  * @author Footeware.ca
- *
  */
 @Controller
 public class ImageController {
 
+	private static final int MAX_DIMENSION = 150;
+	private ResourceLoader loader;
+
 	@Value("${images.path}")
 	private String imagesPath;
 
-	@Autowired
-	private ResourceLoader loader;
-
-	private static final int MAX_DIMENSION = 250;
+	/**
+	 * Constructor.
+	 * 
+	 * @param loader
+	 *            {@link ResourceLoader} injected.
+	 */
+	public ImageController(ResourceLoader loader) {
+		this.loader = loader;
+		ImageIO.setUseCache(false);
+	}
 
 	/**
 	 * Get the gallery page with names of the images to be dynamically obtained from
@@ -55,11 +66,8 @@ public class ImageController {
 	 */
 	@GetMapping("/gallery")
 	public String getGallery(Model model) {
-		File folder = new File(imagesPath);
-		File[] files = folder.listFiles();
 		List<String> imageNames = new ArrayList<>();
-		ImageIO.setUseCache(false);
-		for (File file : files) {
+		for (File file : getFiles()) {
 			imageNames.add(file.getName());
 		}
 		model.addAttribute("images", imageNames);
@@ -78,16 +86,14 @@ public class ImageController {
 	@GetMapping(value = "/gallery/thumbnails/{imageName}", produces = MediaType.IMAGE_JPEG_VALUE)
 	@ResponseBody
 	public byte[] getThumbnail(@PathVariable("imageName") String imageName) {
-		File folder = new File(imagesPath);
-		File[] files = folder.listFiles();
-		fileLoop: for (File file : files) {
+		fileLoop: for (File file : getFiles()) {
 			if (file.getName().equals(imageName)) {
 				try {
 					BufferedImage originalImage = ImageIO.read(file);
 					int type = originalImage.getType() == 0 ? BufferedImage.TYPE_INT_ARGB : originalImage.getType();
 					BufferedImage thumbnail = resizeImage(originalImage, type);
 					ByteArrayOutputStream outstream = new ByteArrayOutputStream();
-					ImageIO.write(thumbnail, "png", outstream);
+					ImageIO.write(thumbnail, "jpg", outstream);
 					InputStream instream = new ByteArrayInputStream(outstream.toByteArray());
 					return IOUtils.toByteArray(instream);
 				} catch (IOException e) {
@@ -95,7 +101,7 @@ public class ImageController {
 				}
 			}
 		}
-		return "not found".getBytes();
+		return null;
 	}
 
 	/**
@@ -109,9 +115,7 @@ public class ImageController {
 	@GetMapping(value = "/gallery/{imageName}", produces = MediaType.IMAGE_JPEG_VALUE)
 	@ResponseBody
 	public byte[] getImage(@PathVariable("imageName") String imageName) {
-		File folder = new File(imagesPath);
-		File[] files = folder.listFiles();
-		fileLoop: for (File file : files) {
+		fileLoop: for (File file : getFiles()) {
 			if (file.getName().equals(imageName)) {
 				try {
 					Resource resource = loader.getResource("file:" + file.getAbsolutePath());
@@ -122,7 +126,19 @@ public class ImageController {
 				}
 			}
 		}
-		return "not found".getBytes();
+		return null;
+	}
+
+	/**
+	 * Get all the files at the configured image path.
+	 * 
+	 * @return {@link File}[]
+	 */
+	private File[] getFiles() {
+		File folder = new File(imagesPath);
+		File[] files = folder.listFiles();
+		Arrays.sort(files, NameFileComparator.NAME_COMPARATOR);
+		return files;
 	}
 
 	/**

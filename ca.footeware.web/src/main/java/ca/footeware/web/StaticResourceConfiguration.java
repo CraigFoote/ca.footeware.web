@@ -5,6 +5,11 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+/**
+ * Specify the resource folders from which to get images, etc.
+ * 
+ * @author Footeware.ca
+ */
 @Configuration
 public class StaticResourceConfiguration implements WebMvcConfigurer {
 

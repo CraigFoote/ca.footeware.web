@@ -21,8 +21,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 /**
+ * Exposes joke-related endpoints.
+ * 
  * @author Footeware.ca
- *
  */
 @Controller
 public class JokesController {
@@ -30,13 +31,22 @@ public class JokesController {
 	private DB db;
 	private ConcurrentMap<String, String> map;
 
+	/**
+	 * Initialize the DB.
+	 */
 	private void init() {
 		db = DBMaker.fileDB(new File("file.db")).closeOnJvmShutdown().fileMmapEnable().make();
 		map = db.hashMap("map", Serializer.STRING, Serializer.STRING).createOrOpen();
-		map.put("Test", "I fart you choke");
+		map.put("Nine o'clock",
+				"A newfie rolls into his factory job at 10:30. The floor manager comes up to him and says, \"You should have been here at nine o'clock,\" to which the newfie responds \"Why, what happened?\"");
 		db.commit();
 	}
 
+	/**
+	 * Get an initialized map from the database.
+	 * 
+	 * @return {@link ConcurrentMap} of {@link String} to {@link String}
+	 */
 	private ConcurrentMap<String, String> getMap() {
 		if (map == null) {
 			init();
@@ -44,6 +54,11 @@ public class JokesController {
 		return map;
 	}
 
+	/**
+	 * Get an initialized DB.
+	 * 
+	 * @return {@link DB}
+	 */
 	private DB getDB() {
 		if (db == null) {
 			init();
@@ -51,6 +66,13 @@ public class JokesController {
 		return db;
 	}
 
+	/**
+	 * Get the titles of all the jokes.
+	 * 
+	 * @param model
+	 *            {@link Model}
+	 * @return {@link String} UI view
+	 */
 	@RequestMapping("/jokes")
 	public String getTitles(Model model) {
 		Set<String> titles = getMap().keySet();
@@ -58,6 +80,15 @@ public class JokesController {
 		return "jokes";
 	}
 
+	/**
+	 * Get a joke by it's title.
+	 * 
+	 * @param title
+	 *            {@link String}
+	 * @param model
+	 *            {@link Model}
+	 * @return {@link String} UI view
+	 */
 	@RequestMapping("/jokes/{title}")
 	public String getJoke(@PathVariable("title") String title, Model model) {
 		String body = getMap().get(title);
@@ -66,11 +97,29 @@ public class JokesController {
 		return "joke";
 	}
 
+	/**
+	 * Forward user to page that allows them to add a joke.
+	 * 
+	 * @param model
+	 *            {@link Model}
+	 * @return {@link String} UI view
+	 */
 	@RequestMapping(value = "/addjoke", method = RequestMethod.GET)
 	public String getAddJokePage(Model model) {
 		return "addjoke";
 	}
 
+	/**
+	 * Add a joke.
+	 * 
+	 * @param title
+	 *            {@link String}
+	 * @param body
+	 *            {@link String}
+	 * @param model
+	 *            {@link Model}
+	 * @return {@link String} UI view
+	 */
 	@RequestMapping(value = "/jokes/add", method = RequestMethod.POST)
 	public String postJoke(@RequestParam("title") String title, @RequestParam("body") String body, Model model) {
 		String existing = getMap().get(title);
@@ -87,6 +136,15 @@ public class JokesController {
 		return "jokes";
 	}
 
+	/**
+	 * Delete a joke by title.
+	 * 
+	 * @param title
+	 *            {@link String}
+	 * @param model
+	 *            {@link Model}
+	 * @return {@link String} UI view
+	 */
 	@RequestMapping(value = "/deletejoke/{title}", method = RequestMethod.GET)
 	public String deleteJoke(@PathVariable("title") String title, Model model) {
 		getMap().remove(title);

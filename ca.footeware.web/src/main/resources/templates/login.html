@@ -17,7 +17,8 @@
 			<div class="navbar-collapse collapse">
 				<ul class="nav navbar-nav">
 					<li><a href="/">Home</a></li>
-					<li class="active"><a href="/gallery">Gallery</a></li>
+					<li class="active"><a href="/photos">Photos</a></li>
+					<li><a href="/gallery">Gallery</a></li>
 					<li><a href="/gear">Gear</a></li>
 					<li><a href="/webcam">Webcam</a></li>
 					<li><a href="/jokes">Jokes</a></li>
@@ -27,11 +28,26 @@
 	</nav>
 	<section>
 		<div>
-			<ul class="center" th:if="${images}">
-				<li class="inline" th:each="image : ${images}"><a
-					data-fancybox="gallery" th:href="@{'/gallery/' + ${image}}"><img
-						th:src="@{'/gallery/thumbnails/'+${image}}" /></a></li>
-			</ul>
+			<div class="right narrower center" th:if="${param.error}">Invalid
+				username and password.</div>
+			<div class="right narrower center" th:if="${param.logout}">You
+				have been logged out.</div>
+			<div class="right narrower center" th:unless="${name}">
+				<form action="#" th:action="@{/login}" method="post">
+					<p>
+						<input class="form-control" style="background-color: cornsilk" type="text" name="username"
+							autofocus="autofocus" placeholder="Name" />
+					</p>
+					<p>
+						<input class="form-control" style="background-color: cornsilk" type="password" name="password"
+							placeholder="Password" />
+					</p>
+					<p>
+						<input type="submit" class="btn btn-primary" value="Submit" />
+					</p>
+				</form>
+			</div>
+			<p class="center" th:if="${name}" th:text="'Hello ' + ${name} + '!'" />
 		</div>
 	</section>
 	<footer th:replace="fragments/footer :: footer"></footer>
