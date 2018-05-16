@@ -86,7 +86,7 @@ public class ImageController {
 	@GetMapping(value = "/gallery/thumbnails/{imageName}", produces = MediaType.IMAGE_JPEG_VALUE)
 	@ResponseBody
 	public byte[] getThumbnail(@PathVariable String imageName) {
-		fileLoop: for (File file : getFiles()) {
+		for (File file : getFiles()) {
 			if (file.getName().equals(imageName)) {
 				try {
 					BufferedImage originalImage = ImageIO.read(file);
@@ -97,11 +97,11 @@ public class ImageController {
 					InputStream instream = new ByteArrayInputStream(outstream.toByteArray());
 					return IOUtils.toByteArray(instream);
 				} catch (IOException e) {
-					break fileLoop;
+					break;
 				}
 			}
 		}
-		return null;
+		return new byte[0];
 	}
 
 	/**
@@ -115,18 +115,18 @@ public class ImageController {
 	@GetMapping(value = "/gallery/{imageName}", produces = MediaType.IMAGE_JPEG_VALUE)
 	@ResponseBody
 	public byte[] getImage(@PathVariable String imageName) {
-		fileLoop: for (File file : getFiles()) {
+		for (File file : getFiles()) {
 			if (file.getName().equals(imageName)) {
 				try {
 					Resource resource = loader.getResource("file:" + file.getAbsolutePath());
 					InputStream in = resource.getInputStream();
 					return IOUtils.toByteArray(in);
 				} catch (IOException e) {
-					break fileLoop;
+					break;
 				}
 			}
 		}
-		return null;
+		return new byte[0];
 	}
 
 	/**

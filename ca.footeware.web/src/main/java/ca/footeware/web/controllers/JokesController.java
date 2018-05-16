@@ -28,6 +28,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class JokesController {
 
+	private static final String TITLES = "titles";
+	private static final String JOKES = "jokes";
 	private DB db;
 	private ConcurrentMap<String, String> map;
 
@@ -76,8 +78,8 @@ public class JokesController {
 	@GetMapping("/jokes")
 	public String getTitles(Model model) {
 		Set<String> titles = getMap().keySet();
-		model.addAttribute("titles", titles);
-		return "jokes";
+		model.addAttribute(TITLES, titles);
+		return JOKES;
 	}
 
 	/**
@@ -132,8 +134,8 @@ public class JokesController {
 		getMap().put(title, body);
 		getDB().commit();
 		Set<String> titles = getMap().keySet();
-		model.addAttribute("titles", titles);
-		return "jokes";
+		model.addAttribute(TITLES, titles);
+		return JOKES;
 	}
 
 	/**
@@ -150,7 +152,7 @@ public class JokesController {
 		getMap().remove(title);
 		getDB().commit();
 		Set<String> titles = getMap().keySet();
-		model.addAttribute("titles", titles);
-		return "jokes";
+		model.addAttribute(TITLES, titles);
+		return JOKES;
 	}
 }
