@@ -5,6 +5,8 @@
 <body>
 	<h1>Footer Fragment.</h1>
 	<footer th:fragment="footer">
+		<a href="https://sonarcloud.io/dashboard?id=ca.footeware%3Aca.footeware.web"><img src=
+			"https://sonarcloud.io/api/project_badges/measure?project=ca.footeware%3Aca.footeware.web&metric=alert_status"/></a>
 		<a href="https://github.com/CraigFoote/ca.footeware.web-5.x.x"
 			target="_blank"> <img alt="Open Source at Github"
 			src="/images/github.png" title="Open Source at Github" />
@@ -35,11 +37,11 @@
 			// 	        "share",
 			"slideShow", "fullScreen", "download", "thumbs", "close" ];
 			$("[data-fancybox]").fancybox({
-				slideShow: {
-			        autoStart: false,
-			        speed: 10000
+				slideShow : {
+					autoStart : false,
+					speed : 10000
 				}
-		    });
+			});
 		</script>
 	</footer>
 </body>
