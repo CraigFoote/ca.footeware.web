@@ -85,7 +85,7 @@ public class ImageController {
 	 */
 	@GetMapping(value = "/gallery/thumbnails/{imageName}", produces = MediaType.IMAGE_JPEG_VALUE)
 	@ResponseBody
-	public byte[] getThumbnail(@PathVariable("imageName") String imageName) {
+	public byte[] getThumbnail(@PathVariable String imageName) {
 		fileLoop: for (File file : getFiles()) {
 			if (file.getName().equals(imageName)) {
 				try {
@@ -114,7 +114,7 @@ public class ImageController {
 	 */
 	@GetMapping(value = "/gallery/{imageName}", produces = MediaType.IMAGE_JPEG_VALUE)
 	@ResponseBody
-	public byte[] getImage(@PathVariable("imageName") String imageName) {
+	public byte[] getImage(@PathVariable String imageName) {
 		fileLoop: for (File file : getFiles()) {
 			if (file.getName().equals(imageName)) {
 				try {
