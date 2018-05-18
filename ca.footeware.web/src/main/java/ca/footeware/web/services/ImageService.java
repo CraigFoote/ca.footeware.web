@@ -17,6 +17,7 @@ import javax.imageio.ImageIO;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.comparator.NameFileComparator;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
@@ -31,9 +32,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class ImageService {
 
-	private static final int MAX_DIMENSION = 150;
-
-	@Value("${images.path}")
+	public static final int MAX_DIMENSION = 150;
 	private String imagesPath;
 	private ResourceLoader loader;
 
@@ -43,10 +42,22 @@ public class ImageService {
 	 * @param loader
 	 *            {@link ResourceLoader} injected.
 	 */
-	public ImageService(ResourceLoader loader) {
+	@Autowired
+	public ImageService(ResourceLoader loader, @Value("${images.path}") String imagesPath) {
 		this.loader = loader;
+		this.imagesPath = imagesPath;
 		ImageIO.setUseCache(false);
 	}
+
+//	/**
+//	 * Set the path at which to look for images.
+//	 * 
+//	 * @param path
+//	 *            {@link String}
+//	 */
+//	public void setImagesPath(String path) {
+//		this.imagesPath = path;
+//	}
 
 	/**
 	 * Get all the files at the configured image path.

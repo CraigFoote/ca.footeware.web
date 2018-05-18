@@ -14,7 +14,7 @@ import ca.footeware.web.controllers.JokesController;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class DemoApplicationTests {
+public class ApplicationTests {
 
 	@Autowired
 	private JokesController controller;
