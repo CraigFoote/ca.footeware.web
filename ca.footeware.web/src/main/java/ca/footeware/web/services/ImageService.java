@@ -49,16 +49,6 @@ public class ImageService {
 		ImageIO.setUseCache(false);
 	}
 
-//	/**
-//	 * Set the path at which to look for images.
-//	 * 
-//	 * @param path
-//	 *            {@link String}
-//	 */
-//	public void setImagesPath(String path) {
-//		this.imagesPath = path;
-//	}
-
 	/**
 	 * Get all the files at the configured image path.
 	 * 

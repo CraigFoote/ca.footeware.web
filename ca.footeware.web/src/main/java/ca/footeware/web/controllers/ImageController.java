@@ -24,8 +24,6 @@ import ca.footeware.web.services.ImageService;
 @Controller
 public class ImageController {
 
-	// @Value("${images.path}")
-	// private String imagesPath;
 	private ImageService service;
 
 	/**
@@ -36,7 +34,6 @@ public class ImageController {
 	 */
 	public ImageController(ImageService service) {
 		this.service = service;
-		// service.setImagesPath(imagesPath);
 	}
 
 	/**
