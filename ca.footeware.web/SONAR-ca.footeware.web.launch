@@ -9,6 +9,7 @@
         <listEntry value="sonar.organization=craigfoote-github"/>
         <listEntry value="sonar.host.url=https://sonarcloud.io"/>
         <listEntry value="sonar.login=be4616738dc3aafc4eaffee2c0f47452940de2e1"/>
+        <listEntry value="sonar.junit.reportPaths=target/surefire-reports"/>
     </listAttribute>
     <stringAttribute key="M2_RUNTIME" value="EMBEDDED"/>
     <booleanAttribute key="M2_SKIP_TESTS" value="false"/>
