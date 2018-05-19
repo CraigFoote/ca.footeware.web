@@ -27,7 +27,6 @@ import org.springframework.stereotype.Service;
  * Provides access to images.
  * 
  * @author Footeware.ca
- *
  */
 @Service
 public class ImageService {

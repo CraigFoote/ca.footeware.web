@@ -1,7 +1,7 @@
 /**
  * 
  */
-package ca.footeware.web;
+package ca.footeware.web.tests;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -20,8 +20,9 @@ import org.springframework.util.Assert;
 import ca.footeware.web.services.ImageService;
 
 /**
+ * Tests {@link ImageService}.
+ * 
  * @author Footeware.ca
- *
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -103,7 +104,7 @@ public class ImageServiceTests {
 	 * @return {@link ImageService}
 	 */
 	private ImageService getService() {
-		File resources = new File("src/test/resources");
+		File resources = new File("src/test/resources/images");
 		return new ImageService(loader, resources.getAbsolutePath());
 	}
 
