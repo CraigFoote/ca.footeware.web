@@ -10,6 +10,8 @@ import java.util.concurrent.ConcurrentMap;
 import org.mapdb.DB;
 import org.mapdb.DBMaker;
 import org.mapdb.Serializer;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
 /**
@@ -31,7 +33,7 @@ public class JokeService {
 	 * @return {@link Set} of {@link String}
 	 */
 	public Set<String> getTitles() {
-		return getMap().keySet();
+		return map.keySet();
 	}
 
 	/**
@@ -42,7 +44,7 @@ public class JokeService {
 	 * @return {@link String} the joke body, may be null
 	 */
 	public String getJokeByTitle(String title) {
-		return getMap().get(title);
+		return map.get(title);
 	}
 
 	/**
@@ -54,8 +56,8 @@ public class JokeService {
 	 *            {@link String}
 	 */
 	public void createJoke(String title, String body) {
-		getMap().put(title, body);
-		getDB().commit();
+		map.put(title, body);
+		db.commit();
 	}
 
 	/**
@@ -65,42 +67,24 @@ public class JokeService {
 	 *            {@link String}
 	 */
 	public void deleteJoke(String title) {
-		getMap().remove(title);
-		getDB().commit();
-	}
-
-	/**
-	 * Initialize the DB.
-	 */
-	private void init() {
-		db = DBMaker.fileDB(new File("file.db")).closeOnJvmShutdown().fileMmapEnable().concurrencyDisable().fileLockDisable().make();
-		map = db.hashMap("map", Serializer.STRING, Serializer.STRING).createOrOpen();
-		map.put(JOKE_TITLE, JOKE_BODY);
+		map.remove(title);
 		db.commit();
 	}
 
 	/**
-	 * Get an initialized map from the database.
+	 * Initializes the DB.
 	 * 
-	 * @return {@link ConcurrentMap} of {@link String} to {@link String}
+	 * @author Footeware.ca
 	 */
-	private ConcurrentMap<String, String> getMap() {
-		if (map == null) {
-			init();
-		}
-		return map;
-	}
-
-	/**
-	 * Get an initialized DB.
-	 * 
-	 * @return {@link DB}
-	 */
-	private DB getDB() {
-		if (db == null) {
-			init();
-		}
-		return db;
+	@Bean
+	CommandLineRunner init() {
+		return args -> {
+			db = DBMaker.fileDB(new File("file.db")).closeOnJvmShutdown().fileMmapEnable().concurrencyDisable()
+					.fileLockDisable().make();
+			map = db.hashMap("map", Serializer.STRING, Serializer.STRING).createOrOpen();
+			map.put(JOKE_TITLE, JOKE_BODY);
+			db.commit();
+		};
 	}
 
 }
