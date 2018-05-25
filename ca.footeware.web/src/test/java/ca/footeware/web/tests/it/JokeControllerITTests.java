@@ -4,12 +4,13 @@
 package ca.footeware.web.tests.it;
 
 import org.junit.Assert;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.boot.test.web.client.TestRestTemplate.HttpClientOption;
+import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -24,11 +25,19 @@ import org.springframework.util.MultiValueMap;
  *
  */
 @RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class JokeControllerITTests {
 
-	@Autowired
-	private TestRestTemplate template;
+	private static TestRestTemplate template;
+
+	@LocalServerPort
+	int port;
+	private String baseURL = "http://localhost:";
+
+	@BeforeClass
+	public static void setup() {
+		template = new TestRestTemplate(HttpClientOption.ENABLE_REDIRECTS, HttpClientOption.ENABLE_COOKIES);
+	}
 
 	/**
 	 * Test method for
@@ -36,7 +45,7 @@ public class JokeControllerITTests {
 	 */
 	@Test
 	public void testGetTitles() {
-		String page = template.getForObject("/jokes", String.class);
+		String page = template.getForObject(baseURL + port + "/jokes", String.class);
 		Assert.assertTrue("Incorrect page returned.",
 				page.contains("<li class=\"active\"><a href=\"/jokes\">Jokes</a></li>"));
 		Assert.assertTrue("Incorrect page returned.",
@@ -49,7 +58,7 @@ public class JokeControllerITTests {
 	 */
 	@Test
 	public void testGetJoke() {
-		String page = template.getForObject("/jokes/Nine o&#39;clock", String.class);
+		String page = template.getForObject(baseURL + port + "/jokes/Nine o&#39;clock", String.class);
 		Assert.assertTrue("Incorrect page returned.",
 				page.contains("<li class=\"active\"><a href=\"/jokes\">Jokes</a></li>"));
 		Assert.assertTrue("Incorrect page returned.", page.contains("<h3 class=\"title\">Nine o&amp;</h3>"));
@@ -61,7 +70,7 @@ public class JokeControllerITTests {
 	 */
 	@Test
 	public void testGetAddJokePage() {
-		String page = template.getForObject("/addjoke", String.class);
+		String page = template.getForObject(baseURL + port + "/addjoke", String.class);
 		Assert.assertTrue("Incorrect page returned.",
 				page.contains("<li class=\"active\"><a href=\"/jokes\">Jokes</a></li>"));
 		Assert.assertTrue("Incorrect page returned.", page.contains("<form action=\"/jokes/add\" method=\"post\">"));
@@ -82,16 +91,26 @@ public class JokeControllerITTests {
 		HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<MultiValueMap<String, String>>(joke,
 				requestHeaders);
 
-		ResponseEntity<String> response = template.postForEntity("/jokes/add", request, String.class);
+		ResponseEntity<String> response = template.postForEntity(baseURL + port + "/jokes/add", request, String.class);
 		HttpStatus status = response.getStatusCode();
-		Assert.assertEquals("Incorrect reposnse status.", HttpStatus.FOUND, status);
-		String location = response.getHeaders().getLocation().toString();
-		Assert.assertTrue("Incorrect redirect location.", location.contains("/login"));
-		
-		String page = template.getForObject("/jokes/testTitle", String.class);
+		Assert.assertEquals("Incorrect reposnse status.", HttpStatus.OK, status);
+
+		String page = template.getForObject(baseURL + port + "/jokes/testTitle", String.class);
 		Assert.assertTrue("Incorrect page returned.",
 				page.contains("<li class=\"active\"><a href=\"/jokes\">Jokes</a></li>"));
 		Assert.assertTrue("Incorrect page returned.", page.contains("<h3 class=\"title\">testTitle</h3>"));
+
+		requestHeaders = new HttpHeaders();
+		requestHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+		request = new HttpEntity<MultiValueMap<String, String>>(joke, requestHeaders);
+
+		// duplicate title?
+		response = template.postForEntity(baseURL + port + "/jokes/add", request, String.class);
+		Assert.assertTrue("Duplicate title error message not displayed.",
+				response.getBody().contains("A joke by that title exists. Please choose another."));
+		
+		// cleanup
+		template.getForObject(baseURL + port + "/deletejoke/testTitle", String.class);
 	}
 
 	/**
@@ -109,18 +128,16 @@ public class JokeControllerITTests {
 		HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<MultiValueMap<String, String>>(joke,
 				requestHeaders);
 
-		ResponseEntity<String> response = template.postForEntity("/jokes/add", request, String.class);
+		ResponseEntity<String> response = template.postForEntity(baseURL + port + "/jokes/add", request, String.class);
 		HttpStatus status = response.getStatusCode();
-		Assert.assertEquals("Incorrect reposnse status.", HttpStatus.FOUND, status);
-		String location = response.getHeaders().getLocation().toString();
-		Assert.assertTrue("Incorrect redirect location.", location.contains("/login"));
-		
-		String page = template.getForObject("/jokes/testTitle", String.class);
+		Assert.assertEquals("Incorrect response status.", HttpStatus.OK, status);
+
+		String page = template.getForObject(baseURL + port + "/jokes/testTitle", String.class);
 		Assert.assertTrue("Incorrect page returned.",
 				page.contains("<li class=\"active\"><a href=\"/jokes\">Jokes</a></li>"));
 		Assert.assertTrue("Incorrect page returned.", page.contains("<h3 class=\"title\">testTitle</h3>"));
-		
-		page = template.getForObject("/deletejoke/testTitle", String.class);
+
+		page = template.getForObject(baseURL + port + "/deletejoke/testTitle", String.class);
 		Assert.assertTrue("Incorrect page returned.",
 				page.contains("<li class=\"active\"><a href=\"/jokes\">Jokes</a></li>"));
 		Assert.assertTrue("Incorrect page returned.",
