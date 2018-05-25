@@ -7,7 +7,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,8 +24,17 @@ import ca.footeware.web.services.ImageService;
 @Controller
 public class ImageController {
 
-	@Autowired
 	private ImageService service;
+
+	/**
+	 * Constructor.
+	 * 
+	 * @param service
+	 *            {@link ImageService} injected
+	 */
+	public ImageController(ImageService service) {
+		this.service = service;
+	}
 
 	/**
 	 * Get the gallery page with names of the images to be dynamically obtained from

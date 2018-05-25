@@ -8,7 +8,6 @@ package ca.footeware.web.controllers;
 
 import java.util.Set;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,9 +27,17 @@ public class JokeController {
 
 	private static final String JOKES = "jokes";
 	private static final String TITLES = "titles";
-
-	@Autowired
 	private JokeService service;
+
+	/**
+	 * Constructor.
+	 * 
+	 * @param service
+	 *            {@link JokeService} injected
+	 */
+	public JokeController(JokeService service) {
+		this.service = service;
+	}
 
 	/**
 	 * Delete a joke by title.
