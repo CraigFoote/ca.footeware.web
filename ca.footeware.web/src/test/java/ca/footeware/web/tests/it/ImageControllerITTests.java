@@ -43,7 +43,7 @@ public class ImageControllerITTests {
 	@Test
 	public void testGetThumbnail() {
 		byte[] image = template.getForObject("/gallery/thumbnails/test-image.png", byte[].class);
-		Assert.assertTrue("Wrong bytes for image.", image.length == 4314);
+		Assert.assertTrue("Wrong bytes for image.", image.length == 4296);
 	}
 
 	/**
@@ -53,7 +53,7 @@ public class ImageControllerITTests {
 	@Test
 	public void testGetImage() {
 		byte[] image = template.getForObject("/gallery/test-image.png", byte[].class);
-		Assert.assertTrue("Wrong bytes for image.", image.length == 4314);
+		Assert.assertTrue("Wrong bytes for image.", image.length == 4296);
 	}
 
 }
