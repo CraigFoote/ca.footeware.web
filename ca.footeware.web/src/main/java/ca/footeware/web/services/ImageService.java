@@ -17,7 +17,6 @@ import javax.imageio.ImageIO;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.comparator.NameFileComparator;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
@@ -41,7 +40,6 @@ public class ImageService {
 	 * @param loader
 	 *            {@link ResourceLoader} injected.
 	 */
-	@Autowired
 	public ImageService(ResourceLoader loader, @Value("${images.path}") String imagesPath) {
 		this.loader = loader;
 		this.imagesPath = imagesPath;
