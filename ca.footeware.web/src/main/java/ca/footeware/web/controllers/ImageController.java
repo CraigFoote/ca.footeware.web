@@ -49,20 +49,6 @@ public class ImageController {
 	}
 
 	/**
-	 * Get the thumbnail version from the received image name.
-	 * 
-	 * @param name
-	 *            {@link String} image name
-	 * @return byte[] the 'produces' attribute dictates how the browser will handle
-	 *         the bytes, i.e as jpegs
-	 */
-	@GetMapping(value = "/gallery/thumbnails/{name}", produces = MediaType.IMAGE_JPEG_VALUE)
-	@ResponseBody
-	public byte[] getThumbnail(@PathVariable String name) {
-		return service.getThumbnailAsBytes(name);
-	}
-
-	/**
 	 * Get the full-size version from the received image name.
 	 * 
 	 * @param name
@@ -74,6 +60,20 @@ public class ImageController {
 	@ResponseBody
 	public byte[] getImage(@PathVariable String name) {
 		return service.getImageAsBytes(name);
+	}
+
+	/**
+	 * Get the thumbnail version from the received image name.
+	 * 
+	 * @param name
+	 *            {@link String} image name
+	 * @return byte[] the 'produces' attribute dictates how the browser will handle
+	 *         the bytes, i.e as jpegs
+	 */
+	@GetMapping(value = "/gallery/thumbnails/{name}", produces = MediaType.IMAGE_JPEG_VALUE)
+	@ResponseBody
+	public byte[] getThumbnail(@PathVariable String name) {
+		return service.getThumbnailAsBytes(name);
 	}
 
 }

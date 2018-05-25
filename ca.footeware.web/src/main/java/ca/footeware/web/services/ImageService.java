@@ -49,37 +49,6 @@ public class ImageService {
 	}
 
 	/**
-	 * Get all the files at the configured image path.
-	 * 
-	 * @return {@link File}[]
-	 */
-	public File[] getFiles() {
-		File folder = new File(imagesPath);
-		File[] files = folder.listFiles();
-		Arrays.sort(files, NameFileComparator.NAME_COMPARATOR);
-		return files;
-	}
-
-	/**
-	 * Resize the received image.
-	 * 
-	 * @param originalImage
-	 *            {@link BufferedImage}
-	 * @param type
-	 *            int
-	 * @see {@link BufferedImage#TYPE_INT_RGB}, etc.
-	 * @return {@link BufferedImage}
-	 */
-	public BufferedImage resizeImage(BufferedImage originalImage, int type) {
-		Dimension dim = getDimensions(originalImage);
-		BufferedImage resizedImage = new BufferedImage(dim.width, dim.height, type);
-		Graphics2D g = resizedImage.createGraphics();
-		g.drawImage(originalImage, 0, 0, dim.width, dim.height, null);
-		g.dispose();
-		return resizedImage;
-	}
-
-	/**
 	 * Determine the thumbnail width and height of the received image.
 	 * 
 	 * @param image
@@ -106,6 +75,18 @@ public class ImageService {
 			dim.width = Math.round(ratio * MAX_DIMENSION);
 		}
 		return dim;
+	}
+
+	/**
+	 * Get all the files at the configured image path.
+	 * 
+	 * @return {@link File}[]
+	 */
+	public File[] getFiles() {
+		File folder = new File(imagesPath);
+		File[] files = folder.listFiles();
+		Arrays.sort(files, NameFileComparator.NAME_COMPARATOR);
+		return files;
 	}
 
 	/**
@@ -154,6 +135,25 @@ public class ImageService {
 			}
 		}
 		return new byte[0];
+	}
+
+	/**
+	 * Resize the received image.
+	 * 
+	 * @param originalImage
+	 *            {@link BufferedImage}
+	 * @param type
+	 *            int
+	 * @see {@link BufferedImage#TYPE_INT_RGB}, etc.
+	 * @return {@link BufferedImage}
+	 */
+	public BufferedImage resizeImage(BufferedImage originalImage, int type) {
+		Dimension dim = getDimensions(originalImage);
+		BufferedImage resizedImage = new BufferedImage(dim.width, dim.height, type);
+		Graphics2D g = resizedImage.createGraphics();
+		g.drawImage(originalImage, 0, 0, dim.width, dim.height, null);
+		g.dispose();
+		return resizedImage;
 	}
 
 }

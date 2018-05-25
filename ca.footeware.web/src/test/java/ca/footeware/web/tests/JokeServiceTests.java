@@ -23,31 +23,11 @@ import ca.footeware.web.services.JokeService;
 @SpringBootTest
 public class JokeServiceTests {
 
-	private static final String TEST_TITLE = "test title";
 	private static final String TEST_BODY = "test body";
+	private static final String TEST_TITLE = "test title";
 
 	@Autowired
 	private JokeService service;
-
-	/**
-	 * Test method for {@link ca.footeware.web.services.JokeService#getTitles()}.
-	 */
-	@Test
-	public void testGetTitles() {
-		Set<String> titles = service.getTitles();
-		Assert.assertEquals(1, titles.size());
-		Assert.assertEquals("Incorrect joke title.", JokeService.JOKE_TITLE, titles.iterator().next());
-	}
-
-	/**
-	 * Test method for
-	 * {@link ca.footeware.web.services.JokeService#getJokeByTitle(java.lang.String)}.
-	 */
-	@Test
-	public void testGetJokeByTitle() {
-		String body = service.getJokeByTitle(JokeService.JOKE_TITLE);
-		Assert.assertEquals("Incorrect joke body.", JokeService.JOKE_BODY, body);
-	}
 
 	/**
 	 * Test method for
@@ -70,6 +50,26 @@ public class JokeServiceTests {
 		service.deleteJoke(TEST_TITLE);
 		String body = service.getJokeByTitle(TEST_TITLE);
 		Assert.assertNull("Joke body should have been null.", body);
+	}
+
+	/**
+	 * Test method for
+	 * {@link ca.footeware.web.services.JokeService#getJokeByTitle(java.lang.String)}.
+	 */
+	@Test
+	public void testGetJokeByTitle() {
+		String body = service.getJokeByTitle(JokeService.JOKE_TITLE);
+		Assert.assertEquals("Incorrect joke body.", JokeService.JOKE_BODY, body);
+	}
+
+	/**
+	 * Test method for {@link ca.footeware.web.services.JokeService#getTitles()}.
+	 */
+	@Test
+	public void testGetTitles() {
+		Set<String> titles = service.getTitles();
+		Assert.assertEquals(1, titles.size());
+		Assert.assertEquals("Incorrect joke title.", JokeService.JOKE_TITLE, titles.iterator().next());
 	}
 
 }

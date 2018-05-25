@@ -26,24 +26,39 @@ import ca.footeware.web.services.JokeService;
 @Controller
 public class JokeController {
 
-	private static final String TITLES = "titles";
 	private static final String JOKES = "jokes";
+	private static final String TITLES = "titles";
 
 	@Autowired
 	private JokeService service;
 
 	/**
-	 * Get the titles of all the jokes.
+	 * Delete a joke by title.
+	 * 
+	 * @param title
+	 *            {@link String}
+	 * @param model
+	 *            {@link Model}
+	 * @return {@link String} UI view
+	 */
+	@GetMapping("/deletejoke/{title}")
+	public String deleteJoke(@PathVariable String title, Model model) {
+		service.deleteJoke(title);
+		Set<String> titles = service.getTitles();
+		model.addAttribute(TITLES, titles);
+		return JOKES;
+	}
+
+	/**
+	 * Forward user to page that allows them to add a joke.
 	 * 
 	 * @param model
 	 *            {@link Model}
 	 * @return {@link String} UI view
 	 */
-	@GetMapping("/jokes")
-	public String getTitles(Model model) {
-		Set<String> titles = service.getTitles();
-		model.addAttribute(TITLES, titles);
-		return JOKES;
+	@GetMapping("/addjoke")
+	public String getAddJokePage(Model model) {
+		return "addjoke";
 	}
 
 	/**
@@ -64,15 +79,17 @@ public class JokeController {
 	}
 
 	/**
-	 * Forward user to page that allows them to add a joke.
+	 * Get the titles of all the jokes.
 	 * 
 	 * @param model
 	 *            {@link Model}
 	 * @return {@link String} UI view
 	 */
-	@GetMapping("/addjoke")
-	public String getAddJokePage(Model model) {
-		return "addjoke";
+	@GetMapping("/jokes")
+	public String getTitles(Model model) {
+		Set<String> titles = service.getTitles();
+		model.addAttribute(TITLES, titles);
+		return JOKES;
 	}
 
 	/**
@@ -96,23 +113,6 @@ public class JokeController {
 			return "addjoke";
 		}
 		service.createJoke(title, body);
-		Set<String> titles = service.getTitles();
-		model.addAttribute(TITLES, titles);
-		return JOKES;
-	}
-
-	/**
-	 * Delete a joke by title.
-	 * 
-	 * @param title
-	 *            {@link String}
-	 * @param model
-	 *            {@link Model}
-	 * @return {@link String} UI view
-	 */
-	@GetMapping("/deletejoke/{title}")
-	public String deleteJoke(@PathVariable String title, Model model) {
-		service.deleteJoke(title);
 		Set<String> titles = service.getTitles();
 		model.addAttribute(TITLES, titles);
 		return JOKES;

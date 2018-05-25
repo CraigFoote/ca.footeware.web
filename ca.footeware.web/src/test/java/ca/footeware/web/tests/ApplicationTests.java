@@ -18,19 +18,19 @@ import ca.footeware.web.controllers.JokeController;
 public class ApplicationTests {
 
 	@Autowired
-	private JokeController jokeController;
-
-	@Autowired
 	private ImageController imageController;
 
-	@Test
-	public void jokeControllerLoads() {
-		Assertions.assertThat(jokeController).isNotNull();
-	}
+	@Autowired
+	private JokeController jokeController;
 
 	@Test
 	public void imageControllerLoads() {
 		Assertions.assertThat(imageController).isNotNull();
+	}
+
+	@Test
+	public void jokeControllerLoads() {
+		Assertions.assertThat(jokeController).isNotNull();
 	}
 
 }
