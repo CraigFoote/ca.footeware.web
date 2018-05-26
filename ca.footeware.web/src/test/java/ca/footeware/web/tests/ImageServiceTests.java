@@ -126,7 +126,7 @@ public class ImageServiceTests {
 		int width = image.getWidth();
 		int height = image.getHeight();
 		Assert.assertEquals("Thumbnail was not the correct width.", ImageService.MAX_DIMENSION, width);
-		Assert.assertTrue("Thumbnail was too high.", height <= ImageService.MAX_DIMENSION);
+		Assert.assertTrue("Thumbnail was too tall.", height <= ImageService.MAX_DIMENSION);
 
 		bytes = service.getImageAsBytes(IMAGE_VERTICAL);
 		originalImage = ImageIO.read(new ByteArrayInputStream(bytes));
