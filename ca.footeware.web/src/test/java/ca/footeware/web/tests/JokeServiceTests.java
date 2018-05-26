@@ -60,6 +60,9 @@ public class JokeServiceTests {
 	public void testGetJokeByTitle() {
 		String body = service.getJokeByTitle(JokeService.JOKE_TITLE);
 		Assert.assertEquals("Incorrect joke body.", JokeService.JOKE_BODY, body);
+
+		body = service.getJokeByTitle("bad title");
+		Assert.assertEquals("Joke body should have been null.", null, body);
 	}
 
 	/**

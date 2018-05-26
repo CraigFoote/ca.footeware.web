@@ -35,10 +35,9 @@ public class ImageService {
 	private ResourceLoader loader;
 
 	/**
-	 * Constructor.
-	 * 
-	 * @param loader
-	 *            {@link ResourceLoader} injected.
+	 * Constructor
+	 * @param loader {@link ResourceLoader} injected
+	 * @param imagesPath {@link String} location on disk of images
 	 */
 	public ImageService(ResourceLoader loader, @Value("${images.path}") String imagesPath) {
 		this.loader = loader;
