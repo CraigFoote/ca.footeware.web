@@ -9,13 +9,13 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.util.Assert;
 
 import ca.footeware.web.services.ImageService;
 
@@ -56,7 +56,7 @@ public class ImageServiceTests {
 	@Test
 	public void testGetFiles() {
 		File[] files = getService().getFiles();
-		Assert.notEmpty(files, "No files found.");
+		Assert.assertEquals("No files found.", 3, files.length);
 	}
 
 	/**
@@ -66,7 +66,7 @@ public class ImageServiceTests {
 	@Test
 	public void testGetImageAsBytes() {
 		byte[] bytes = getService().getImageAsBytes(getImageFile().getName());
-		Assert.isTrue(bytes.length == 1656, "Image bytes not found.");
+		Assert.assertEquals("Image bytes not found.", 1656, bytes.length);
 	}
 
 	/**
@@ -76,7 +76,7 @@ public class ImageServiceTests {
 	@Test
 	public void testGetThumbnailAsBytes() {
 		byte[] bytes = getService().getThumbnailAsBytes(getImageFile().getName());
-		Assert.isTrue(bytes.length == 2781, "Thumbnail bytes not found.");
+		Assert.assertEquals("Thumbnail bytes not found.", 2781, bytes.length);
 	}
 
 	/**
@@ -86,7 +86,7 @@ public class ImageServiceTests {
 	@Test
 	public void testImageService() {
 		ImageService service = getService();
-		Assert.notNull(service, ImageService.class.getName() + " was null.");
+		Assert.assertNotNull(ImageService.class.getName() + " was null.", service);
 	}
 
 	/**
@@ -100,12 +100,12 @@ public class ImageServiceTests {
 		BufferedImage originalImage = ImageIO.read(getImageFile());
 		int type = originalImage.getType() == 0 ? BufferedImage.TYPE_INT_ARGB : originalImage.getType();
 		BufferedImage image = getService().resizeImage(originalImage, type);
-		Assert.notNull(image, "Image was null.");
+		Assert.assertNotNull("Image was null.", image);
 		int width = image.getWidth();
 		int height = image.getHeight();
 		getService();
-		Assert.isTrue(width <= ImageService.MAX_DIMENSION, "Thumbnail was too wide.");
-		Assert.isTrue(height <= ImageService.MAX_DIMENSION, "Thumbnail was too high.");
+		Assert.assertTrue("Thumbnail was too wide.", width <= ImageService.MAX_DIMENSION);
+		Assert.assertTrue("Thumbnail was too high.", height <= ImageService.MAX_DIMENSION);
 	}
 
 }

@@ -27,6 +27,7 @@
 	</nav>
 	<section>
 		<div>
+		test
 			<ol th:if="${titles}">
 				<li th:each="title : ${titles}"><a
 					th:href="@{'/jokes/' + ${title}}" th:text="${title}"></a></li>

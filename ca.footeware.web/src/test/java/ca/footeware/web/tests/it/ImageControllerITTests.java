@@ -3,6 +3,13 @@
  */
 package ca.footeware.web.tests.it;
 
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+
+import javax.imageio.ImageIO;
+
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -25,6 +32,8 @@ import ca.footeware.web.controllers.ImageController;
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 public class ImageControllerITTests {
 
+	private static final String PASSWORD = "bogie97";
+	private static final String USERNAME = "foote";
 	private static TestRestTemplate template;
 	private String baseURL = "http://localhost:";
 
@@ -42,8 +51,10 @@ public class ImageControllerITTests {
 	 */
 	@Test
 	public void testGetGallery() {
-		String page = template.withBasicAuth("foote", "bogie97").getForObject(baseURL + port + "/gallery",
-				String.class);
+		String page = template.getForObject(baseURL + port + "/gallery", String.class);
+		Assert.assertTrue("Should have been sent to login page.",
+				page.contains("<form action=\"/login\" method=\"post\">"));
+		page = template.withBasicAuth(USERNAME, PASSWORD).getForObject(baseURL + port + "/gallery", String.class);
 		Assert.assertTrue("Incorrect page returned.",
 				page.contains("<li class=\"active\"><a href=\"/gallery\">Gallery</a></li>"));
 		Assert.assertTrue("Horizontal image not displayed.",
@@ -55,74 +66,110 @@ public class ImageControllerITTests {
 	/**
 	 * Test method for
 	 * {@link ca.footeware.web.controllers.ImageController#getImage(java.lang.String)}.
+	 * 
+	 * @throws IOException
 	 */
 	@Test
-	public void testGetImageHorizontal() {
-		byte[] bytes = template.getForObject(baseURL + port + "/gallery/test-image-horizonal.png", byte[].class);
-		Assert.assertEquals("Wrong bytes for image.", 148, bytes.length);
+	public void testGetImageHorizontal() throws IOException {
+		byte[] bytes = template.withBasicAuth(USERNAME, PASSWORD)
+				.getForObject(baseURL + port + "/gallery/test-image-horizontal.png", byte[].class);
+		Assert.assertEquals("Wrong bytes for image.", 1656, bytes.length);
+		BufferedImage image = createImage(bytes);
+		Assert.assertEquals("Image wrong width.", 232, image.getWidth());
+		Assert.assertEquals("Image wrong height.", 150, image.getHeight());
 	}
 
 	/**
 	 * Test method for
 	 * {@link ca.footeware.web.controllers.ImageController#getImage(java.lang.String)}.
+	 * 
+	 * @throws IOException
 	 */
 	@Test
-	public void testGetImageVertical() {
-		byte[] bytes = template.getForObject(baseURL + port + "/gallery/test-image-vertical.png", byte[].class);
-		Assert.assertEquals("Wrong bytes for image.", 147, bytes.length);
+	public void testGetImageVertical() throws IOException {
+		byte[] bytes = template.withBasicAuth(USERNAME, PASSWORD)
+				.getForObject(baseURL + port + "/gallery/test-image-vertical.png", byte[].class);
+		Assert.assertEquals("Wrong bytes for image.", 4037, bytes.length);
+		BufferedImage image = createImage(bytes);
+		Assert.assertEquals("Image wrong width.", 150, image.getWidth());
+		Assert.assertEquals("Image wrong height.", 232, image.getHeight());
 	}
 
 	/**
 	 * Test method for
 	 * {@link ca.footeware.web.controllers.ImageController#getImage(java.lang.String)}.
+	 * 
+	 * @throws IOException
 	 */
 	@Test
-	public void testGetImageSquare() {
-		byte[] bytes = template.getForObject(baseURL + port + "/gallery/test-image-square.png", byte[].class);
-		Assert.assertEquals("Wrong bytes for image.", 145, bytes.length);
+	public void testGetImageSquare() throws IOException {
+		byte[] bytes = template.withBasicAuth(USERNAME, PASSWORD)
+				.getForObject(baseURL + port + "/gallery/test-image-square.png", byte[].class);
+		Assert.assertEquals("Wrong bytes for image.", 4735, bytes.length);
+		BufferedImage image = createImage(bytes);
+		Assert.assertEquals("Image wrong width.", 150, image.getWidth());
+		Assert.assertEquals("Image wrong height.", 150, image.getHeight());
 	}
 
 	/**
 	 * Test method for
 	 * {@link ca.footeware.web.controllers.ImageController#getImage(java.lang.String)}.
+	 * 
+	 * @throws IOException
 	 */
 	@Test
-	public void testGetImageBadName() {
-		byte[] bytes = template.getForObject(baseURL + port + "/gallery/test-image-bad.png", byte[].class);
-		Assert.assertEquals("Wrong bytes for image.", 142, bytes.length);
+	public void testGetImageBadName() throws IOException {
+		byte[] bytes = template.withBasicAuth(USERNAME, PASSWORD)
+				.getForObject(baseURL + port + "/gallery/test-image-bad.png", byte[].class);
+		Assert.assertNull("Should have been no bytes for image with bad name.", bytes);
 	}
 
 	/**
 	 * Test method for
 	 * {@link ca.footeware.web.controllers.ImageController#getThumbnail(java.lang.String)}.
+	 * 
+	 * @throws IOException
 	 */
 	@Test
-	public void testGetThumbnailHorizontal() {
-		byte[] bytes = template.getForObject(baseURL + port + "/gallery/thumbnails/test-image-horizonal.png",
-				byte[].class);
-		Assert.assertEquals("Wrong number of bytes for thumbnail.", 159, bytes.length);
+	public void testGetThumbnailHorizontal() throws IOException {
+		byte[] bytes = template.withBasicAuth(USERNAME, PASSWORD)
+				.getForObject(baseURL + port + "/gallery/thumbnails/test-image-horizontal.png", byte[].class);
+		Assert.assertEquals("Wrong number of bytes for thumbnail.", 2781, bytes.length);
+		BufferedImage image = createImage(bytes);
+		Assert.assertEquals("Image wrong width.", 150, image.getWidth());
+		Assert.assertEquals("Image wrong height.", 97, image.getHeight());
 	}
 
 	/**
 	 * Test method for
 	 * {@link ca.footeware.web.controllers.ImageController#getThumbnail(java.lang.String)}.
+	 * 
+	 * @throws IOException
 	 */
 	@Test
-	public void testGetThumbnailVertical() {
-		byte[] bytes = template.getForObject(baseURL + port + "/gallery/thumbnails/test-image-vertical.png",
-				byte[].class);
-		Assert.assertEquals("Wrong number of bytes for thumbnail.", 158, bytes.length);
+	public void testGetThumbnailVertical() throws IOException {
+		byte[] bytes = template.withBasicAuth(USERNAME, PASSWORD)
+				.getForObject(baseURL + port + "/gallery/thumbnails/test-image-vertical.png", byte[].class);
+		Assert.assertEquals("Wrong number of bytes for thumbnail.", 1395, bytes.length);
+		BufferedImage image = createImage(bytes);
+		Assert.assertEquals("Image wrong width.", 97, image.getWidth());
+		Assert.assertEquals("Image wrong height.", 150, image.getHeight());
 	}
 
 	/**
 	 * Test method for
 	 * {@link ca.footeware.web.controllers.ImageController#getThumbnail(java.lang.String)}.
+	 * 
+	 * @throws IOException
 	 */
 	@Test
-	public void testGetThumbnailSquare() {
-		byte[] bytes = template.getForObject(baseURL + port + "/gallery/thumbnails/test-image-square.png",
-				byte[].class);
-		Assert.assertEquals("Wrong number of bytes for thumbnail.", 156, bytes.length);
+	public void testGetThumbnailSquare() throws IOException {
+		byte[] bytes = template.withBasicAuth(USERNAME, PASSWORD)
+				.getForObject(baseURL + port + "/gallery/thumbnails/test-image-square.png", byte[].class);
+		Assert.assertEquals("Wrong number of bytes for thumbnail.", 1617, bytes.length);
+		BufferedImage image = createImage(bytes);
+		Assert.assertEquals("Image wrong width.", 150, image.getWidth());
+		Assert.assertEquals("Image wrong height.", 150, image.getHeight());
 	}
 
 	/**
@@ -131,8 +178,23 @@ public class ImageControllerITTests {
 	 */
 	@Test
 	public void testGetThumbnailBadName() {
-		byte[] bytes = template.getForObject(baseURL + port + "/gallery/thumbnails/test-image-bad.png", byte[].class);
-		Assert.assertEquals("Wrong number of bytes for thumbnail.", 153, bytes.length);
+		byte[] bytes = template.withBasicAuth(USERNAME, PASSWORD)
+				.getForObject(baseURL + port + "/gallery/thumbnails/test-image-bad.png", byte[].class);
+		Assert.assertNull("Should have been no bytes for thumbnail with bad name.", bytes);
+	}
+
+	/**
+	 * Create a {@link BufferedImage} from a byte[].
+	 * 
+	 * @param bytes
+	 *            byte[]
+	 * @return {@link BufferedImage}
+	 * @throws IOException
+	 */
+	private BufferedImage createImage(byte[] bytes) throws IOException {
+		InputStream in = new ByteArrayInputStream(bytes);
+		BufferedImage image = ImageIO.read(in);
+		return image;
 	}
 
 }

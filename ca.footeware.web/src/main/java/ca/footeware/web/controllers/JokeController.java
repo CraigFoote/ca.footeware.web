@@ -80,6 +80,9 @@ public class JokeController {
 	@GetMapping("/jokes/{title}")
 	public String getJoke(@PathVariable String title, Model model) {
 		String body = service.getJokeByTitle(title);
+		if (body == null) {
+			return getTitles(model);
+		}
 		model.addAttribute("title", title);
 		model.addAttribute("body", body);
 		return "joke";

@@ -89,10 +89,22 @@ public class JokeControllerITTests {
 	 */
 	@Test
 	public void testGetJoke() {
-		String page = template.getForObject(baseURL + port + "/jokes/Nine o&#39;clock", String.class);
+		String page = template.getForObject(baseURL + port + "/jokes/Nine o'clock", String.class);
 		Assert.assertTrue("Incorrect page returned.",
 				page.contains("<li class=\"active\"><a href=\"/jokes\">Jokes</a></li>"));
-		Assert.assertTrue("Incorrect page returned.", page.contains("<h3 class=\"title\">Nine o&amp;</h3>"));
+		Assert.assertTrue("Incorrect page returned.", page.contains("<h3 class=\"title\">Nine o&#39;clock</h3>"));
+	}
+	
+	/**
+	 * Test method for
+	 * {@link ca.footeware.web.controllers.JokeController#getJoke(java.lang.String, org.springframework.ui.Model)}.
+	 */
+	@Test
+	public void testGetJokeBadTitle() {
+		String page = template.getForObject(baseURL + port + "/jokes/bad", String.class);
+		Assert.assertTrue("Incorrect page returned.",
+				page.contains("<li class=\"active\"><a href=\"/jokes\">Jokes</a></li>"));
+		Assert.assertTrue("Incorrect page returned.", !page.contains("<h3 class=\"title\">Nine o&amp;</h3>"));
 	}
 
 	/**
