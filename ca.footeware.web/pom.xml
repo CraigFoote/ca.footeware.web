@@ -71,6 +71,6 @@
 	</build>
 	
 	<scm>
-		<developerConnection>scm:git:git://github.com/CraigFoote/ca.footeware.web-5.x.x</developerConnection>
+		<developerConnection>scm:git:https://github.com/CraigFoote/ca.footeware.web-5.x.x</developerConnection>
 	</scm>
 </project>
