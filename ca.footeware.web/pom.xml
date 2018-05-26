@@ -69,4 +69,8 @@
 			</plugin>
 		</plugins>
 	</build>
+	
+	<scm>
+		<url>scm:git:https://github.com/CraigFoote/ca.footeware.web-5.x.x</url>
+	</scm>
 </project>
