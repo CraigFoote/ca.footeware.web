@@ -26,15 +26,15 @@ import ca.footeware.web.controllers.ImageController;
 public class ImageControllerITTests {
 
 	private static TestRestTemplate template;
+	private String baseURL = "http://localhost:";
+
+	@LocalServerPort
+	int port;
 
 	@BeforeClass
 	public static void setup() {
 		template = new TestRestTemplate(HttpClientOption.ENABLE_REDIRECTS, HttpClientOption.ENABLE_COOKIES);
 	}
-	private String baseURL = "http://localhost:";
-
-	@LocalServerPort
-	int port;
 
 	/**
 	 * Test method for
@@ -44,7 +44,12 @@ public class ImageControllerITTests {
 	public void testGetGallery() {
 		String page = template.withBasicAuth("foote", "bogie97").getForObject(baseURL + port + "/gallery",
 				String.class);
-		Assert.assertTrue("Incorrect page returned.", page.contains("<form action=\"/login\" method=\"post\">"));
+		Assert.assertTrue("Incorrect page returned.",
+				page.contains("<li class=\"active\"><a href=\"/gallery\">Gallery</a></li>"));
+		Assert.assertTrue("Horizontal image not displayed.",
+				page.contains("href=\"/gallery/test-image-horizontal.png\""));
+		Assert.assertTrue("Vertical image not displayed.", page.contains("href=\"/gallery/test-image-vertical.png\""));
+		Assert.assertTrue("Square image not displayed.", page.contains("href=\"/gallery/test-image-square.png\""));
 	}
 
 	/**
@@ -52,9 +57,39 @@ public class ImageControllerITTests {
 	 * {@link ca.footeware.web.controllers.ImageController#getImage(java.lang.String)}.
 	 */
 	@Test
-	public void testGetImage() {
-		byte[] image = template.getForObject(baseURL + port + "/gallery/test-image.png", byte[].class);
-		Assert.assertTrue("Wrong bytes for image.", image.length == 4296);
+	public void testGetImageHorizontal() {
+		byte[] bytes = template.getForObject(baseURL + port + "/gallery/test-image-horizonal.png", byte[].class);
+		Assert.assertEquals("Wrong bytes for image.", 148, bytes.length);
+	}
+
+	/**
+	 * Test method for
+	 * {@link ca.footeware.web.controllers.ImageController#getImage(java.lang.String)}.
+	 */
+	@Test
+	public void testGetImageVertical() {
+		byte[] bytes = template.getForObject(baseURL + port + "/gallery/test-image-vertical.png", byte[].class);
+		Assert.assertEquals("Wrong bytes for image.", 147, bytes.length);
+	}
+
+	/**
+	 * Test method for
+	 * {@link ca.footeware.web.controllers.ImageController#getImage(java.lang.String)}.
+	 */
+	@Test
+	public void testGetImageSquare() {
+		byte[] bytes = template.getForObject(baseURL + port + "/gallery/test-image-square.png", byte[].class);
+		Assert.assertEquals("Wrong bytes for image.", 145, bytes.length);
+	}
+
+	/**
+	 * Test method for
+	 * {@link ca.footeware.web.controllers.ImageController#getImage(java.lang.String)}.
+	 */
+	@Test
+	public void testGetImageBadName() {
+		byte[] bytes = template.getForObject(baseURL + port + "/gallery/test-image-bad.png", byte[].class);
+		Assert.assertEquals("Wrong bytes for image.", 142, bytes.length);
 	}
 
 	/**
@@ -62,9 +97,42 @@ public class ImageControllerITTests {
 	 * {@link ca.footeware.web.controllers.ImageController#getThumbnail(java.lang.String)}.
 	 */
 	@Test
-	public void testGetThumbnail() {
-		byte[] image = template.getForObject(baseURL + port + "/gallery/thumbnails/test-image.png", byte[].class);
-		Assert.assertTrue("Wrong bytes for image.", image.length == 4296);
+	public void testGetThumbnailHorizontal() {
+		byte[] bytes = template.getForObject(baseURL + port + "/gallery/thumbnails/test-image-horizonal.png",
+				byte[].class);
+		Assert.assertEquals("Wrong number of bytes for thumbnail.", 159, bytes.length);
+	}
+
+	/**
+	 * Test method for
+	 * {@link ca.footeware.web.controllers.ImageController#getThumbnail(java.lang.String)}.
+	 */
+	@Test
+	public void testGetThumbnailVertical() {
+		byte[] bytes = template.getForObject(baseURL + port + "/gallery/thumbnails/test-image-vertical.png",
+				byte[].class);
+		Assert.assertEquals("Wrong number of bytes for thumbnail.", 158, bytes.length);
+	}
+
+	/**
+	 * Test method for
+	 * {@link ca.footeware.web.controllers.ImageController#getThumbnail(java.lang.String)}.
+	 */
+	@Test
+	public void testGetThumbnailSquare() {
+		byte[] bytes = template.getForObject(baseURL + port + "/gallery/thumbnails/test-image-square.png",
+				byte[].class);
+		Assert.assertEquals("Wrong number of bytes for thumbnail.", 156, bytes.length);
+	}
+
+	/**
+	 * Test method for
+	 * {@link ca.footeware.web.controllers.ImageController#getThumbnail(java.lang.String)}.
+	 */
+	@Test
+	public void testGetThumbnailBadName() {
+		byte[] bytes = template.getForObject(baseURL + port + "/gallery/thumbnails/test-image-bad.png", byte[].class);
+		Assert.assertEquals("Wrong number of bytes for thumbnail.", 153, bytes.length);
 	}
 
 }
