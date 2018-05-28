@@ -79,7 +79,7 @@
 			<id>releases</id>
 			<name>Footeware-releases</name>
 			<url>file:///home/craig/.m2/repository/</url>
-			<uniqueVersion>false</uniqueVersion>
+			<uniqueVersion>true</uniqueVersion>
 			<layout>default</layout>
 		</repository>
 		<snapshotRepository>
