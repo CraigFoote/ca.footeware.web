@@ -69,8 +69,21 @@
 			</plugin>
 		</plugins>
 	</build>
-	
+
 	<scm>
 		<developerConnection>scm:git:https://CraigFoote:chocolate@github.com/CraigFoote/ca.footeware.web-5.x.x</developerConnection>
 	</scm>
+
+	<distributionManagement>
+		<repository>
+			<id>releases</id>
+			<name>Footeware-releases</name>
+			<url>http://server:8081/home/craig/.m2/repositories/releases/</url>
+		</repository>
+		<snapshotRepository>
+			<id>snapshots</id>
+			<name>Footeware-snapshots</name>
+			<url>http://server:8081/home/craig/.m2/repositories/snapshots/</url>
+		</snapshotRepository>
+	</distributionManagement>
 </project>
