@@ -78,12 +78,12 @@
 		<repository>
 			<id>releases</id>
 			<name>Footeware-releases</name>
-			<url>http://server:8081/home/craig/.m2/repositories/releases/</url>
+			<url>file:///home/craig/.m2/repositories/releases/</url>
 		</repository>
 		<snapshotRepository>
 			<id>snapshots</id>
 			<name>Footeware-snapshots</name>
-			<url>http://server:8081/home/craig/.m2/repositories/snapshots/</url>
+			<url>file:///home/craig/.m2/repositories/snapshots/</url>
 		</snapshotRepository>
 	</distributionManagement>
 </project>
