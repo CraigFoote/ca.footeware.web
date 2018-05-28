@@ -8,7 +8,7 @@
 
 	<groupId>ca.footeware</groupId>
 	<artifactId>ca.footeware.web</artifactId>
-	<version>5.0.3-SNAPSHOT</version>
+	<version>5.0.4-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<name>Footeware.ca</name>
@@ -78,14 +78,14 @@
 		<repository>
 			<id>releases</id>
 			<name>Footeware-releases</name>
-			<url>file:///home/craig/.m2/repository/</url>
+			<url>http://server:8080/nexus/content/repositories/maven-releases/</url>
 			<uniqueVersion>true</uniqueVersion>
 			<layout>default</layout>
 		</repository>
 		<snapshotRepository>
 			<id>snapshots</id>
 			<name>Footeware-snapshots</name>
-			<url>file:///home/craig/.m2/repository/</url>
+			<url>http://server:8080/nexus/content/repositories/maven-snapshots/</url>
 			<uniqueVersion>false</uniqueVersion>
 			<layout>default</layout>
 		</snapshotRepository>
