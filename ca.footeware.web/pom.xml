@@ -108,7 +108,7 @@
 		<!-- <layout>default</layout> -->
 		<!-- </repository> -->
 		<snapshotRepository>
-			<id>snapshots</id>
+			<id>nexus-snapshots</id>
 			<name>Footeware-snapshots</name>
 			<url>http://craig:chocolate@server:8082/repository/maven-snapshots/</url>
 <!-- 			<uniqueVersion>false</uniqueVersion> -->
