@@ -68,7 +68,7 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
-			
+
 			<!-- javadocs in html5 -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -100,19 +100,27 @@
 	</scm>
 
 	<distributionManagement>
-<!-- 		<repository> -->
-<!-- 			<id>releases</id> -->
-<!-- 			<name>Footeware-releases</name> -->
-<!-- 			<url>http://craig:chocolate@server:8082/repository/maven-releases/</url> -->
-<!-- 			<uniqueVersion>true</uniqueVersion> -->
-<!-- 			<layout>default</layout> -->
-<!-- 		</repository> -->
 		<snapshotRepository>
-			<id>snapshots</id>
-			<name>Footeware-snapshots</name>
+			<id>nexus-snapshots</id>
 			<url>http://craig:chocolate@server:8082/repository/maven-snapshots/</url>
-			<uniqueVersion>false</uniqueVersion>
-			<layout>default</layout>
 		</snapshotRepository>
+		<repository>
+			<id>nexus-releases</id>
+			<url>http://craig:chocolate@server:8082/repository/maven-releases/</url>
+		</repository>
+		<!-- <repository> -->
+		<!-- <id>releases</id> -->
+		<!-- <name>Footeware-releases</name> -->
+		<!-- <url>http://craig:chocolate@server:8082/repository/maven-releases/</url> -->
+		<!-- <uniqueVersion>true</uniqueVersion> -->
+		<!-- <layout>default</layout> -->
+		<!-- </repository> -->
+		<!-- <snapshotRepository> -->
+		<!-- <id>snapshots</id> -->
+		<!-- <name>Footeware-snapshots</name> -->
+		<!-- <url>http://craig:chocolate@server:8082/repository/maven-snapshots/</url> -->
+		<!-- <uniqueVersion>false</uniqueVersion> -->
+		<!-- <layout>default</layout> -->
+		<!-- </snapshotRepository> -->
 	</distributionManagement>
 </project>
