@@ -106,12 +106,12 @@
 				<activeByDefault>true</activeByDefault>
 			</activation>
 			<distributionManagement>
-				<snapshotRepository>
+				<repository>
 					<id>nexus-snapshots</id>
 					<name>Footeware-snapshots</name>
 					<url>http://server:8082/repository/maven-snapshots/</url>
 					<uniqueVersion>false</uniqueVersion>
-				</snapshotRepository>
+				</repository>
 			</distributionManagement>
 		</profile>
 
