@@ -106,13 +106,12 @@
 				<activeByDefault>true</activeByDefault>
 			</activation>
 			<distributionManagement>
-				<repository>
+				<snapshotRepository>
 					<id>nexus-snapshots</id>
 					<name>Footeware-snapshots</name>
-					<url>http://craig:chocolate@server:8082/repository/maven-snapshots/</url>
+					<url>http://server:8082/repository/maven-snapshots/</url>
 					<uniqueVersion>false</uniqueVersion>
-					<layout>default</layout>
-				</repository>
+				</snapshotRepository>
 			</distributionManagement>
 		</profile>
 
@@ -122,9 +121,8 @@
 				<repository>
 					<id>nexus-releases</id>
 					<name>Footeware-releases</name>
-					<url>http://craig:chocolate@server:8082/repository/maven-releases/</url>
+					<url>http://server:8082/repository/maven-releases/</url>
 					<uniqueVersion>true</uniqueVersion>
-					<layout>default</layout>
 				</repository>
 			</distributionManagement>
 		</profile>
