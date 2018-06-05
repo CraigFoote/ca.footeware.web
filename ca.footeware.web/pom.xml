@@ -101,14 +101,14 @@
 
 	<profiles>
 		<profile>
-			<id>snapshot</id>
+			<id>snapshots</id>
 			<activation>
 				<activeByDefault>true</activeByDefault>
 			</activation>
 			<distributionManagement>
 				<repository>
-					<id>nexus-snapshots</id>
-					<name>Footeware-snapshots</name>
+					<id>snapshots</id>
+					<name>snapshots</name>
 					<url>http://server:8082/repository/maven-snapshots/</url>
 					<uniqueVersion>false</uniqueVersion>
 				</repository>
@@ -116,11 +116,11 @@
 		</profile>
 
 		<profile>
-			<id>release</id>
+			<id>releases</id>
 			<distributionManagement>
 				<repository>
-					<id>nexus-releases</id>
-					<name>Footeware-releases</name>
+					<id>releases</id>
+					<name>releases</name>
 					<url>http://server:8082/repository/maven-releases/</url>
 					<uniqueVersion>true</uniqueVersion>
 				</repository>
