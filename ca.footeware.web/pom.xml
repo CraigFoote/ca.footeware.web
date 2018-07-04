@@ -91,11 +91,4 @@
 			</plugin>
 		</plugins>
 	</build>
-
-	<distributionManagement>
-		<repository>
-			<id>github</id>
-			<url>https://github.com/CraigFoote/ca.footeware.web-5.x.x</url>
-		</repository>
-	</distributionManagement>
 </project>
