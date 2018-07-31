@@ -33,6 +33,7 @@ public class ImageServiceTests {
 	private static final String IMAGE_SQUARE = "test-image-square.png";
 	private static final String IMAGE_VERTICAL = "test-image-vertical.png";
 	private static final String IMAGE_HORIZONTAL = "test-image-horizontal.png";
+	private static final String GALLERY_NAME = "gallery1";
 
 	@Autowired
 	private ResourceLoader loader;
@@ -49,28 +50,38 @@ public class ImageServiceTests {
 	@Test
 	public void testGetFiles() {
 		File[] files = service.getFiles();
-		Assert.assertEquals("Wrong number of files found.", 3, files.length);
+		Assert.assertEquals("Wrong number of files found.", 1, files.length);
 	}
 
 	/**
 	 * Test method for
-	 * {@link ca.footeware.web.services.ImageService#getImageAsBytes(java.lang.String)}.
+	 * {@link ca.footeware.web.services.ImageService#getGalleries()}.
+	 */
+	@Test
+	public void testGetGalleries() {
+		File[] galleries = service.getGalleries();
+		Assert.assertTrue("Should have been one gallery.", galleries.length == 1);
+	}
+
+	/**
+	 * Test method for
+	 * {@link ca.footeware.web.services.ImageService#getImageAsBytes(java.lang.String, java.lang.String)}.
 	 * 
 	 * @throws IOException
 	 */
 	@Test
 	public void testGetImageAsBytes() throws IOException {
-		byte[] bytes = service.getImageAsBytes(IMAGE_HORIZONTAL);
+		byte[] bytes = service.getImageAsBytes(GALLERY_NAME, IMAGE_HORIZONTAL);
 		BufferedImage image = ImageIO.read(new ByteArrayInputStream(bytes));
 		Assert.assertEquals("Image wrong height.", 150, image.getHeight());
 		Assert.assertEquals("Image wrong width.", 232, image.getWidth());
 
-		bytes = service.getImageAsBytes(IMAGE_VERTICAL);
+		bytes = service.getImageAsBytes(GALLERY_NAME, IMAGE_VERTICAL);
 		image = ImageIO.read(new ByteArrayInputStream(bytes));
 		Assert.assertEquals("Image wrong height.", 232, image.getHeight());
 		Assert.assertEquals("Image wrong width.", 150, image.getWidth());
 
-		bytes = service.getImageAsBytes(IMAGE_SQUARE);
+		bytes = service.getImageAsBytes(GALLERY_NAME, IMAGE_SQUARE);
 		image = ImageIO.read(new ByteArrayInputStream(bytes));
 		Assert.assertEquals("Image wrong height.", 150, image.getHeight());
 		Assert.assertEquals("Image wrong width.", 150, image.getWidth());
@@ -78,23 +89,23 @@ public class ImageServiceTests {
 
 	/**
 	 * Test method for
-	 * {@link ca.footeware.web.services.ImageService#getThumbnailAsBytes(java.lang.String)}.
+	 * {@link ca.footeware.web.services.ImageService#getThumbnailAsBytes(java.lang.String, java.lang.String)}.
 	 * 
 	 * @throws IOException
 	 */
 	@Test
 	public void testGetThumbnailAsBytes() throws IOException {
-		byte[] bytes = service.getThumbnailAsBytes(IMAGE_HORIZONTAL);
+		byte[] bytes = service.getThumbnailAsBytes(GALLERY_NAME, IMAGE_HORIZONTAL);
 		BufferedImage image = ImageIO.read(new ByteArrayInputStream(bytes));
 		Assert.assertEquals("Image wrong height.", 97, image.getHeight());
 		Assert.assertEquals("Image wrong width.", 150, image.getWidth());
 
-		bytes = service.getThumbnailAsBytes(IMAGE_VERTICAL);
+		bytes = service.getThumbnailAsBytes(GALLERY_NAME, IMAGE_VERTICAL);
 		image = ImageIO.read(new ByteArrayInputStream(bytes));
 		Assert.assertEquals("Image wrong height.", 150, image.getHeight());
 		Assert.assertEquals("Image wrong width.", 97, image.getWidth());
 
-		bytes = service.getThumbnailAsBytes(IMAGE_SQUARE);
+		bytes = service.getThumbnailAsBytes(GALLERY_NAME, IMAGE_SQUARE);
 		image = ImageIO.read(new ByteArrayInputStream(bytes));
 		Assert.assertEquals("Image wrong height.", 150, image.getHeight());
 		Assert.assertEquals("Image wrong width.", 150, image.getWidth());
@@ -118,7 +129,7 @@ public class ImageServiceTests {
 	 */
 	@Test
 	public void testResizeImage() throws IOException {
-		byte[] bytes = service.getImageAsBytes(IMAGE_HORIZONTAL);
+		byte[] bytes = service.getImageAsBytes(GALLERY_NAME, IMAGE_HORIZONTAL);
 		BufferedImage originalImage = ImageIO.read(new ByteArrayInputStream(bytes));
 		int type = originalImage.getType() == 0 ? BufferedImage.TYPE_INT_ARGB : originalImage.getType();
 		BufferedImage image = service.resizeImage(originalImage, type);
@@ -128,7 +139,7 @@ public class ImageServiceTests {
 		Assert.assertEquals("Thumbnail was not the correct width.", ImageService.MAX_DIMENSION, width);
 		Assert.assertTrue("Thumbnail was too tall.", height <= ImageService.MAX_DIMENSION);
 
-		bytes = service.getImageAsBytes(IMAGE_VERTICAL);
+		bytes = service.getImageAsBytes(GALLERY_NAME, IMAGE_VERTICAL);
 		originalImage = ImageIO.read(new ByteArrayInputStream(bytes));
 		type = originalImage.getType() == 0 ? BufferedImage.TYPE_INT_ARGB : originalImage.getType();
 		image = service.resizeImage(originalImage, type);
@@ -138,7 +149,7 @@ public class ImageServiceTests {
 		Assert.assertTrue("Thumbnail was too wide.", width <= ImageService.MAX_DIMENSION);
 		Assert.assertEquals("Thumbnail was not the correct height.", ImageService.MAX_DIMENSION, height);
 
-		bytes = service.getImageAsBytes(IMAGE_SQUARE);
+		bytes = service.getImageAsBytes(GALLERY_NAME, IMAGE_SQUARE);
 		originalImage = ImageIO.read(new ByteArrayInputStream(bytes));
 		type = originalImage.getType() == 0 ? BufferedImage.TYPE_INT_ARGB : originalImage.getType();
 		image = service.resizeImage(originalImage, type);

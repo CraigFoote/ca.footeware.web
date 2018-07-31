@@ -11,7 +11,10 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 
@@ -36,7 +39,8 @@ public class ImageService {
 
 	/**
 	 * Constructor
-	 * @param loader {@link ResourceLoader} injected
+	 * 
+	 * @param loader     {@link ResourceLoader} injected
 	 * @param imagesPath {@link String} location on disk of images
 	 */
 	public ImageService(ResourceLoader loader, @Value("${images.path}") String imagesPath) {
@@ -48,8 +52,7 @@ public class ImageService {
 	/**
 	 * Determine the thumbnail width and height of the received image.
 	 * 
-	 * @param image
-	 *            {@link BufferedImage}
+	 * @param image {@link BufferedImage}
 	 * @return {@link Dimension}
 	 */
 	private Dimension getDimensions(BufferedImage image) {
@@ -75,7 +78,8 @@ public class ImageService {
 	}
 
 	/**
-	 * Get all the files at the configured image path.
+	 * Get all the files at the configured image path. These should be the gallery
+	 * folders, each with image files.
 	 * 
 	 * @return {@link File}[]
 	 */
@@ -87,15 +91,59 @@ public class ImageService {
 	}
 
 	/**
-	 * Get the image by provided name as a byte[].
+	 * Get all the image files in the provided gallery by name.
 	 * 
-	 * @param name
-	 *            {@link String} image file name
+	 * @param galleryName {@link String}
+	 * @return {@link File} array
+	 */
+	public File[] getFiles(String galleryName) {
+		// Restrict the galleryName to letters and digits only
+		if (!galleryName.matches("[a-zA-Z0-9]++")) {
+			return new File[0];
+		}
+		File folder = new File(imagesPath + File.separator + galleryName);
+		if (!folder.isDirectory()) {
+			return new File[0];
+		}
+		File[] files = folder.listFiles();
+		List<File> imageFiles = new ArrayList<>();
+		for (File file : files) {
+			if (!file.isDirectory()) {
+				imageFiles.add(file);
+			}
+		}
+		Arrays.sort(files, NameFileComparator.NAME_COMPARATOR);
+		return imageFiles.toArray(new File[imageFiles.size()]);
+	}
+
+	/**
+	 * Get the list of Gallery folders.
+	 * 
+	 * @return {@link File} array
+	 */
+	public File[] getGalleries() {
+		File folder = new File(imagesPath);
+		File[] files = folder.listFiles();
+		List<File> galleries = new ArrayList<>();
+		for (File file : files) {
+			if (file.isDirectory()) {
+				galleries.add(file);
+			}
+		}
+		Collections.sort(galleries, NameFileComparator.NAME_COMPARATOR);
+		return galleries.toArray(new File[galleries.size()]);
+	}
+
+	/**
+	 * Get an image as bytes from provided gallery and image file name.
+	 * 
+	 * @param galleryName {@link String}
+	 * @param imageName   {@link String}
 	 * @return byte[] may be empty
 	 */
-	public byte[] getImageAsBytes(String name) {
-		for (File file : getFiles()) {
-			if (file.getName().equals(name)) {
+	public byte[] getImageAsBytes(String galleryName, String imageName) {
+		for (File file : getFiles(galleryName)) {
+			if (file.getName().equals(imageName)) {
 				Resource resource = loader.getResource("file:" + file.getAbsolutePath());
 				try {
 					InputStream in = resource.getInputStream();
@@ -111,13 +159,12 @@ public class ImageService {
 	/**
 	 * Get the image by provided name sized as a thumbnail as a byte[].
 	 * 
-	 * @param name
-	 *            {@link String} image file name
+	 * @param name {@link String} image file name
 	 * @return byte[] may be empty
 	 */
-	public byte[] getThumbnailAsBytes(String name) {
-		for (File file : getFiles()) {
-			if (file.getName().equals(name)) {
+	public byte[] getThumbnailAsBytes(String galleryName, String imageName) {
+		for (File file : getFiles(galleryName)) {
+			if (file.getName().equals(imageName)) {
 				try {
 					BufferedImage originalImage = ImageIO.read(file);
 					int type = originalImage.getType() == 0 ? BufferedImage.TYPE_INT_ARGB : originalImage.getType();
@@ -137,10 +184,8 @@ public class ImageService {
 	/**
 	 * Resize the received image.
 	 * 
-	 * @param originalImage
-	 *            {@link BufferedImage}
-	 * @param type
-	 *            int
+	 * @param originalImage {@link BufferedImage}
+	 * @param type          int
 	 * @see {@link BufferedImage#TYPE_INT_RGB}, etc.
 	 * @return {@link BufferedImage}
 	 */

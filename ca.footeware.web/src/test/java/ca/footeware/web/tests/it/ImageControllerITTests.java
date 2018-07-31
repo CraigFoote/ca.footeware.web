@@ -37,82 +37,82 @@ public class ImageControllerITTests {
 
 	/**
 	 * Test method for
-	 * {@link ca.footeware.web.controllers.ImageController#getGallery(org.springframework.ui.Model)}.
+	 * {@link ca.footeware.web.controllers.ImageController#getGallery(java.lang.String, org.springframework.ui.Model)}.
 	 */
 	@Test
 	public void testGetGallery() {
-		String page = template.getForObject("/gallery", String.class);
+		String page = template.getForObject("/gallery/gallery1/", String.class);
 		Assert.assertTrue("Should have been sent to login page.",
 				page.contains("<form action=\"/login\" method=\"post\">"));
-		page = template.withBasicAuth(USERNAME, PASSWORD).getForObject("/gallery", String.class);
-		Assert.assertTrue("Should have been sent to gallery page.",
+		page = template.withBasicAuth(USERNAME, PASSWORD).getForObject("/gallery/gallery1/", String.class);
+		Assert.assertTrue("Should have been sent to gallery1 page.",
 				page.contains("<li class=\"active\"><a href=\"/gallery\">Gallery</a></li>"));
 		Assert.assertTrue("Horizontal thumbnail not displayed.",
-				page.contains("href=\"/gallery/test-image-horizontal.png\""));
+				page.contains("href=\"/gallery/gallery1/test-image-horizontal.png\""));
 		Assert.assertTrue("Vertical thumbnail not displayed.",
-				page.contains("href=\"/gallery/test-image-vertical.png\""));
-		Assert.assertTrue("Square thumbnail not displayed.", page.contains("href=\"/gallery/test-image-square.png\""));
+				page.contains("href=\"/gallery/gallery1/test-image-vertical.png\""));
+		Assert.assertTrue("Square thumbnail not displayed.", page.contains("href=\"/gallery/gallery1/test-image-square.png\""));
 	}
 
 	/**
 	 * Test method for
-	 * {@link ca.footeware.web.controllers.ImageController#getImage(java.lang.String)}.
+	 * {@link ca.footeware.web.controllers.ImageController#getImage(java.lang.String, java.lang.String)}.
 	 * 
 	 * @throws IOException
 	 */
 	@Test
 	public void testGetImage() throws IOException {
-		byte[] bytes = template.withBasicAuth(USERNAME, PASSWORD).getForObject("/gallery/test-image-horizontal.png",
+		byte[] bytes = template.withBasicAuth(USERNAME, PASSWORD).getForObject("/gallery/gallery1/test-image-horizontal.png",
 				byte[].class);
 		BufferedImage image = ImageIO.read(new ByteArrayInputStream(bytes));
 		Assert.assertEquals("Image wrong width.", 232, image.getWidth());
 		Assert.assertEquals("Image wrong height.", 150, image.getHeight());
 
-		bytes = template.withBasicAuth(USERNAME, PASSWORD).getForObject("/gallery/test-image-vertical.png",
+		bytes = template.withBasicAuth(USERNAME, PASSWORD).getForObject("/gallery/gallery1/test-image-vertical.png",
 				byte[].class);
 		image = ImageIO.read(new ByteArrayInputStream(bytes));
 		Assert.assertEquals("Image wrong width.", 150, image.getWidth());
 		Assert.assertEquals("Image wrong height.", 232, image.getHeight());
 
-		bytes = template.withBasicAuth(USERNAME, PASSWORD).getForObject("/gallery/test-image-square.png", byte[].class);
+		bytes = template.withBasicAuth(USERNAME, PASSWORD).getForObject("/gallery/gallery1/test-image-square.png", byte[].class);
 		image = ImageIO.read(new ByteArrayInputStream(bytes));
 		Assert.assertEquals("Image wrong width.", 150, image.getWidth());
 		Assert.assertEquals("Image wrong height.", 150, image.getHeight());
 
-		bytes = template.withBasicAuth(USERNAME, PASSWORD).getForObject("/gallery/test-image-bad.png", byte[].class);
+		bytes = template.withBasicAuth(USERNAME, PASSWORD).getForObject("/gallery/gallery1/test-image-bad.png", byte[].class);
 		Assert.assertNull("Should have been no bytes for image with bad name.", bytes);
 	}
 
 	/**
 	 * Test method for
-	 * {@link ca.footeware.web.controllers.ImageController#getThumbnail(java.lang.String)}.
+	 * {@link ca.footeware.web.controllers.ImageController#getThumbnail(java.lang.String, java.lang.String)}.
 	 * 
 	 * @throws IOException
 	 */
 	@Test
 	public void testGetThumbnail() throws IOException {
 		byte[] bytes = template.withBasicAuth(USERNAME, PASSWORD)
-				.getForObject("/gallery/thumbnails/test-image-horizontal.png", byte[].class);
+				.getForObject("/gallery/thumbnails/gallery1/test-image-horizontal.png", byte[].class);
 		Assert.assertEquals("Wrong number of bytes for thumbnail.", 2781, bytes.length);
 		BufferedImage image = ImageIO.read(new ByteArrayInputStream(bytes));
 		Assert.assertEquals("Image wrong width.", 150, image.getWidth());
 		Assert.assertEquals("Image wrong height.", 97, image.getHeight());
 
-		bytes = template.withBasicAuth(USERNAME, PASSWORD).getForObject("/gallery/thumbnails/test-image-vertical.png",
+		bytes = template.withBasicAuth(USERNAME, PASSWORD).getForObject("/gallery/thumbnails/gallery1/test-image-vertical.png",
 				byte[].class);
 		Assert.assertEquals("Wrong number of bytes for thumbnail.", 1395, bytes.length);
 		image = ImageIO.read(new ByteArrayInputStream(bytes));
 		Assert.assertEquals("Image wrong width.", 97, image.getWidth());
 		Assert.assertEquals("Image wrong height.", 150, image.getHeight());
 
-		bytes = template.withBasicAuth(USERNAME, PASSWORD).getForObject("/gallery/thumbnails/test-image-square.png",
+		bytes = template.withBasicAuth(USERNAME, PASSWORD).getForObject("/gallery/thumbnails/gallery1/test-image-square.png",
 				byte[].class);
 		Assert.assertEquals("Wrong number of bytes for thumbnail.", 1617, bytes.length);
 		image = ImageIO.read(new ByteArrayInputStream(bytes));
 		Assert.assertEquals("Image wrong width.", 150, image.getWidth());
 		Assert.assertEquals("Image wrong height.", 150, image.getHeight());
 
-		bytes = template.withBasicAuth(USERNAME, PASSWORD).getForObject("/gallery/thumbnails/test-image-bad.png",
+		bytes = template.withBasicAuth(USERNAME, PASSWORD).getForObject("/gallery/thumbnails/gallery1/test-image-bad.png",
 				byte[].class);
 		Assert.assertNull("Should have been no bytes for thumbnail with bad name.", bytes);
 	}

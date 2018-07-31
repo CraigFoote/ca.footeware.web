@@ -29,8 +29,7 @@ public class ImageController {
 	/**
 	 * Constructor.
 	 * 
-	 * @param service
-	 *            {@link ImageService} injected
+	 * @param service {@link ImageService} injected
 	 */
 	public ImageController(ImageService service) {
 		this.service = service;
@@ -41,47 +40,66 @@ public class ImageController {
 	 * images in images.path. The names are used by thymeleaf to construct the image
 	 * links to the thumbnails and their full size versions.
 	 * 
-	 * @param model
-	 *            {@link Model}
+	 * @param model {@link Model}
 	 * @return {@link String} name of thymeleaf template to pass model to for
 	 *         rendering
 	 */
 	@GetMapping("/gallery")
-	public String getGallery(Model model) {
-		List<String> imageNames = new ArrayList<>();
-		for (File file : service.getFiles()) {
-			imageNames.add(file.getName());
+	public String getGalleries(Model model) {
+		List<String> galleries = new ArrayList<>();
+		for (File file : service.getGalleries()) {
+			galleries.add(file.getName());
 		}
-		model.addAttribute("images", imageNames);
+		model.addAttribute("galleries", galleries);
 		return "gallery";
 	}
 
 	/**
-	 * Get the full-size version from the received image name.
+	 * Get the gallery page by name with names of the images to be dynamically
+	 * obtained from images in images.path. The names are used by thymeleaf to
+	 * construct the image links to the thumbnails and their full size versions.
 	 * 
-	 * @param name
-	 *            {@link String} image file name
-	 * @return byte[] the 'produces' attribute dictates how the browser will handle
-	 *         the bytes, i.e as jpegs
+	 * @param galleryName {@link String}
+	 * @param model       {@link Model}
+	 * @return {@link String} UI template name
 	 */
-	@GetMapping(value = "/gallery/{name}", produces = MediaType.IMAGE_JPEG_VALUE)
-	@ResponseBody
-	public byte[] getImage(@PathVariable String name) {
-		return service.getImageAsBytes(name);
+	@GetMapping("/gallery/{galleryName}")
+	public String getGallery(@PathVariable String galleryName, Model model) {
+		List<String> thumbs = new ArrayList<>();
+		for (File file : service.getFiles(galleryName)) {
+			thumbs.add(file.getName());
+		}
+		model.addAttribute("thumbs", thumbs);
+		model.addAttribute("galleryName", galleryName);
+		return "gallery";
 	}
 
 	/**
-	 * Get the thumbnail version from the received image name.
+	 * Get the full-size version from the received gallery and image name.
 	 * 
-	 * @param name
-	 *            {@link String} image name
+	 * @param galleryName {@link String} gallery name
+	 * @param imageName   {@link String} image file name
 	 * @return byte[] the 'produces' attribute dictates how the browser will handle
 	 *         the bytes, i.e as jpegs
 	 */
-	@GetMapping(value = "/gallery/thumbnails/{name}", produces = MediaType.IMAGE_JPEG_VALUE)
+	@GetMapping(value = "/gallery/{galleryName}/{imageName}", produces = MediaType.IMAGE_JPEG_VALUE)
 	@ResponseBody
-	public byte[] getThumbnail(@PathVariable String name) {
-		return service.getThumbnailAsBytes(name);
+	public byte[] getImage(@PathVariable String galleryName, @PathVariable String imageName) {
+		return service.getImageAsBytes(galleryName, imageName);
+	}
+
+	/**
+	 * Get the thumbnail version from the received gallery and image name.
+	 * 
+	 * @param galleryName {@link String} gallery name
+	 * @param name        {@link String} image name
+	 * @return byte[] the 'produces' attribute dictates how the browser will handle
+	 *         the bytes, i.e as jpegs
+	 */
+	@GetMapping(value = "/gallery/thumbnails/{galleryName}/{imageName}", produces = MediaType.IMAGE_JPEG_VALUE)
+	@ResponseBody
+	public byte[] getThumbnail(@PathVariable String galleryName, @PathVariable String imageName) {
+		return service.getThumbnailAsBytes(galleryName, imageName);
 	}
 
 }
