@@ -51,7 +51,8 @@ public class ImageControllerITTests {
 				page.contains("href=\"/gallery/gallery1/test-image-horizontal.png\""));
 		Assert.assertTrue("Vertical thumbnail not displayed.",
 				page.contains("href=\"/gallery/gallery1/test-image-vertical.png\""));
-		Assert.assertTrue("Square thumbnail not displayed.", page.contains("href=\"/gallery/gallery1/test-image-square.png\""));
+		Assert.assertTrue("Square thumbnail not displayed.",
+				page.contains("href=\"/gallery/gallery1/test-image-square.png\""));
 	}
 
 	/**
@@ -62,8 +63,8 @@ public class ImageControllerITTests {
 	 */
 	@Test
 	public void testGetImage() throws IOException {
-		byte[] bytes = template.withBasicAuth(USERNAME, PASSWORD).getForObject("/gallery/gallery1/test-image-horizontal.png",
-				byte[].class);
+		byte[] bytes = template.withBasicAuth(USERNAME, PASSWORD)
+				.getForObject("/gallery/gallery1/test-image-horizontal.png", byte[].class);
 		BufferedImage image = ImageIO.read(new ByteArrayInputStream(bytes));
 		Assert.assertEquals("Image wrong width.", 232, image.getWidth());
 		Assert.assertEquals("Image wrong height.", 150, image.getHeight());
@@ -74,12 +75,14 @@ public class ImageControllerITTests {
 		Assert.assertEquals("Image wrong width.", 150, image.getWidth());
 		Assert.assertEquals("Image wrong height.", 232, image.getHeight());
 
-		bytes = template.withBasicAuth(USERNAME, PASSWORD).getForObject("/gallery/gallery1/test-image-square.png", byte[].class);
+		bytes = template.withBasicAuth(USERNAME, PASSWORD).getForObject("/gallery/gallery1/test-image-square.png",
+				byte[].class);
 		image = ImageIO.read(new ByteArrayInputStream(bytes));
 		Assert.assertEquals("Image wrong width.", 150, image.getWidth());
 		Assert.assertEquals("Image wrong height.", 150, image.getHeight());
 
-		bytes = template.withBasicAuth(USERNAME, PASSWORD).getForObject("/gallery/gallery1/test-image-bad.png", byte[].class);
+		bytes = template.withBasicAuth(USERNAME, PASSWORD).getForObject("/gallery/gallery1/test-image-bad.png",
+				byte[].class);
 		Assert.assertNull("Should have been no bytes for image with bad name.", bytes);
 	}
 
@@ -98,23 +101,36 @@ public class ImageControllerITTests {
 		Assert.assertEquals("Image wrong width.", 150, image.getWidth());
 		Assert.assertEquals("Image wrong height.", 97, image.getHeight());
 
-		bytes = template.withBasicAuth(USERNAME, PASSWORD).getForObject("/gallery/thumbnails/gallery1/test-image-vertical.png",
-				byte[].class);
+		bytes = template.withBasicAuth(USERNAME, PASSWORD)
+				.getForObject("/gallery/thumbnails/gallery1/test-image-vertical.png", byte[].class);
 		Assert.assertEquals("Wrong number of bytes for thumbnail.", 1395, bytes.length);
 		image = ImageIO.read(new ByteArrayInputStream(bytes));
 		Assert.assertEquals("Image wrong width.", 97, image.getWidth());
 		Assert.assertEquals("Image wrong height.", 150, image.getHeight());
 
-		bytes = template.withBasicAuth(USERNAME, PASSWORD).getForObject("/gallery/thumbnails/gallery1/test-image-square.png",
-				byte[].class);
+		bytes = template.withBasicAuth(USERNAME, PASSWORD)
+				.getForObject("/gallery/thumbnails/gallery1/test-image-square.png", byte[].class);
 		Assert.assertEquals("Wrong number of bytes for thumbnail.", 1617, bytes.length);
 		image = ImageIO.read(new ByteArrayInputStream(bytes));
 		Assert.assertEquals("Image wrong width.", 150, image.getWidth());
 		Assert.assertEquals("Image wrong height.", 150, image.getHeight());
 
-		bytes = template.withBasicAuth(USERNAME, PASSWORD).getForObject("/gallery/thumbnails/gallery1/test-image-bad.png",
-				byte[].class);
+		bytes = template.withBasicAuth(USERNAME, PASSWORD)
+				.getForObject("/gallery/thumbnails/gallery1/test-image-bad.png", byte[].class);
 		Assert.assertNull("Should have been no bytes for thumbnail with bad name.", bytes);
+	}
+
+	/**
+	 * Test method for
+	 * {@link ca.footeware.web.controllers.ImageController#getGalleries(org.springframework.ui.Model)}.
+	 */
+	@Test
+	public void testGetGalleries() {
+		String page = template.getForObject("/gallery/", String.class);
+		Assert.assertTrue("Should have been sent to login page.",
+				page.contains("<form action=\"/login\" method=\"post\">"));
+		page = template.withBasicAuth(USERNAME, PASSWORD).getForObject("/gallery/", String.class);
+		Assert.assertTrue("Should have listed 'gallery1'.", page.contains("<a href=\"/gallery/gallery1\">gallery1</a>"));
 	}
 
 }
