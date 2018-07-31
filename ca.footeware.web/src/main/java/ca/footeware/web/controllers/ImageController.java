@@ -85,6 +85,10 @@ public class ImageController {
 	@GetMapping(value = "/gallery/{galleryName}/{imageName}", produces = MediaType.IMAGE_JPEG_VALUE)
 	@ResponseBody
 	public byte[] getImage(@PathVariable String galleryName, @PathVariable String imageName) {
+		// Restrict the galleryName to letters and digits only
+		if (!galleryName.matches("[a-zA-Z0-9_-]++")) {
+			return new byte[0];
+		}
 		return service.getImageAsBytes(galleryName, imageName);
 	}
 
