@@ -86,7 +86,7 @@ public class ImageController {
 	@ResponseBody
 	public byte[] getImage(@PathVariable String galleryName, @PathVariable String imageName) {
 		// Restrict the galleryName to letters and digits only
-		if (!galleryName.matches("[a-zA-Z0-9_-]++")) {
+		if (!galleryName.matches("[\\sa-zA-Z0-9_-]++")) {
 			return new byte[0];
 		}
 		return service.getImageAsBytes(galleryName, imageName);
@@ -96,7 +96,7 @@ public class ImageController {
 	 * Get the thumbnail version from the received gallery and image name.
 	 * 
 	 * @param galleryName {@link String} gallery name
-	 * @param name        {@link String} image name
+	 * @param imageName        {@link String} image name
 	 * @return byte[] the 'produces' attribute dictates how the browser will handle
 	 *         the bytes, i.e as jpegs
 	 */

@@ -98,7 +98,7 @@ public class ImageService {
 	 */
 	public File[] getFiles(String galleryName) {
 		// Restrict the galleryName to letters and digits only
-		if (!galleryName.matches("[a-zA-Z0-9_-]++")) {
+		if (!galleryName.matches("[\\sa-zA-Z0-9_-]++")) {
 			return new File[0];
 		}
 		File folder = new File(imagesPath + File.separator + galleryName);
@@ -159,7 +159,8 @@ public class ImageService {
 	/**
 	 * Get the image by provided name sized as a thumbnail as a byte[].
 	 * 
-	 * @param name {@link String} image file name
+	 * @param galleryName {@link String}
+	 * @param imageName   {@link String} image file name
 	 * @return byte[] may be empty
 	 */
 	public byte[] getThumbnailAsBytes(String galleryName, String imageName) {
