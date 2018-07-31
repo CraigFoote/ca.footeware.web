@@ -98,7 +98,7 @@ public class ImageService {
 	 */
 	public File[] getFiles(String galleryName) {
 		// Restrict the galleryName to letters and digits only
-		if (!galleryName.matches("[a-zA-Z0-9]++")) {
+		if (!galleryName.matches("[a-zA-Z0-9_-]++")) {
 			return new File[0];
 		}
 		File folder = new File(imagesPath + File.separator + galleryName);
