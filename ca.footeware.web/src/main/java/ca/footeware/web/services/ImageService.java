@@ -112,7 +112,7 @@ public class ImageService {
 				imageFiles.add(file);
 			}
 		}
-		Arrays.sort(files, NameFileComparator.NAME_COMPARATOR);
+		Collections.sort(imageFiles, NameFileComparator.NAME_COMPARATOR);
 		return imageFiles.toArray(new File[imageFiles.size()]);
 	}
 
