@@ -117,7 +117,7 @@
 			<id>nexus-snapshots</id>
 			<name>Nexus Snapshots</name>
 			<url>http://server:8082/repository/maven-snapshots/</url>
-			<layout>legacy</layout>
+			<layout>default</layout>
 		</snapshotRepository>
 	</distributionManagement>
 
