@@ -91,4 +91,13 @@
 			</plugin>
 		</plugins>
 	</build>
+
+	<distributionManagement>
+		<repository>
+			<id>nexus-snapshots</id>
+			<url>http://server:8082/nexus/content/repositories/maven-snapshots</url>
+		</repository>
+	</distributionManagement>
+
+	<scm></scm>
 </project>
