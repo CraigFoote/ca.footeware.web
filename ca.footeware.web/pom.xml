@@ -164,7 +164,7 @@
 						</executions>
 						<configuration>
 							<serverId>server</serverId>
-							<nexusUrl>http://server:8082/repository/maven-releases/</nexusUrl>
+							<nexusUrl>http://craig:chocolate@server:8082/repository/maven-releases/</nexusUrl>
 							<skipStaging>true</skipStaging>
 						</configuration>
 					</plugin>
