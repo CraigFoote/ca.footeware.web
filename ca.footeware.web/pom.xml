@@ -4,7 +4,7 @@
 
 	<groupId>ca.footeware</groupId>
 	<artifactId>ca.footeware.web</artifactId>
-	<version>5.0.15</version>
+	<version>5.0.16-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>Footeware.ca</name>
 
@@ -141,7 +141,7 @@
 		<url>https://github.com/CraigFoote/ca.footeware.web-5.x.x.git</url>
 		<connection>scm:git:git://github.com/CraigFoote/ca.footeware.web-5.x.x.git</connection>
 		<developerConnection>scm:git:git@github.com:CraigFoote/ca.footeware.web-5.x.x.git</developerConnection>
-	  <tag>v5.0.15</tag>
+	  <tag>HEAD</tag>
   </scm>
 
 	<profiles>
