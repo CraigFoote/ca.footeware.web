@@ -92,6 +92,25 @@
 		</plugins>
 	</build>
 
+	<repositories>
+		<repository>
+			<releases>
+				<enabled>false</enabled>
+				<updatePolicy>always</updatePolicy>
+				<checksumPolicy>warn</checksumPolicy>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+				<updatePolicy>never</updatePolicy>
+				<checksumPolicy>fail</checksumPolicy>
+			</snapshots>
+			<id>nexus-snapshots</id>
+			<name>nexus-snapshots</name>
+			<url>http://server:8082/repository/maven-snapshots/</url>
+			<layout>default</layout>
+		</repository>
+	</repositories>
+
 	<distributionManagement>
 		<repository>
 			<id>nexus-snapshots</id>
