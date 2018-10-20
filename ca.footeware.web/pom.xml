@@ -112,10 +112,13 @@
 	</repositories>
 
 	<distributionManagement>
-		<repository>
+		<snapshotRepository>
+			<uniqueVersion>true</uniqueVersion>
 			<id>nexus-snapshots</id>
+			<name>Nexus Snapshots</name>
 			<url>http://server:8082/repository/maven-snapshots/</url>
-		</repository>
+			<layout>legacy</layout>
+		</snapshotRepository>
 	</distributionManagement>
 
 	<scm></scm>
