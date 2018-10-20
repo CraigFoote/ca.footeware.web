@@ -140,9 +140,9 @@
 	</distributionManagement>
 
 	<scm>
-		<connection>scm:git:ssh://github.com/CraigFoote/ca.footeware.web-5.x.x.git</connection>
-		<url>ssh://github.com/CraigFoote/ca.footeware.web-5.x.x.git</url>
-		<developerConnection>scm:git:ssh://github.com/CraigFoote/ca.footeware.web-5.x.x.git</developerConnection>
+		<connection>scm:git:ssh://CraigFoote@github.com/CraigFoote/ca.footeware.web-5.x.x.git</connection>
+		<url>ssh://CraigFoote@github.com/CraigFoote/ca.footeware.web-5.x.x.git</url>
+		<developerConnection>scm:git:ssh://CraigFoote@github.com/CraigFoote/ca.footeware.web-5.x.x.git</developerConnection>
 	</scm>
 
 	<profiles>
