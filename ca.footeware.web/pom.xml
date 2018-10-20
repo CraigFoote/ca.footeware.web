@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>ca.footeware</groupId>
 	<artifactId>ca.footeware.web</artifactId>
-	<version>5.0.18-SNAPSHOT</version>
+	<version>5.0.18</version>
 	<packaging>jar</packaging>
 	<name>Footeware.ca</name>
 
@@ -190,7 +188,7 @@
 		<url>https://github.com/CraigFoote/ca.footeware.web-5.x.x.git</url>
 		<connection>scm:git:git://github.com/CraigFoote/ca.footeware.web-5.x.x.git</connection>
 		<developerConnection>scm:git:git@github.com:CraigFoote/ca.footeware.web-5.x.x.git</developerConnection>
-		<tag>HEAD</tag>
+		<tag>ca.footeware.web-5.0.18</tag>
 	</scm>
 
 	<profiles>
