@@ -131,7 +131,7 @@
 			<id>nexus-releases</id>
 			<name>Nexus Releases</name>
 			<uniqueVersion>true</uniqueVersion>
-			<url>http://craig:chocolate@server:8082/repository/maven-releases/</url>
+			<url>http://server:8082/repository/maven-releases/</url>
 			<layout>default</layout>
 		</repository>
 	</distributionManagement>
