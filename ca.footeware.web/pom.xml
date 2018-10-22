@@ -97,55 +97,8 @@
 					<releaseProfiles>releases</releaseProfiles>
 				</configuration>
 			</plugin>
-
-			<plugin>
-				<groupId>com.github.github</groupId>
-				<artifactId>site-maven-plugin</artifactId>
-				<version>0.7</version>
-				<configuration>
-					<message>Building site for ${project.version}</message>
-					<server>github</server>
-				</configuration>
-				<executions>
-					<execution>
-						<goals>
-							<goal>site</goal>
-						</goals>
-						<phase>site</phase>
-					</execution>
-				</executions>
-			</plugin>
 		</plugins>
 	</build>
-
-	<reporting>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-project-info-reports-plugin</artifactId>
-				<version>3.0</version>
-				<configuration>
-					<dependencyDetailsEnabled>true</dependencyDetailsEnabled>
-					<dependencyLocationsEnabled>true</dependencyLocationsEnabled>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>3.0.1</version>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-report-plugin</artifactId>
-				<version>2.22.1</version>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-checkstyle-plugin</artifactId>
-				<version>3.0</version>
-			</plugin>
-		</plugins>
-	</reporting>
 
 	<repositories>
 		<repository>
@@ -210,7 +163,7 @@
 						</executions>
 						<configuration>
 							<serverId>server</serverId>
-							<nexusUrl>http://craig:chocolate@server:8082/repository/maven-releases/</nexusUrl>
+							<nexusUrl>http://server:8082/repository/maven-releases/</nexusUrl>
 							<skipStaging>true</skipStaging>
 						</configuration>
 					</plugin>
@@ -218,22 +171,5 @@
 			</build>
 		</profile>
 	</profiles>
-
-	<licenses>
-		<license>
-			<name>MIT License</name>
-			<url>http://www.opensource.org/licenses/mit-license.php</url>
-			<distribution>repo</distribution>
-		</license>
-	</licenses>
-
-	<developers>
-		<developer>
-			<email>CraigFoote@gmail.com</email>
-			<name>Craig Foote</name>
-			<url>https://github.com/CraigFoote</url>
-			<id>CraigFoote</id>
-		</developer>
-	</developers>
 
 </project>
