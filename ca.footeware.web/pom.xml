@@ -4,7 +4,7 @@
 
 	<groupId>ca.footeware</groupId>
 	<artifactId>ca.footeware.web</artifactId>
-	<version>5.0.20-SNAPSHOT</version>
+	<version>5.0.23-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>Footeware.ca</name>
 
