@@ -67,7 +67,7 @@ public class ImageServiceTests {
 	 * Test method for
 	 * {@link ca.footeware.web.services.ImageService#getImageAsBytes(java.lang.String, java.lang.String)}.
 	 * 
-	 * @throws IOException
+	 * @throws IOException when shit goes south
 	 */
 	@Test
 	public void testGetImageAsBytes() throws IOException {
@@ -91,7 +91,7 @@ public class ImageServiceTests {
 	 * Test method for
 	 * {@link ca.footeware.web.services.ImageService#getThumbnailAsBytes(java.lang.String, java.lang.String)}.
 	 * 
-	 * @throws IOException
+	 * @throws IOException when shit goes south
 	 */
 	@Test
 	public void testGetThumbnailAsBytes() throws IOException {
@@ -113,7 +113,7 @@ public class ImageServiceTests {
 
 	/**
 	 * Test method for
-	 * {@link ca.footeware.web.services.ImageService#ImageService(org.springframework.core.io.ResourceLoader)}.
+	 * {@link ca.footeware.web.services.ImageService#ImageService}.
 	 */
 	@Test
 	public void testImageService() {
@@ -124,8 +124,7 @@ public class ImageServiceTests {
 	/**
 	 * Test method for
 	 * {@link ca.footeware.web.services.ImageService#resizeImage(java.awt.image.BufferedImage, int)}.
-	 * 
-	 * @throws IOException
+	 * @throws IOException when shit goes south 
 	 */
 	@Test
 	public void testResizeImage() throws IOException {

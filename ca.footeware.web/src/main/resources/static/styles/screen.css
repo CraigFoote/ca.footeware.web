@@ -162,3 +162,8 @@ textarea#body {
 #webcam {
 	width: 80%;
 }
+
+.navbar-inverse {
+/*       background-color:#434c5e !important; */
+      border:none;
+    }
