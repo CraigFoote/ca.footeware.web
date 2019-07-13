@@ -59,7 +59,7 @@ public class ImageControllerITTests {
 	 * Test method for
 	 * {@link ca.footeware.web.controllers.ImageController#getImage(java.lang.String, java.lang.String)}.
 	 * 
-	 * @throws IOException
+	 * @throws IOException when shit goes south
 	 */
 	@Test
 	public void testGetImage() throws IOException {
@@ -90,7 +90,7 @@ public class ImageControllerITTests {
 	 * Test method for
 	 * {@link ca.footeware.web.controllers.ImageController#getThumbnail(java.lang.String, java.lang.String)}.
 	 * 
-	 * @throws IOException
+	 * @throws IOException when shit goes south
 	 */
 	@Test
 	public void testGetThumbnail() throws IOException {

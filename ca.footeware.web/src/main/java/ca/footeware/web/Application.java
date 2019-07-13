@@ -14,6 +14,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class Application {
 
+	/**
+	 * Entry point to application.
+	 * @param args {@link String} array
+	 */
 	public static void main(String[] args) {
 		SpringApplication.run(Application.class, args);
 	}

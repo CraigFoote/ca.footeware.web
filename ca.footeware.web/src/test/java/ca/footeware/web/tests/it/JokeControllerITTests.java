@@ -42,7 +42,7 @@ public class JokeControllerITTests {
 
 		HttpHeaders requestHeaders = new HttpHeaders();
 		requestHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-		HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<MultiValueMap<String, String>>(joke,
+		HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(joke,
 				requestHeaders);
 
 		ResponseEntity<String> response = template.postForEntity("/jokes/add", request, String.class);
@@ -122,7 +122,7 @@ public class JokeControllerITTests {
 
 		HttpHeaders requestHeaders = new HttpHeaders();
 		requestHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-		HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<MultiValueMap<String, String>>(joke,
+		HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(joke,
 				requestHeaders);
 
 		ResponseEntity<String> response = template.postForEntity("/jokes/add", request, String.class);
@@ -136,7 +136,7 @@ public class JokeControllerITTests {
 
 		requestHeaders = new HttpHeaders();
 		requestHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-		request = new HttpEntity<MultiValueMap<String, String>>(joke, requestHeaders);
+		request = new HttpEntity<>(joke, requestHeaders);
 
 		// duplicate title?
 		response = template.postForEntity("/jokes/add", request, String.class);

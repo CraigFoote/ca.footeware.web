@@ -33,6 +33,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class ImageService {
 
+	/**
+	 * 
+	 */
 	public static final int MAX_DIMENSION = 150;
 	private String imagesPath;
 	private ResourceLoader loader;
@@ -145,8 +148,7 @@ public class ImageService {
 		for (File file : getFiles(galleryName)) {
 			if (file.getName().equals(imageName)) {
 				Resource resource = loader.getResource("file:" + file.getAbsolutePath());
-				try {
-					InputStream in = resource.getInputStream();
+				try (InputStream in = resource.getInputStream()){
 					return IOUtils.toByteArray(in);
 				} catch (IOException e) {
 					break;
@@ -187,7 +189,7 @@ public class ImageService {
 	 * 
 	 * @param originalImage {@link BufferedImage}
 	 * @param type          int
-	 * @see {@link BufferedImage#TYPE_INT_RGB}, etc.
+	 * See {@link BufferedImage#TYPE_INT_RGB}, etc.
 	 * @return {@link BufferedImage}
 	 */
 	public BufferedImage resizeImage(BufferedImage originalImage, int type) {

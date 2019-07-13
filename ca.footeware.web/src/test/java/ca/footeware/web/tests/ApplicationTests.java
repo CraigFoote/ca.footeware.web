@@ -13,6 +13,10 @@ import org.springframework.test.context.junit4.SpringRunner;
 import ca.footeware.web.controllers.ImageController;
 import ca.footeware.web.controllers.JokeController;
 
+/**
+ * @author craig
+ *
+ */
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class ApplicationTests {
@@ -23,11 +27,17 @@ public class ApplicationTests {
 	@Autowired
 	private JokeController jokeController;
 
+	/**
+	 * 
+	 */
 	@Test
 	public void imageControllerLoads() {
 		Assertions.assertThat(imageController).isNotNull();
 	}
 
+	/**
+	 * 
+	 */
 	@Test
 	public void jokeControllerLoads() {
 		Assertions.assertThat(jokeController).isNotNull();

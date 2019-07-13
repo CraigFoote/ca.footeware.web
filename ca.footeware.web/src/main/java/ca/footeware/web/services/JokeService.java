@@ -22,7 +22,13 @@ import org.springframework.stereotype.Service;
 @Service
 public class JokeService {
 
+	/**
+	 * 
+	 */
 	public static final String JOKE_BODY = "A newfie rolls into his factory job at 10:30. The floor manager comes up to him and says, \"You should have been here at nine o'clock,\" to which the newfie responds \"Why, what happened?\"";
+	/**
+	 * 
+	 */
 	public static final String JOKE_TITLE = "Nine o'clock";
 	private DB db;
 	private ConcurrentMap<String, String> map;

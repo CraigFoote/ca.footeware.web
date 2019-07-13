@@ -37,6 +37,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				"/js/**", "/images/**", "/fonts/**");
 	}
 
+	/**
+	 * @param auth {@link AuthenticationManagerBuilder}
+	 * @throws Exception when shit goes south
+	 */
 	@Autowired
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
 		PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
