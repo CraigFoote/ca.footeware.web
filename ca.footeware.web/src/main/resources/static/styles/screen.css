@@ -165,5 +165,11 @@ textarea#body {
 
 .navbar-inverse {
 /*       background-color:#434c5e !important; */
-      border:none;
-    }
+    background-color: rgba(0,0,0,0.5) !important;
+    border:none;
+}
+
+.active {
+	background-color: rgba(0,0,0,0.2) !important;
+}
+
