@@ -66,20 +66,20 @@ public class ImageControllerITTests {
 		byte[] bytes = template.withBasicAuth(USERNAME, PASSWORD)
 				.getForObject("/gallery/gallery1/test-image-horizontal.png", byte[].class);
 		BufferedImage image = ImageIO.read(new ByteArrayInputStream(bytes));
-		Assert.assertEquals("Image wrong width.", 232, image.getWidth());
-		Assert.assertEquals("Image wrong height.", 150, image.getHeight());
+		Assert.assertEquals("Image wrong width.", 1920, image.getWidth());
+		Assert.assertEquals("Image wrong height.", 1241, image.getHeight());
 
 		bytes = template.withBasicAuth(USERNAME, PASSWORD).getForObject("/gallery/gallery1/test-image-vertical.png",
 				byte[].class);
 		image = ImageIO.read(new ByteArrayInputStream(bytes));
-		Assert.assertEquals("Image wrong width.", 150, image.getWidth());
-		Assert.assertEquals("Image wrong height.", 232, image.getHeight());
+		Assert.assertEquals("Image wrong width.", 1241, image.getWidth());
+		Assert.assertEquals("Image wrong height.", 1920, image.getHeight());
 
 		bytes = template.withBasicAuth(USERNAME, PASSWORD).getForObject("/gallery/gallery1/test-image-square.png",
 				byte[].class);
 		image = ImageIO.read(new ByteArrayInputStream(bytes));
-		Assert.assertEquals("Image wrong width.", 150, image.getWidth());
-		Assert.assertEquals("Image wrong height.", 150, image.getHeight());
+		Assert.assertEquals("Image wrong width.", 1920, image.getWidth());
+		Assert.assertEquals("Image wrong height.", 1920, image.getHeight());
 
 		bytes = template.withBasicAuth(USERNAME, PASSWORD).getForObject("/gallery/gallery1/test-image-bad.png",
 				byte[].class);

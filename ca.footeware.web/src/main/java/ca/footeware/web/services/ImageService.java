@@ -21,7 +21,6 @@ import javax.imageio.ImageIO;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.comparator.NameFileComparator;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Service;
 
@@ -36,9 +35,13 @@ public class ImageService {
 	/**
 	 * 
 	 */
-	public static final int MAX_DIMENSION = 150;
+	public static final int MAX_TN_DIMENSION = 150;
+	/**
+	 * 
+	 */
+	public static final int MAX_IMG_DIMENSION = 1920;
 	private String imagesPath;
-	private ResourceLoader loader;
+//	private ResourceLoader loader;
 
 	/**
 	 * Constructor
@@ -47,9 +50,9 @@ public class ImageService {
 	 * @param imagesPath {@link String} location on disk of images
 	 */
 	public ImageService(ResourceLoader loader, @Value("${images.path}") String imagesPath) {
-		this.loader = loader;
+//		this.loader = loader;
 		this.imagesPath = imagesPath;
-		ImageIO.setUseCache(false);
+		ImageIO.setUseCache(true);
 	}
 
 	/**
@@ -58,24 +61,52 @@ public class ImageService {
 	 * @param image {@link BufferedImage}
 	 * @return {@link Dimension}
 	 */
-	private Dimension getDimensions(BufferedImage image) {
+	private Dimension getTNDimensions(BufferedImage image) {
 		int width = image.getWidth();
 		int height = image.getHeight();
 		Dimension dim = new Dimension();
 		if (width == height) {
 			// square
-			dim.width = MAX_DIMENSION;
-			dim.height = MAX_DIMENSION;
+			dim.width = MAX_TN_DIMENSION;
+			dim.height = MAX_TN_DIMENSION;
 		} else if (width > height) {
 			// landscape
-			dim.width = MAX_DIMENSION;
+			dim.width = MAX_TN_DIMENSION;
 			float ratio = (float) height / width;
-			dim.height = Math.round(ratio * MAX_DIMENSION);
+			dim.height = Math.round(ratio * MAX_TN_DIMENSION);
 		} else {
 			// portrait
-			dim.height = MAX_DIMENSION;
+			dim.height = MAX_TN_DIMENSION;
 			float ratio = (float) width / height;
-			dim.width = Math.round(ratio * MAX_DIMENSION);
+			dim.width = Math.round(ratio * MAX_TN_DIMENSION);
+		}
+		return dim;
+	}
+	
+	/**
+	 * Determine the display-size image width and height of the received image.
+	 * 
+	 * @param image {@link BufferedImage}
+	 * @return {@link Dimension}
+	 */
+	private Dimension getImgDimensions(BufferedImage image) {
+		int width = image.getWidth();
+		int height = image.getHeight();
+		Dimension dim = new Dimension();
+		if (width == height) {
+			// square
+			dim.width = MAX_IMG_DIMENSION;
+			dim.height = MAX_IMG_DIMENSION;
+		} else if (width > height) {
+			// landscape
+			dim.width = MAX_IMG_DIMENSION;
+			float ratio = (float) height / width;
+			dim.height = Math.round(ratio * MAX_IMG_DIMENSION);
+		} else {
+			// portrait
+			dim.height = MAX_IMG_DIMENSION;
+			float ratio = (float) width / height;
+			dim.width = Math.round(ratio * MAX_IMG_DIMENSION);
 		}
 		return dim;
 	}
@@ -147,9 +178,14 @@ public class ImageService {
 	public byte[] getImageAsBytes(String galleryName, String imageName) {
 		for (File file : getFiles(galleryName)) {
 			if (file.getName().equals(imageName)) {
-				Resource resource = loader.getResource("file:" + file.getAbsolutePath());
-				try (InputStream in = resource.getInputStream()){
-					return IOUtils.toByteArray(in);
+				try {
+					BufferedImage originalImage = ImageIO.read(file);
+					int type = originalImage.getType() == 0 ? BufferedImage.TYPE_INT_ARGB : originalImage.getType();
+					BufferedImage thumbnail = resizeForDisplay(originalImage, type);
+					ByteArrayOutputStream outstream = new ByteArrayOutputStream();
+					ImageIO.write(thumbnail, "jpg", outstream);
+					InputStream instream = new ByteArrayInputStream(outstream.toByteArray());
+					return IOUtils.toByteArray(instream);
 				} catch (IOException e) {
 					break;
 				}
@@ -171,7 +207,7 @@ public class ImageService {
 				try {
 					BufferedImage originalImage = ImageIO.read(file);
 					int type = originalImage.getType() == 0 ? BufferedImage.TYPE_INT_ARGB : originalImage.getType();
-					BufferedImage thumbnail = resizeImage(originalImage, type);
+					BufferedImage thumbnail = resizeForThumbnail(originalImage, type);
 					ByteArrayOutputStream outstream = new ByteArrayOutputStream();
 					ImageIO.write(thumbnail, "jpg", outstream);
 					InputStream instream = new ByteArrayInputStream(outstream.toByteArray());
@@ -185,15 +221,32 @@ public class ImageService {
 	}
 
 	/**
-	 * Resize the received image.
+	 * Resize the received image to its thumbnail size.
 	 * 
 	 * @param originalImage {@link BufferedImage}
 	 * @param type          int
 	 * See {@link BufferedImage#TYPE_INT_RGB}, etc.
 	 * @return {@link BufferedImage}
 	 */
-	public BufferedImage resizeImage(BufferedImage originalImage, int type) {
-		Dimension dim = getDimensions(originalImage);
+	public BufferedImage resizeForThumbnail(BufferedImage originalImage, int type) {
+		Dimension dim = getTNDimensions(originalImage);
+		BufferedImage resizedImage = new BufferedImage(dim.width, dim.height, type);
+		Graphics2D g = resizedImage.createGraphics();
+		g.drawImage(originalImage, 0, 0, dim.width, dim.height, null);
+		g.dispose();
+		return resizedImage;
+	}
+	
+	/**
+	 * Resize the received image to its display size.
+	 * 
+	 * @param originalImage {@link BufferedImage}
+	 * @param type          int
+	 * See {@link BufferedImage#TYPE_INT_RGB}, etc.
+	 * @return {@link BufferedImage}
+	 */
+	public BufferedImage resizeForDisplay(BufferedImage originalImage, int type) {
+		Dimension dim = getImgDimensions(originalImage);
 		BufferedImage resizedImage = new BufferedImage(dim.width, dim.height, type);
 		Graphics2D g = resizedImage.createGraphics();
 		g.drawImage(originalImage, 0, 0, dim.width, dim.height, null);
