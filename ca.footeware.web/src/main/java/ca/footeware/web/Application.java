@@ -19,6 +19,6 @@ public class Application {
 	 * @param args {@link String} array
 	 */
 	public static void main(String[] args) {
-		SpringApplication.run(Application.class, args);
+		SpringApplication.run(Application.class);
 	}
 }
