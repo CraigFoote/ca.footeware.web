@@ -16,7 +16,6 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.core.io.ResourceLoader;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import ca.footeware.web.services.ImageService;
@@ -34,9 +33,6 @@ public class ImageServiceTests {
 	private static final String IMAGE_VERTICAL = "test-image-vertical.png";
 	private static final String IMAGE_HORIZONTAL = "test-image-horizontal.png";
 	private static final String GALLERY_NAME = "gallery1";
-
-	@Autowired
-	private ResourceLoader loader;
 
 	@Autowired
 	private ImageService service;
@@ -112,26 +108,27 @@ public class ImageServiceTests {
 	}
 
 	/**
-	 * Test method for
-	 * {@link ca.footeware.web.services.ImageService#ImageService}.
+	 * Test method for {@link ca.footeware.web.services.ImageService#ImageService}.
 	 */
 	@Test
 	public void testImageService() {
-		ImageService service = new ImageService(loader, imagesPath);
+		ImageService service = new ImageService(imagesPath);
 		Assert.assertNotNull(ImageService.class.getName() + " was null.", service);
 	}
 
 	/**
 	 * Test method for
-	 * {@link ca.footeware.web.services.ImageService#resizeForThumbnail(java.awt.image.BufferedImage, int)}.
-	 * @throws IOException when shit goes south 
+	 * {@link ca.footeware.web.services.ImageService#resize(BufferedImage, int, java.awt.Dimension)}
+	 * 
+	 * @throws IOException when shit goes south
 	 */
 	@Test
 	public void testResizeImage() throws IOException {
 		byte[] bytes = service.getImageAsBytes(GALLERY_NAME, IMAGE_HORIZONTAL);
 		BufferedImage originalImage = ImageIO.read(new ByteArrayInputStream(bytes));
 		int type = originalImage.getType() == 0 ? BufferedImage.TYPE_INT_ARGB : originalImage.getType();
-		BufferedImage image = service.resizeForThumbnail(originalImage, type);
+		BufferedImage image = service.resize(originalImage, type,
+				service.getDimensions(originalImage, ImageService.MAX_TN_DIMENSION));
 		Assert.assertNotNull("Image was null.", image);
 		int width = image.getWidth();
 		int height = image.getHeight();
@@ -141,7 +138,8 @@ public class ImageServiceTests {
 		bytes = service.getImageAsBytes(GALLERY_NAME, IMAGE_VERTICAL);
 		originalImage = ImageIO.read(new ByteArrayInputStream(bytes));
 		type = originalImage.getType() == 0 ? BufferedImage.TYPE_INT_ARGB : originalImage.getType();
-		image = service.resizeForThumbnail(originalImage, type);
+		image = service.resize(originalImage, type,
+				service.getDimensions(originalImage, ImageService.MAX_TN_DIMENSION));
 		Assert.assertNotNull("Image was null.", image);
 		width = image.getWidth();
 		height = image.getHeight();
@@ -151,7 +149,8 @@ public class ImageServiceTests {
 		bytes = service.getImageAsBytes(GALLERY_NAME, IMAGE_SQUARE);
 		originalImage = ImageIO.read(new ByteArrayInputStream(bytes));
 		type = originalImage.getType() == 0 ? BufferedImage.TYPE_INT_ARGB : originalImage.getType();
-		image = service.resizeForThumbnail(originalImage, type);
+		image = service.resize(originalImage, type,
+				service.getDimensions(originalImage, ImageService.MAX_TN_DIMENSION));
 		Assert.assertNotNull("Image was null.", image);
 		width = image.getWidth();
 		height = image.getHeight();
