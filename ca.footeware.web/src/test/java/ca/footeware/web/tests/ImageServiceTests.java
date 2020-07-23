@@ -53,19 +53,20 @@ public class ImageServiceTests {
 	/**
 	 * Test method for
 	 * {@link ca.footeware.web.services.ImageService#getGalleries()}.
+	 * 
 	 * @throws ImageException when shit goes south
 	 */
 	@Test
 	public void testGetGalleries() throws ImageException {
 		File[] galleries = service.getGalleries();
-		Assert.assertTrue("Should have been one gallery.", galleries.length == 1);
+		Assert.assertEquals("Should have been one gallery.", 1, galleries.length);
 	}
 
 	/**
 	 * Test method for
 	 * {@link ca.footeware.web.services.ImageService#getImageAsBytes(java.lang.String, java.lang.String)}.
 	 * 
-	 * @throws IOException when shit goes south
+	 * @throws IOException    when shit goes south
 	 * @throws ImageException when shit goes south
 	 */
 	@Test
@@ -90,7 +91,7 @@ public class ImageServiceTests {
 	 * Test method for
 	 * {@link ca.footeware.web.services.ImageService#getThumbnailAsBytes(java.lang.String, java.lang.String)}.
 	 * 
-	 * @throws IOException when shit goes south
+	 * @throws IOException    when shit goes south
 	 * @throws ImageException when shit goes south
 	 */
 	@Test
@@ -113,6 +114,7 @@ public class ImageServiceTests {
 
 	/**
 	 * Test method for {@link ca.footeware.web.services.ImageService#ImageService}.
+	 * 
 	 * @throws ImageException when shit goes south
 	 */
 	@Test
@@ -125,7 +127,7 @@ public class ImageServiceTests {
 	 * Test method for
 	 * {@link ca.footeware.web.services.ImageService#resize(BufferedImage, int, java.awt.Dimension)}
 	 * 
-	 * @throws IOException when shit goes south
+	 * @throws IOException    when shit goes south
 	 * @throws ImageException when shit goes south
 	 */
 	@Test

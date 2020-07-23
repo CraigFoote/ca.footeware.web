@@ -32,6 +32,14 @@ public class JokeService {
 	 * 
 	 */
 	public static final String JOKE_TITLE = "Nine o'clock";
+	/**
+	 * 
+	 */
+	public static final String TITLE_ERROR = "Title cannot be empty.";
+	/**
+	 * 
+	 */
+	public static final String MAP_ERROR = "Unknown error, map not found.";
 	private DB db;
 	private ConcurrentMap<String, String> map;
 
@@ -44,13 +52,13 @@ public class JokeService {
 	 */
 	public void createJoke(String title, String body) throws JokeException {
 		if (title == null || title.isBlank() || title.isEmpty()) {
-			throw new JokeException("Title cannot be empty.");
+			throw new JokeException(TITLE_ERROR);
 		}
 		if (body == null || body.isBlank() || body.isEmpty()) {
 			throw new JokeException("Body cannot be empty.");
 		}
 		if (map == null) {
-			throw new JokeException("Unknown error, map not found.");
+			throw new JokeException(MAP_ERROR);
 		}
 		map.put(title, body);
 		if (db == null) {
@@ -67,10 +75,10 @@ public class JokeService {
 	 */
 	public void deleteJoke(String title) throws JokeException {
 		if (title == null || title.isBlank() || title.isEmpty()) {
-			throw new JokeException("Title cannot be empty.");
+			throw new JokeException(TITLE_ERROR);
 		}
 		if (map == null) {
-			throw new JokeException("Unknown error, map not found.");
+			throw new JokeException(MAP_ERROR);
 		}
 		map.remove(title);
 		if (db == null) {
@@ -88,10 +96,10 @@ public class JokeService {
 	 */
 	public String getJokeByTitle(String title) throws JokeException {
 		if (title == null || title.isBlank() || title.isEmpty()) {
-			throw new JokeException("Title cannot be empty.");
+			throw new JokeException(TITLE_ERROR);
 		}
 		if (map == null) {
-			throw new JokeException("Unknown error, map not found.");
+			throw new JokeException(MAP_ERROR);
 		}
 		return map.get(title);
 	}
@@ -104,7 +112,7 @@ public class JokeService {
 	 */
 	public Set<String> getTitles() throws JokeException {
 		if (map == null) {
-			throw new JokeException("Unknown error, map not found.");
+			throw new JokeException(MAP_ERROR);
 		}
 		return map.keySet();
 	}

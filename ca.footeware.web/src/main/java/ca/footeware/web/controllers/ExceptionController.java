@@ -1,4 +1,4 @@
-package ca.footeware.web;
+package ca.footeware.web.controllers;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -10,7 +10,7 @@ import org.springframework.web.servlet.ModelAndView;
 class ExceptionController {
 
 	@ExceptionHandler(value = Exception.class)
-	public ModelAndView defaultErrorHandler(HttpServletRequest req, Exception e) throws Exception {
+	public ModelAndView defaultErrorHandler(HttpServletRequest req, Exception e) {
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("error", e.getMessage());
 		mav.setViewName("error");

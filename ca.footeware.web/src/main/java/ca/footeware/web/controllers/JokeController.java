@@ -28,6 +28,7 @@ public class JokeController {
 
 	private static final String JOKES = "jokes";
 	private static final String TITLES = "titles";
+	private static final String TITLE = "title";
 	private JokeService service;
 
 	/**
@@ -84,7 +85,7 @@ public class JokeController {
 		if (body == null) {
 			return getTitles(model);
 		}
-		model.addAttribute("title", title);
+		model.addAttribute(TITLE, title);
 		model.addAttribute("body", body);
 		return "joke";
 	}
@@ -117,7 +118,7 @@ public class JokeController {
 		String existing = service.getJokeByTitle(title);
 		if (existing != null) {
 			model.addAttribute("error", "A joke by that title exists. Please choose another.");
-			model.addAttribute("title", title);
+			model.addAttribute(TITLE, title);
 			model.addAttribute("body", body);
 			return "addjoke";
 		}
@@ -138,7 +139,7 @@ public class JokeController {
 	@GetMapping("/editjoke/{title}")
 	public String editJoke(@PathVariable String title, Model model) throws JokeException {
 		String existing = service.getJokeByTitle(title);
-		model.addAttribute("title", title);
+		model.addAttribute(TITLE, title);
 		model.addAttribute("body", existing);
 		return "editjoke";
 	}
