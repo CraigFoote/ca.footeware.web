@@ -37,7 +37,7 @@ public class JokeControllerITTests {
 	@Test
 	public void testDeleteJoke() {
 		MultiValueMap<String, String> joke = new LinkedMultiValueMap<>();
-		joke.add("title", "testTitle");
+		joke.add("title", "testTitle?");
 		joke.add("body", "testBody");
 
 		HttpHeaders requestHeaders = new HttpHeaders();
@@ -49,16 +49,16 @@ public class JokeControllerITTests {
 		HttpStatus status = response.getStatusCode();
 		Assert.assertEquals("Incorrect response status.", HttpStatus.OK, status);
 
-		String page = template.getForObject("/jokes/testTitle", String.class);
+		String page = template.getForObject("/jokes/testTitle?", String.class);
 		Assert.assertTrue("Incorrect page returned.",
 				page.contains("<li class=\"active\"><a href=\"/jokes\">Jokes</a></li>"));
-		Assert.assertTrue("Incorrect page returned.", page.contains("<h3 class=\"title\">testTitle</h3>"));
+		Assert.assertTrue("Incorrect page returned.", page.contains("href=\"/jokes/testTitle%3F\">testTitle?</a></li>"));
 
 		page = template.getForObject("/deletejoke/testTitle", String.class);
 		Assert.assertTrue("Incorrect page returned.",
 				page.contains("<li class=\"active\"><a href=\"/jokes\">Jokes</a></li>"));
 		Assert.assertTrue("Incorrect page returned.",
-				page.contains("href=\"/jokes/Nine o&#39;clock\">Nine o&#39;clock</a>"));
+				page.contains("href=\"/jokes/Nine%20o&#39;clock\">Nine o&#39;clock</a>"));
 	}
 
 	/**
@@ -107,7 +107,7 @@ public class JokeControllerITTests {
 		Assert.assertTrue("Incorrect page returned.",
 				page.contains("<li class=\"active\"><a href=\"/jokes\">Jokes</a></li>"));
 		Assert.assertTrue("Incorrect page returned.",
-				page.contains("href=\"/jokes/Nine o&#39;clock\">Nine o&#39;clock</a>"));
+				page.contains("href=\"/jokes/Nine%20o&#39;clock\">Nine o&#39;clock</a>"));
 	}
 
 	/**

@@ -14,6 +14,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
+import ca.footeware.web.exceptions.JokeException;
+
 /**
  * Provides access to jokes.
  * 
@@ -36,35 +38,61 @@ public class JokeService {
 	/**
 	 * Create a new joke using provided title and body.
 	 * 
-	 * @param title
-	 *            {@link String}
-	 * @param body
-	 *            {@link String}
+	 * @param title {@link String}
+	 * @param body  {@link String}
+	 * @throws JokeException if shit goes south
 	 */
-	public void createJoke(String title, String body) {
+	public void createJoke(String title, String body) throws JokeException {
+		if (title == null || title.isBlank() || title.isEmpty()) {
+			throw new JokeException("Title cannot be empty.");
+		}
+		if (body == null || body.isBlank() || body.isEmpty()) {
+			throw new JokeException("Body cannot be empty.");
+		}
+		if (map == null) {
+			throw new JokeException("Unknown error, map not found.");
+		}
 		map.put(title, body);
+		if (db == null) {
+			throw new JokeException("Unknown error, database not found.");
+		}
 		db.commit();
 	}
 
 	/**
 	 * Find a joke with provided title and delete it.
 	 * 
-	 * @param title
-	 *            {@link String}
+	 * @param title {@link String}
+	 * @throws JokeException if shit goes south
 	 */
-	public void deleteJoke(String title) {
+	public void deleteJoke(String title) throws JokeException {
+		if (title == null || title.isBlank() || title.isEmpty()) {
+			throw new JokeException("Title cannot be empty.");
+		}
+		if (map == null) {
+			throw new JokeException("Unknown error, map not found.");
+		}
 		map.remove(title);
+		if (db == null) {
+			throw new JokeException("Unknown error, database not found.");
+		}
 		db.commit();
 	}
 
 	/**
 	 * Get a joke by its title.
 	 * 
-	 * @param title
-	 *            {@link String}
+	 * @param title {@link String}
 	 * @return {@link String} the joke body, may be null
+	 * @throws JokeException if shit goes south
 	 */
-	public String getJokeByTitle(String title) {
+	public String getJokeByTitle(String title) throws JokeException {
+		if (title == null || title.isBlank() || title.isEmpty()) {
+			throw new JokeException("Title cannot be empty.");
+		}
+		if (map == null) {
+			throw new JokeException("Unknown error, map not found.");
+		}
 		return map.get(title);
 	}
 
@@ -72,8 +100,12 @@ public class JokeService {
 	 * Get the joke titles.
 	 * 
 	 * @return {@link Set} of {@link String}
+	 * @throws JokeException if shit goes south
 	 */
-	public Set<String> getTitles() {
+	public Set<String> getTitles() throws JokeException {
+		if (map == null) {
+			throw new JokeException("Unknown error, map not found.");
+		}
 		return map.keySet();
 	}
 

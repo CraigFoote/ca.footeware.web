@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import ca.footeware.web.exceptions.ImageException;
 import ca.footeware.web.services.ImageService;
 
 /**
@@ -52,9 +53,10 @@ public class ImageServiceTests {
 	/**
 	 * Test method for
 	 * {@link ca.footeware.web.services.ImageService#getGalleries()}.
+	 * @throws ImageException when shit goes south
 	 */
 	@Test
-	public void testGetGalleries() {
+	public void testGetGalleries() throws ImageException {
 		File[] galleries = service.getGalleries();
 		Assert.assertTrue("Should have been one gallery.", galleries.length == 1);
 	}
@@ -64,9 +66,10 @@ public class ImageServiceTests {
 	 * {@link ca.footeware.web.services.ImageService#getImageAsBytes(java.lang.String, java.lang.String)}.
 	 * 
 	 * @throws IOException when shit goes south
+	 * @throws ImageException when shit goes south
 	 */
 	@Test
-	public void testGetImageAsBytes() throws IOException {
+	public void testGetImageAsBytes() throws IOException, ImageException {
 		byte[] bytes = service.getImageAsBytes(GALLERY_NAME, IMAGE_HORIZONTAL);
 		BufferedImage image = ImageIO.read(new ByteArrayInputStream(bytes));
 		Assert.assertEquals("Image wrong height.", 1241, image.getHeight());
@@ -88,9 +91,10 @@ public class ImageServiceTests {
 	 * {@link ca.footeware.web.services.ImageService#getThumbnailAsBytes(java.lang.String, java.lang.String)}.
 	 * 
 	 * @throws IOException when shit goes south
+	 * @throws ImageException when shit goes south
 	 */
 	@Test
-	public void testGetThumbnailAsBytes() throws IOException {
+	public void testGetThumbnailAsBytes() throws IOException, ImageException {
 		byte[] bytes = service.getThumbnailAsBytes(GALLERY_NAME, IMAGE_HORIZONTAL);
 		BufferedImage image = ImageIO.read(new ByteArrayInputStream(bytes));
 		Assert.assertEquals("Image wrong height.", 97, image.getHeight());
@@ -109,9 +113,10 @@ public class ImageServiceTests {
 
 	/**
 	 * Test method for {@link ca.footeware.web.services.ImageService#ImageService}.
+	 * @throws ImageException when shit goes south
 	 */
 	@Test
-	public void testImageService() {
+	public void testImageService() throws ImageException {
 		ImageService service = new ImageService(imagesPath);
 		Assert.assertNotNull(ImageService.class.getName() + " was null.", service);
 	}
@@ -121,9 +126,10 @@ public class ImageServiceTests {
 	 * {@link ca.footeware.web.services.ImageService#resize(BufferedImage, int, java.awt.Dimension)}
 	 * 
 	 * @throws IOException when shit goes south
+	 * @throws ImageException when shit goes south
 	 */
 	@Test
-	public void testResizeImage() throws IOException {
+	public void testResizeImage() throws IOException, ImageException {
 		byte[] bytes = service.getImageAsBytes(GALLERY_NAME, IMAGE_HORIZONTAL);
 		BufferedImage originalImage = ImageIO.read(new ByteArrayInputStream(bytes));
 		int type = originalImage.getType() == 0 ? BufferedImage.TYPE_INT_ARGB : originalImage.getType();

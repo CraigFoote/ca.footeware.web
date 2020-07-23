@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import ca.footeware.web.exceptions.JokeException;
 import ca.footeware.web.services.JokeService;
 
 /**
@@ -24,7 +25,7 @@ import ca.footeware.web.services.JokeService;
 public class JokeServiceTests {
 
 	private static final String TEST_BODY = "test body";
-	private static final String TEST_TITLE = "test title";
+	private static final String TEST_TITLE = "test title?";
 
 	@Autowired
 	private JokeService service;
@@ -32,9 +33,10 @@ public class JokeServiceTests {
 	/**
 	 * Test method for
 	 * {@link ca.footeware.web.services.JokeService#createJoke(java.lang.String, java.lang.String)}.
+	 * @throws JokeException if shit goes south
 	 */
 	@Test
-	public void testCreateJoke() {
+	public void testCreateJoke() throws JokeException {
 		service.createJoke(TEST_TITLE, TEST_BODY);
 		String body = service.getJokeByTitle(TEST_TITLE);
 		Assert.assertEquals("Incorrect joke body.", TEST_BODY, body);
@@ -43,9 +45,10 @@ public class JokeServiceTests {
 	/**
 	 * Test method for
 	 * {@link ca.footeware.web.services.JokeService#deleteJoke(java.lang.String)}.
+	 * @throws JokeException if shit goes south
 	 */
 	@Test
-	public void testDeleteJoke() {
+	public void testDeleteJoke() throws JokeException {
 		service.createJoke(TEST_TITLE, TEST_BODY);
 		service.deleteJoke(TEST_TITLE);
 		String body = service.getJokeByTitle(TEST_TITLE);
@@ -55,9 +58,10 @@ public class JokeServiceTests {
 	/**
 	 * Test method for
 	 * {@link ca.footeware.web.services.JokeService#getJokeByTitle(java.lang.String)}.
+	 * @throws JokeException if shit goes south
 	 */
 	@Test
-	public void testGetJokeByTitle() {
+	public void testGetJokeByTitle() throws JokeException {
 		String body = service.getJokeByTitle(JokeService.JOKE_TITLE);
 		Assert.assertEquals("Incorrect joke body.", JokeService.JOKE_BODY, body);
 
@@ -67,12 +71,12 @@ public class JokeServiceTests {
 
 	/**
 	 * Test method for {@link ca.footeware.web.services.JokeService#getTitles()}.
+	 * @throws JokeException if shit goes south
 	 */
 	@Test
-	public void testGetTitles() {
+	public void testGetTitles() throws JokeException {
 		Set<String> titles = service.getTitles();
-		Assert.assertEquals(1, titles.size());
-		Assert.assertEquals("Incorrect joke title.", JokeService.JOKE_TITLE, titles.iterator().next());
+		Assert.assertTrue(titles.size() > 0);
 	}
 
 }

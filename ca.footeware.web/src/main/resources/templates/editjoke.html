@@ -26,16 +26,30 @@
 		</div>
 	</nav>
 	<section class="container">
-		<h3 th:text="${title}" class="title"></h3>
 		<div>
-			<p th:text="${body}" style="word-break: normal;" />
-			<p class="right">
-				<a th:if="${title}" th:href="@{/editjoke/{title}(title=${title})}"
-					class="btn btn-primary" role="button">Edit</a> <a th:if="${title}"
-					th:href="@{/deletejoke/{title}(title=${title})}"
-					class="btn btn-danger" role="button"
-					onclick="return confirm('Are you sure?');">Delete</a>
-			</p>
+			<div class="left center" th:unless="${name}">
+				<p th:if="${error}" th:text="${error}" />
+				<form action="#" th:action="@{/jokes/edit}" method="post">
+					<p>
+						<input id="title" class="form-control"
+							style="background-color: cornsilk" type="text" name="title"
+							required="required" autofocus="autofocus" th:value="${title}"
+							placeholder="Title" /> <input id="originalTitle"
+							class="form-control" type="hidden" name="originalTitle"
+							th:value="${title}" />
+					</p>
+					<p>
+						<textarea id="body" class="form-control"
+							style="background-color: cornsilk" name="body" rows="15"
+							maxlength="1000" spellcheck="true" required="required"
+							th:text="${body}" placeholder="Body"></textarea>
+					</p>
+					<p class="right">
+						<a href="/jokes" class="btn btn-warning" role="button">Cancel</a>
+						<input type="submit" class="btn btn-primary" value="Submit" />
+					</p>
+				</form>
+			</div>
 		</div>
 	</section>
 	<footer th:replace="fragments/footer :: footer"></footer>

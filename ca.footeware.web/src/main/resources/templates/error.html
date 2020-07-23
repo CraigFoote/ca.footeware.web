@@ -26,10 +26,11 @@
         </div>
     </nav>
     <section class="container">
-        <div>
-            <img src="/images/programmerMelt.jpg" class="center bordered" />
-        </div>
-    </section>
+		<div>
+			<img src="/images/programmerMelt.jpg" class="center bordered" />
+			<p th:text="${error}"></p>
+		</div>
+	</section>
     <footer th:replace="fragments/footer :: footer"></footer>
 </body>
 </html>

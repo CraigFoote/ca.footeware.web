@@ -24,6 +24,8 @@ import org.apache.commons.io.comparator.NameFileComparator;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import ca.footeware.web.exceptions.ImageException;
+
 /**
  * Provides access to images.
  * 
@@ -46,8 +48,12 @@ public class ImageService {
 	 * Constructor
 	 * 
 	 * @param imagesPath {@link String} location on disk of images, injected
+	 * @throws ImageException if an images-related exception occurs.
 	 */
-	public ImageService(@Value("${images.path}") String imagesPath) {
+	public ImageService(@Value("${images.path}") String imagesPath) throws ImageException {
+		if (imagesPath == null || imagesPath.isEmpty()) {
+			throw new ImageException("Images path cannot be empty.");
+		}
 		this.imagesPath = imagesPath;
 		ImageIO.setUseCache(true);
 	}
@@ -103,8 +109,9 @@ public class ImageService {
 	 * @return {@link File}
 	 * @throws FileNotFoundException if no file is found by provided name in
 	 *                               provided gallery
+	 * @throws ImageException        if an image-related exception occurs.
 	 */
-	private File getFileByName(String galleryName, String imageName) throws FileNotFoundException {
+	private File getFileByName(String galleryName, String imageName) throws FileNotFoundException, ImageException {
 		for (File file : getFiles(galleryName)) {
 			if (file.getName().equals(imageName)) {
 				return file;
@@ -131,15 +138,18 @@ public class ImageService {
 	 * 
 	 * @param galleryName {@link String}
 	 * @return {@link File} array
+	 * @throws ImageException if an image-related exception occurs.
 	 */
-	public File[] getFiles(String galleryName) {
+	public File[] getFiles(String galleryName) throws ImageException {
 		// Restrict the galleryName to letters and digits only
 		if (!galleryName.matches("[\\sa-zA-Z0-9_-]++")) {
-			return new File[0];
+			throw new ImageException(
+					"Invalid gallery name: " + galleryName + ". Must be spaces, a-z, A-Z, 0-9, underscores or dashes.");
 		}
 		File folder = new File(imagesPath + File.separator + galleryName);
 		if (!folder.isDirectory()) {
-			return new File[0];
+			throw new ImageException(
+					"Expected a folder at " + imagesPath + File.separator + galleryName + " but it wasn't one.");
 		}
 		File[] files = folder.listFiles();
 		List<File> imageFiles = new ArrayList<>();
@@ -156,13 +166,25 @@ public class ImageService {
 	 * Get the list of Gallery folders.
 	 * 
 	 * @return {@link File} array
+	 * @throws ImageException if an image-related exception occurs.
 	 */
-	public File[] getGalleries() {
+	public File[] getGalleries() throws ImageException {
 		File folder = new File(imagesPath);
+		if (!folder.exists()) {
+			throw new ImageException("Image path not found: " + imagesPath);
+		}
+		if (!folder.canRead()) {
+			throw new ImageException("Image path cannot be read: " + imagesPath);
+		}
 		File[] files = folder.listFiles();
 		List<File> galleries = new ArrayList<>();
 		for (File file : files) {
 			if (file.isDirectory()) {
+				String folderName = file.getName();
+				if (!folderName.matches("[\\sa-zA-Z0-9_-]++")) {
+					throw new ImageException("Invalid gallery name: " + folderName	
+							+ ". Must be spaces, a-z, A-Z, 0-9, underscores or dashes.");
+				}
 				galleries.add(file);
 			}
 		}
@@ -176,8 +198,9 @@ public class ImageService {
 	 * @param galleryName {@link String}
 	 * @param imageName   {@link String}
 	 * @return byte[] may be empty
+	 * @throws ImageException if an image-related exception occurs.
 	 */
-	public byte[] getImageAsBytes(String galleryName, String imageName) {
+	public byte[] getImageAsBytes(String galleryName, String imageName) throws ImageException {
 		try {
 			File file = getFileByName(galleryName, imageName);
 			BufferedImage originalImage = ImageIO.read(file);
@@ -185,9 +208,8 @@ public class ImageService {
 			BufferedImage image = resize(originalImage, type, getDimensions(originalImage, MAX_IMG_DIMENSION));
 			return convertToBytes(image);
 		} catch (IOException e) {
-			// log
+			throw new ImageException(e.getLocalizedMessage());
 		}
-		return new byte[0];
 	}
 
 	/**
@@ -196,8 +218,9 @@ public class ImageService {
 	 * @param galleryName {@link String}
 	 * @param imageName   {@link String} image file name
 	 * @return byte[] may be empty
+	 * @throws ImageException if an image-related exception occurs.
 	 */
-	public byte[] getThumbnailAsBytes(String galleryName, String imageName) {
+	public byte[] getThumbnailAsBytes(String galleryName, String imageName) throws ImageException {
 		try {
 			File file = getFileByName(galleryName, imageName);
 			BufferedImage originalImage = ImageIO.read(file);
@@ -205,9 +228,8 @@ public class ImageService {
 			BufferedImage image = resize(originalImage, type, getDimensions(originalImage, MAX_TN_DIMENSION));
 			return convertToBytes(image);
 		} catch (IOException e) {
-			// log
+			throw new ImageException(e.getLocalizedMessage());
 		}
-		return new byte[0];
 	}
 
 	/**
