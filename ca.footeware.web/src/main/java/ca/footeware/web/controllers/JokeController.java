@@ -52,7 +52,7 @@ public class JokeController {
 	 * @return {@link String} UI view
 	 * @throws JokeException if shit goes south
 	 */
-	@GetMapping("/deletejoke/{title}")
+	@GetMapping("/jokes/delete/{title}")
 	public String deleteJoke(@PathVariable String title, Model model) throws JokeException {
 		service.deleteJoke(title);
 		Set<String> titles = service.getTitles();
@@ -61,12 +61,28 @@ public class JokeController {
 	}
 
 	/**
+	 * Get a joke by it's title and forward it to the 'edit' page.
+	 * 
+	 * @param title {@link String}
+	 * @param model {@link Model}
+	 * @return {@link String} UI view
+	 * @throws JokeException if shit goes south
+	 */
+	@GetMapping("/jokes/edit/{title}")
+	public String editJoke(@PathVariable String title, Model model) throws JokeException {
+		String existing = service.getJokeByTitle(title);
+		model.addAttribute(TITLE, title);
+		model.addAttribute("body", existing);
+		return "editjoke";
+	}
+
+	/**
 	 * Forward user to page that allows them to add a joke.
 	 * 
 	 * @param model {@link Model}
 	 * @return {@link String} UI view
 	 */
-	@GetMapping("/addjoke")
+	@GetMapping("/jokes/add")
 	public String getAddJokePage(Model model) {
 		return "addjoke";
 	}
@@ -129,22 +145,6 @@ public class JokeController {
 	}
 
 	/**
-	 * Get a joke by it's title and forward it to the 'edit' page.
-	 * 
-	 * @param title {@link String}
-	 * @param model {@link Model}
-	 * @return {@link String} UI view
-	 * @throws JokeException if shit goes south
-	 */
-	@GetMapping("/editjoke/{title}")
-	public String editJoke(@PathVariable String title, Model model) throws JokeException {
-		String existing = service.getJokeByTitle(title);
-		model.addAttribute(TITLE, title);
-		model.addAttribute("body", existing);
-		return "editjoke";
-	}
-
-	/**
 	 * Edit a joke.
 	 * 
 	 * @param title         {@link String}
@@ -155,7 +155,7 @@ public class JokeController {
 	 * @throws JokeException if shit goes south
 	 */
 	@PostMapping("/jokes/edit")
-	public String postJoke(@RequestParam String title, @RequestParam String originalTitle, @RequestParam String body,
+	public String postEditedJoke(@RequestParam String title, @RequestParam String originalTitle, @RequestParam String body,
 			Model model) throws JokeException {
 		service.deleteJoke(originalTitle);
 		service.createJoke(title, body);

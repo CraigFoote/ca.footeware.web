@@ -29,10 +29,10 @@
 		<h3 th:text="${title}" class="title"></h3>
 		<div>
 			<p th:text="${body}" style="word-break: normal;" />
-			<p class="right">
-				<a th:if="${title}" th:href="@{/editjoke/{title}(title=${title})}"
-					class="btn btn-primary" role="button">Edit</a> <a th:if="${title}"
-					th:href="@{/deletejoke/{title}(title=${title})}"
+			<p class="right" th:if="${title}">
+				<a th:href="@{/jokes/edit/{title}(title=${title})}"
+					class="btn btn-primary" role="button">Edit</a> <a
+					th:href="@{/jokes/delete/{title}(title=${title})}"
 					class="btn btn-danger" role="button"
 					onclick="return confirm('Are you sure?');">Delete</a>
 			</p>

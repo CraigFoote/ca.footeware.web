@@ -3,8 +3,12 @@
  */
 package ca.footeware.web.tests.it;
 
+import java.util.Map;
+import java.util.Set;
+
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -12,12 +16,16 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+
+import ca.footeware.web.exceptions.JokeException;
+import ca.footeware.web.services.JokeService;
 
 /**
  * @author Footeware.ca
@@ -29,6 +37,21 @@ public class JokeControllerITTests {
 
 	@Autowired
 	private TestRestTemplate template;
+	private String page;
+
+	/**
+	 * Empty DB after tests.
+	 * 
+	 * @throws JokeException if shit goes south
+	 */
+	@AfterAll
+	public static void tearDown() throws JokeException {
+		JokeService jokeService = new JokeService();
+		Set<String> titles = jokeService.getTitles();
+		for (String title : titles) {
+			jokeService.deleteJoke(title);
+		}
+	}
 
 	/**
 	 * Test method for
@@ -36,25 +59,33 @@ public class JokeControllerITTests {
 	 */
 	@Test
 	public void testDeleteJoke() {
+		// create a joke to delete
 		MultiValueMap<String, String> joke = new LinkedMultiValueMap<>();
 		joke.add("title", "testTitle?");
 		joke.add("body", "testBody");
-
 		HttpHeaders requestHeaders = new HttpHeaders();
 		requestHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-		HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(joke,
-				requestHeaders);
-
+		HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(joke, requestHeaders);
 		ResponseEntity<String> response = template.postForEntity("/jokes/add", request, String.class);
 		HttpStatus status = response.getStatusCode();
 		Assert.assertEquals("Incorrect response status.", HttpStatus.OK, status);
 
-		String page = template.getForObject("/jokes/testTitle?", String.class);
+		// confirm it was created by fetching it
+		requestHeaders = new HttpHeaders();
+		requestHeaders.setContentType(MediaType.APPLICATION_JSON);
+		HttpEntity<String> requestEntity = new HttpEntity<String>(requestHeaders);
+		response = template.exchange("/jokes/{title}", HttpMethod.GET, requestEntity, String.class,
+				Map.of("title", "testTitle?"));
+		page = response.getBody();
 		Assert.assertTrue("Incorrect page returned.",
 				page.contains("<li class=\"active\"><a href=\"/jokes\">Jokes</a></li>"));
-		Assert.assertTrue("Incorrect page returned.", page.contains("href=\"/jokes/testTitle%3F\">testTitle?</a></li>"));
+		Assert.assertTrue("Incorrect page returned.", page.contains("<h3 class=\"title\">testTitle?</h3>"));
 
-		page = template.getForObject("/deletejoke/testTitle", String.class);
+		// delete it
+		requestEntity = new HttpEntity<String>(requestHeaders);
+		ResponseEntity<String> responseEntity = template.exchange("/jokes/delete/{title}", HttpMethod.GET,
+				requestEntity, String.class, Map.of("title", "testTitle?"));
+		page = responseEntity.getBody();
 		Assert.assertTrue("Incorrect page returned.",
 				page.contains("<li class=\"active\"><a href=\"/jokes\">Jokes</a></li>"));
 		Assert.assertTrue("Incorrect page returned.",
@@ -67,7 +98,7 @@ public class JokeControllerITTests {
 	 */
 	@Test
 	public void testGetAddJokePage() {
-		String page = template.getForObject("/addjoke", String.class);
+		String page = template.getForObject("/jokes/add", String.class);
 		Assert.assertTrue("Incorrect page returned.",
 				page.contains("<li class=\"active\"><a href=\"/jokes\">Jokes</a></li>"));
 		Assert.assertTrue("Incorrect page returned.", page.contains("<form action=\"/jokes/add\" method=\"post\">"));
@@ -122,12 +153,11 @@ public class JokeControllerITTests {
 
 		HttpHeaders requestHeaders = new HttpHeaders();
 		requestHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-		HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(joke,
-				requestHeaders);
+		HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(joke, requestHeaders);
 
 		ResponseEntity<String> response = template.postForEntity("/jokes/add", request, String.class);
 		HttpStatus status = response.getStatusCode();
-		Assert.assertEquals("Incorrect reposnse status.", HttpStatus.OK, status);
+		Assert.assertEquals("Incorrect response status.", HttpStatus.OK, status);
 
 		String page = template.getForObject("/jokes/testTitle", String.class);
 		Assert.assertTrue("Incorrect page returned.",
@@ -145,6 +175,45 @@ public class JokeControllerITTests {
 
 		// cleanup
 		template.getForObject("/deletejoke/testTitle", String.class);
+	}
+
+	/**
+	 * Test method for
+	 * {@link ca.footeware.web.controllers.JokeController#editJoke(String, org.springframework.ui.Model)}.
+	 */
+	@Test
+	public void testEditJoke() {
+		// create joke to edit
+		MultiValueMap<String, String> joke = new LinkedMultiValueMap<>();
+		joke.add("title", "testTitle");
+		joke.add("body", "testBody");
+		HttpHeaders requestHeaders = new HttpHeaders();
+		requestHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+		HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(joke, requestHeaders);
+		ResponseEntity<String> response = template.postForEntity("/jokes/add", request, String.class);
+		HttpStatus status = response.getStatusCode();
+		Assert.assertEquals("Incorrect response status.", HttpStatus.OK, status);
+
+		// fetch joke
+		String page = template.getForObject("/jokes/edit/testTitle", String.class);
+		Assert.assertTrue("Incorrect page returned.",
+				page.contains("<li class=\"active\"><a href=\"/jokes\">Jokes</a></li>"));
+		Assert.assertTrue("Incorrect page returned.",
+				page.contains("required=\"required\" autofocus=\"autofocus\" value=\"testTitle\""));
+
+		// simulate editing of joke and clicking save
+		joke = new LinkedMultiValueMap<>();
+		joke.add("originalTitle", "testTitle");
+		joke.add("title", "testTitle2");
+		joke.add("body", "testBody2");
+		request = new HttpEntity<>(joke, requestHeaders);
+		response = template.exchange("/jokes/edit", HttpMethod.POST, request, String.class,
+				Map.of("originalTitle", "testTitle", "title", "testTitle2", "body", "testBody2"));
+		page = response.getBody();
+		Assert.assertFalse("Joke should have updated title and body.",
+				page.contains("href=\"/jokes/testTitle\">testTitle</a></li>"));
+		Assert.assertTrue("Joke should have updated title and body.",
+				page.contains("href=\"/jokes/testTitle2\">testTitle2</a></li>"));
 	}
 
 }

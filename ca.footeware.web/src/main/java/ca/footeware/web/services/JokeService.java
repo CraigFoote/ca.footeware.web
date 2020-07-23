@@ -80,6 +80,10 @@ public class JokeService {
 		if (map == null) {
 			throw new JokeException(MAP_ERROR);
 		}
+		String existing = map.get(title);
+		if (existing == null) {
+			throw new JokeException("Cannot delete. No joke exists with title: " + title);
+		}
 		map.remove(title);
 		if (db == null) {
 			throw new JokeException("Unknown error, database not found.");

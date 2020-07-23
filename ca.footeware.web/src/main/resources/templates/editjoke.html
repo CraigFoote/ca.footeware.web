@@ -29,7 +29,7 @@
 		<div>
 			<div class="left center" th:unless="${name}">
 				<p th:if="${error}" th:text="${error}" />
-				<form action="#" th:action="@{/jokes/edit}" method="post">
+				<form action="#" th:action="@{/jokes/edit}" th:method="POST">
 					<p>
 						<input id="title" class="form-control"
 							style="background-color: cornsilk" type="text" name="title"

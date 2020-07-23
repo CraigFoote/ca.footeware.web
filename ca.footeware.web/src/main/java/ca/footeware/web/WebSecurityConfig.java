@@ -14,6 +14,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.firewall.StrictHttpFirewall;
 
 /**
  * Specify the URLs to which the user can access and those that are forwarded to
@@ -26,15 +27,18 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity httpSecurity) throws Exception {
-		httpSecurity.httpBasic().and().authorizeRequests().antMatchers().permitAll().anyRequest().authenticated().and().formLogin()
-				.loginPage("/login").permitAll().and().logout().permitAll();
+		httpSecurity.httpBasic().and().authorizeRequests().antMatchers().permitAll().anyRequest().authenticated().and()
+				.formLogin().loginPage("/login").permitAll().and().logout().permitAll();
 	}
 
 	@Override
 	public void configure(WebSecurity web) throws Exception {
 		super.configure(web);
-		web.ignoring().antMatchers("/", "/gear", "/webcam", "/jokes/**", "/addjoke", "/deletejoke/**", "/styles/**",
-				"/js/**", "/images/**", "/fonts/**");
+		web.ignoring().antMatchers("/", "/gear/**", "/webcam/**", "/jokes/**", "/addjoke/**", "/editjoke/**",
+				"/deletejoke/**", "/styles/**", "/js/**", "/images/**", "/fonts/**");
+		StrictHttpFirewall firewall = new StrictHttpFirewall();
+		firewall.setAllowUrlEncodedPercent(true);
+		web.httpFirewall(firewall);
 	}
 
 	/**
@@ -48,5 +52,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		UserDetails user = User.withUsername("foote").password(password).roles("USER").build();
 		auth.inMemoryAuthentication().withUser(user);
 	}
+	
+	
 
 }

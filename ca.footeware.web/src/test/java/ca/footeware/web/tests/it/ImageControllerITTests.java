@@ -37,6 +37,19 @@ public class ImageControllerITTests {
 
 	/**
 	 * Test method for
+	 * {@link ca.footeware.web.controllers.ImageController#getGalleries(org.springframework.ui.Model)}.
+	 */
+	@Test
+	public void testGetGalleries() {
+		String page = template.getForObject("/gallery/", String.class);
+		Assert.assertTrue("Should have been sent to login page.",
+				page.contains("<form action=\"/login\" method=\"post\">"));
+		page = template.withBasicAuth(USERNAME, PASSWORD).getForObject("/gallery/", String.class);
+		Assert.assertTrue("Should have listed 'gallery1'.", page.contains("<a href=\"/gallery/gallery1\">gallery1</a>"));
+	}
+
+	/**
+	 * Test method for
 	 * {@link ca.footeware.web.controllers.ImageController#getGallery(java.lang.String, org.springframework.ui.Model)}.
 	 */
 	@Test
@@ -118,19 +131,6 @@ public class ImageControllerITTests {
 //		bytes = template.withBasicAuth(USERNAME, PASSWORD)
 //				.getForObject("/gallery/thumbnails/gallery1/test-image-bad.png", byte[].class);
 //		Assert.assertNull("Should have been no bytes for thumbnail with bad name.", bytes);
-	}
-
-	/**
-	 * Test method for
-	 * {@link ca.footeware.web.controllers.ImageController#getGalleries(org.springframework.ui.Model)}.
-	 */
-	@Test
-	public void testGetGalleries() {
-		String page = template.getForObject("/gallery/", String.class);
-		Assert.assertTrue("Should have been sent to login page.",
-				page.contains("<form action=\"/login\" method=\"post\">"));
-		page = template.withBasicAuth(USERNAME, PASSWORD).getForObject("/gallery/", String.class);
-		Assert.assertTrue("Should have listed 'gallery1'.", page.contains("<a href=\"/gallery/gallery1\">gallery1</a>"));
 	}
 
 }

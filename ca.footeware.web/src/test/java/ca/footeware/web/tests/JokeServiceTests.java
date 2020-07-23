@@ -7,6 +7,7 @@ import java.util.Set;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -33,6 +34,7 @@ public class JokeServiceTests {
 	/**
 	 * Test method for
 	 * {@link ca.footeware.web.services.JokeService#createJoke(java.lang.String, java.lang.String)}.
+	 * 
 	 * @throws JokeException if shit goes south
 	 */
 	@Test
@@ -44,7 +46,41 @@ public class JokeServiceTests {
 
 	/**
 	 * Test method for
+	 * {@link ca.footeware.web.services.JokeService#createJoke(java.lang.String, java.lang.String)}.
+	 */
+	@Test
+	public void testCreateJokeWithBlankTitle() {
+		Assertions.assertThrows(JokeException.class, () -> {
+			service.createJoke(" ", TEST_BODY);
+		});
+	}
+
+	/**
+	 * Test method for
+	 * {@link ca.footeware.web.services.JokeService#createJoke(java.lang.String, java.lang.String)}.
+	 */
+	@Test
+	public void testCreateJokeWithEmptyTitle() {
+		Assertions.assertThrows(JokeException.class, () -> {
+			service.createJoke("", TEST_BODY);
+		});
+	}
+
+	/**
+	 * Test method for
+	 * {@link ca.footeware.web.services.JokeService#createJoke(java.lang.String, java.lang.String)}.
+	 */
+	@Test
+	public void testCreateJokeWithNUllTitle() {
+		Assertions.assertThrows(JokeException.class, () -> {
+			service.createJoke(null, TEST_BODY);
+		});
+	}
+
+	/**
+	 * Test method for
 	 * {@link ca.footeware.web.services.JokeService#deleteJoke(java.lang.String)}.
+	 * 
 	 * @throws JokeException if shit goes south
 	 */
 	@Test
@@ -57,7 +93,19 @@ public class JokeServiceTests {
 
 	/**
 	 * Test method for
+	 * {@link ca.footeware.web.services.JokeService#deleteJoke(java.lang.String)}.
+	 */
+	@Test
+	public void testDeleteJokeNotExists() {
+		Assertions.assertThrows(JokeException.class, () -> {
+			service.deleteJoke("bob");
+		});
+	}
+
+	/**
+	 * Test method for
 	 * {@link ca.footeware.web.services.JokeService#getJokeByTitle(java.lang.String)}.
+	 * 
 	 * @throws JokeException if shit goes south
 	 */
 	@Test
@@ -67,10 +115,23 @@ public class JokeServiceTests {
 
 		body = service.getJokeByTitle("bad title");
 		Assert.assertEquals("Joke body should have been null.", null, body);
+		
+		Assertions.assertThrows(JokeException.class, () -> {
+			service.getJokeByTitle(null);
+		});
+		
+		Assertions.assertThrows(JokeException.class, () -> {
+			service.getJokeByTitle("");
+		});
+		
+		Assertions.assertThrows(JokeException.class, () -> {
+			service.getJokeByTitle(" ");
+		});
 	}
 
 	/**
 	 * Test method for {@link ca.footeware.web.services.JokeService#getTitles()}.
+	 * 
 	 * @throws JokeException if shit goes south
 	 */
 	@Test
