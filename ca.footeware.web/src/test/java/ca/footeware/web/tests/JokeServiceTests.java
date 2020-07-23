@@ -50,9 +50,11 @@ public class JokeServiceTests {
 	 */
 	@Test
 	public void testCreateJokeWithBlankTitle() {
-		Assertions.assertThrows(JokeException.class, () -> {
+		JokeException exception = Assertions.assertThrows(JokeException.class, () -> {
 			service.createJoke(" ", TEST_BODY);
 		});
+		String message = exception.getMessage();
+		Assert.assertEquals("Incorrect exception message.", JokeService.TITLE_ERROR, message);
 	}
 
 	/**
@@ -61,9 +63,11 @@ public class JokeServiceTests {
 	 */
 	@Test
 	public void testCreateJokeWithEmptyTitle() {
-		Assertions.assertThrows(JokeException.class, () -> {
+		JokeException exception = Assertions.assertThrows(JokeException.class, () -> {
 			service.createJoke("", TEST_BODY);
 		});
+		String message = exception.getMessage();
+		Assert.assertEquals("Incorrect exception message.", JokeService.TITLE_ERROR, message);
 	}
 
 	/**
@@ -72,9 +76,11 @@ public class JokeServiceTests {
 	 */
 	@Test
 	public void testCreateJokeWithNUllTitle() {
-		Assertions.assertThrows(JokeException.class, () -> {
+		JokeException exception = Assertions.assertThrows(JokeException.class, () -> {
 			service.createJoke(null, TEST_BODY);
 		});
+		String message = exception.getMessage();
+		Assert.assertEquals("Incorrect exception message.", JokeService.TITLE_ERROR, message);
 	}
 
 	/**
@@ -115,15 +121,15 @@ public class JokeServiceTests {
 
 		body = service.getJokeByTitle("bad title");
 		Assert.assertEquals("Joke body should have been null.", null, body);
-		
+
 		Assertions.assertThrows(JokeException.class, () -> {
 			service.getJokeByTitle(null);
 		});
-		
+
 		Assertions.assertThrows(JokeException.class, () -> {
 			service.getJokeByTitle("");
 		});
-		
+
 		Assertions.assertThrows(JokeException.class, () -> {
 			service.getJokeByTitle(" ");
 		});
