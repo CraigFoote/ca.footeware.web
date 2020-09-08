@@ -15,10 +15,16 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.imageio.ImageIO;
 
+import org.apache.commons.imaging.ImageReadException;
+import org.apache.commons.imaging.Imaging;
+import org.apache.commons.imaging.common.ImageMetadata;
+import org.apache.commons.imaging.common.ImageMetadata.ImageMetadataItem;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.comparator.NameFileComparator;
 import org.springframework.beans.factory.annotation.Value;
@@ -59,7 +65,7 @@ public class ImageService {
 	}
 
 	/**
-	 * COnvert provided image to byte array.
+	 * Convert provided image to byte array.
 	 * 
 	 * @param image {@link BufferedImage}
 	 * @return byte array
@@ -182,7 +188,7 @@ public class ImageService {
 			if (file.isDirectory()) {
 				String folderName = file.getName();
 				if (!folderName.matches("[\\sa-zA-Z0-9_-]++")) {
-					throw new ImageException("Invalid gallery name: " + folderName	
+					throw new ImageException("Invalid gallery name: " + folderName
 							+ ". Must be spaces, a-z, A-Z, 0-9, underscores or dashes.");
 				}
 				galleries.add(file);
@@ -246,6 +252,31 @@ public class ImageService {
 		g.drawImage(originalImage, 0, 0, dim.width, dim.height, null);
 		g.dispose();
 		return resizedImage;
+	}
+
+	/**
+	 * Get the EXIF from the provided file and convert it to a map of EXIF item
+	 * labels and values.
+	 * 
+	 * @param file {@link File}
+	 * @return {@link Map} of {@link String} label to {@link String} value
+	 * @throws ImageException if shit goes south
+	 */
+	public Map<String, String> getExif(File file) throws ImageException {
+		Map<String, String> map = new LinkedHashMap<>();
+		try {
+			ImageMetadata metadata = Imaging.getMetadata(file);
+			if (metadata != null) {
+				List<? extends ImageMetadataItem> items = metadata.getItems();
+				for (ImageMetadataItem item : items) {
+					String[] split = item.toString().split(": ");
+					map.put(split[0], split[1]);
+				}
+			}
+		} catch (ImageReadException | IOException e) {
+			throw new ImageException(e.getLocalizedMessage());
+		}
+		return map;
 	}
 
 }

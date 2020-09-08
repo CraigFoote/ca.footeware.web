@@ -7,6 +7,7 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.util.Map;
 
 import javax.imageio.ImageIO;
 
@@ -164,6 +165,19 @@ public class ImageServiceTests {
 		height = image.getHeight();
 		Assert.assertEquals("Thumbnail was not the correct width.", ImageService.MAX_TN_DIMENSION, width);
 		Assert.assertEquals("Thumbnail was not the correct height.", ImageService.MAX_TN_DIMENSION, height);
+	}
+
+	/**
+	 * Test method for {@link ca.footeware.web.services.ImageService#getExif(File)}
+	 * @throws ImageException when shit goes south
+	 * @throws IOException when shit goes south
+	 */
+	@Test
+	public void testExif() throws ImageException, IOException {
+		File gallery = service.getGalleries()[0];
+		File[] imageFiles = service.getFiles(gallery.getName());
+		Map<String, String> exif = service.getExif(imageFiles[0]);
+		Assert.assertTrue("Missing 'Model' entry.", exif.containsKey("Model"));
 	}
 
 }

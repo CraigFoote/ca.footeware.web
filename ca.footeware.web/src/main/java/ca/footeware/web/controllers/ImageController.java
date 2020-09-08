@@ -5,7 +5,9 @@ package ca.footeware.web.controllers;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -64,17 +66,46 @@ public class ImageController {
 	 * @param galleryName {@link String}
 	 * @param model       {@link Model}
 	 * @return {@link String} UI template name
-	 * @throws ImageException if an image-related exception occurs.
+	 * @throws ImageException     if an image-related exception occurs.
 	 */
 	@GetMapping("/gallery/{galleryName}")
-	public String getGallery(@PathVariable String galleryName, Model model) throws ImageException {
-		List<String> thumbs = new ArrayList<>();
+	public String getGallery(@PathVariable String galleryName, Model model)
+			throws ImageException {
+		Map<String, String> thumbs = new LinkedHashMap<>();
 		for (File file : service.getFiles(galleryName)) {
-			thumbs.add(file.getName());
+			Map<String, String> exif = service.getExif(file);
+			String name = file.getName();
+			if (exif != null) {
+				thumbs.put(name, compileExifString(name, exif));
+			} else {
+				thumbs.put(name, "");
+			}
 		}
 		model.addAttribute("thumbs", thumbs);
 		model.addAttribute("galleryName", galleryName);
 		return "gallery";
+	}
+
+	/**
+	 * Create a linefeed-delimited String of specific exif item labels and values.
+	 * 
+	 * @param name
+	 * @param exif
+	 * @return {@link String}
+	 */
+	private String compileExifString(String name, Map<String, String> exif) {
+		StringBuilder b = new StringBuilder();
+		b.append("Name: " + name + "\n");
+		b.append("Model: " + exif.get("Model") + "\n");
+		b.append("ProcessingSoftware: " + exif.get("ProcessingSoftware") + "\n");
+		b.append("DateTime: " + exif.get("DateTime") + "\n");
+		b.append("ExposureTime: " + exif.get("ExposureTime") + "\n");
+		b.append("FNumber: " + exif.get("FNumber") + "\n");
+		b.append("PhotographicSensitivity: " + exif.get("PhotographicSensitivity") + "\n");
+		b.append("ExposureCompensation: " + exif.get("ExposureCompensation") + "\n");
+		b.append("FocalLength: " + exif.get("FocalLength") + "\n");
+		b.append("FocalLengthIn35mmFormat: " + exif.get("FocalLengthIn35mmFormat"));
+		return b.toString();
 	}
 
 	/**

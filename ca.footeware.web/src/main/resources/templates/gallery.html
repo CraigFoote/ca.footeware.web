@@ -41,8 +41,8 @@
 			<!-- a list of thumbnails in one gallery -->
 			<ul class="center" th:if="${thumbs}">
 				<li class="inline" th:each="thumb : ${thumbs}"><a
-					data-fancybox="gallery" th:href="@{'/gallery/' + ${galleryName} + '/' + ${thumb}}"><img
-						th:src="@{'/gallery/thumbnails/' + ${galleryName} + '/' + ${thumb}}" /></a></li>
+					data-fancybox="gallery" th:href="@{'/gallery/' + ${galleryName} + '/' + ${thumb.key}}"><img th:title="${thumb.value}"
+						th:src="@{'/gallery/thumbnails/' + ${galleryName} + '/' + ${thumb.key}}" /></a></li>
 			</ul>
 		</div>
 	</section>
