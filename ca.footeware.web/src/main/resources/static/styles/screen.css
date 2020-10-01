@@ -20,23 +20,50 @@ body {
 	background-image: url("/images/limestone.jpg");
 }
 
-li > a {
+li>a {
 	color: #9d9d9d; /* gray */
 	text-decoration: none;
 }
 
-li > a:hover {
-	color: white!important;
+li>a:hover {
+	color: white !important;
 	transition: 1s ease;
 	text-decoration: none;
 }
 
-li > a:visited {
+li>a:visited {
 	color: #9d9d9d;
 	text-decoration: none;
 }
 
-li > a:focus {
+li>a:focus {
+	color: white;
+	outline: none;
+	text-decoration: none;
+}
+
+dl {
+/* 	float: left; */
+	text-align: left;
+}
+
+dd>a {
+	color: #9d9d9d; /* gray */
+	text-decoration: none;
+}
+
+dd>a:hover {
+	color: white !important;
+	transition: 1s ease;
+	text-decoration: none;
+}
+
+dd>a:visited {
+	color: #9d9d9d;
+	text-decoration: none;
+}
+
+dd>a:focus {
 	color: white;
 	outline: none;
 	text-decoration: none;
@@ -137,19 +164,20 @@ img.bordered {
 }
 
 #gearContainer {
-	width: 50%;
+	width: 60%;
 	overflow: auto;
-	text-align: right;
-	float: left;
+	text-align: center;
+/* 	float: left; */
 }
 
 #gearContainer img {
-	width: 90%;
+	width: 60%;
+/* 	float: left; */
 }
 
 #gearList {
-	margin-left: 47%;
-	margin-top: 25px;
+/* 	margin-left: 47%; */
+/* 	margin-top: 25px; */
 }
 
 input#title {
@@ -165,12 +193,12 @@ textarea#body {
 }
 
 .navbar-inverse {
-/*       background-color:#434c5e !important; */
-    background-color: rgba(0,0,0,0.5) !important;
-    border:none;
+	/*       background-color:#434c5e !important; */
+	background-color: rgba(0, 0, 0, 0.5) !important;
+	border: none;
 }
 
 .active {
-	background-color: rgba(0,0,0,0.2) !important;
+	background-color: rgba(0, 0, 0, 0.2) !important;
 }
 
