@@ -26,7 +26,7 @@
 			</div>
 		</div>
 	</nav>
-	<section class="container">
+	<section class="container" th:if="${joke}">
 		<h3 th:text="${joke.title}" class="title"></h3>
 		<div>
 			<p th:text="${joke.body}" style="word-break: normal;" />

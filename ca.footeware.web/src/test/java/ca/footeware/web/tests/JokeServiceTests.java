@@ -107,12 +107,15 @@ public class JokeServiceTests {
 	/**
 	 * Test method for
 	 * {@link ca.footeware.web.services.JokeService#deleteJoke(java.lang.String)}.
-	 * 
-	 * @throws JokeException if shit goes south
 	 */
 	@Test
-	public void testDeleteJokeNotExists() throws JokeException {
-		jokeService.deleteJoke("bob");
+	public void testDeleteJokeNotExists() {
+		try {
+			jokeService.deleteJoke("bob");
+		} catch (JokeException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	/**

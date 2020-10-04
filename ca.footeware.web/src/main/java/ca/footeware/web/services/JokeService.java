@@ -81,21 +81,6 @@ public class JokeService {
 	}
 
 	/**
-	 * Get a joke by its title.
-	 * 
-	 * @param title {@link String}
-	 * @return {@link String} the joke body, may be null
-	 * @throws JokeException if shit goes south
-	 */
-	public Set<Joke> getJokesByTitle(String title) throws JokeException {
-		if (title == null || title.isBlank() || title.isEmpty()) {
-			throw new JokeException(TITLE_ERROR);
-		}
-		Set<Joke> jokes = jokeRepository.getByTitle(title);
-		return jokes;
-	}
-
-	/**
 	 * Get the joke titles.
 	 * 
 	 * @return {@link Set} of {@link String}
@@ -122,9 +107,8 @@ public class JokeService {
 	 */
 	@Bean
 	CommandLineRunner init() {
-		return args -> {
-			jokeRepository.save(new Joke(seqService.getNextSequence("customSequences"), JOKE_TITLE, JOKE_BODY));
-		};
+		return args -> jokeRepository
+				.save(new Joke(seqService.getNextSequence("customSequences"), JOKE_TITLE, JOKE_BODY));
 	}
 
 }
