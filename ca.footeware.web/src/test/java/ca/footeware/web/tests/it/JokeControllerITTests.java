@@ -66,7 +66,8 @@ public class JokeControllerITTests {
 	 * 
 	 * @throws JokeException if shit goes south
 	 */
-	@Ignore
+	@Test
+	@Ignore("broken @line 93")
 	public void testDeleteJoke() throws JokeException {
 		// create a joke to delete
 		MultiValueMap<String, String> joke = new LinkedMultiValueMap<>();
@@ -156,7 +157,8 @@ public class JokeControllerITTests {
 	 * {@link ca.footeware.web.controllers.JokeController#postJoke(java.lang.String, java.lang.String, org.springframework.ui.Model)}.
 	 * @throws JokeException if shit goes south
 	 */
-	@Ignore
+	@Test
+	@Ignore("broken @line 180")
 	public void testPostJoke() throws JokeException {
 		MultiValueMap<String, String> joke = new LinkedMultiValueMap<>();
 		String id = seqService.getNextSequence("customSequences");
@@ -193,7 +195,8 @@ public class JokeControllerITTests {
 	 * 
 	 * @throws JokeException if shit goes south
 	 */
-	@Ignore
+	@Test
+	@Ignore("broken @line 218")
 	public void testEditJoke() throws JokeException {
 		// create joke to edit
 		MultiValueMap<String, String> joke = new LinkedMultiValueMap<>();

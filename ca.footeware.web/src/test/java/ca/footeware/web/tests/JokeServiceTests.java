@@ -113,8 +113,7 @@ public class JokeServiceTests {
 		try {
 			jokeService.deleteJoke("bob");
 		} catch (JokeException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Assert.fail("No exception is expected in this call.");
 		}
 	}
 
