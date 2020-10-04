@@ -26,11 +26,27 @@
 		</div>
 	</nav>
 	<section class="container">
-		<div>
-			<ol th:if="${jokes}">
-				<li th:each="joke : ${jokes}"><a
-					th:href="@{/jokes/{id}(id=${joke.id})}" th:text="${joke.title}"></a></li>
-			</ol>
+		<div class="panel-group" id="accordion">
+			<div th:each="joke,iterStat : ${jokes}" class="panel panel-default"
+				style="margin: 10px;">
+				<div class="panel-heading">
+					<h4 class="panel-title">
+						<a data-toggle="collapse" data-parent="#accordion"
+							th:href="'#collapse-'+${iterStat.count}" th:text="${joke.title}"></a>
+					</h4>
+				</div>
+				<div th:id="'collapse-'+${iterStat.count}"
+					class="panel-collapse collapse">
+					<div class="panel-body" style="color: black;"
+						th:text="${joke.body}"></div>
+					<p class="right">
+						<a th:href="@{/jokes/edit/{id}(id=${joke.id})}" class="btn btn-primary"
+							role="button">Edit</a>
+						<a th:href="@{/jokes/delete/{id}(id=${joke.id})}" class="btn btn-danger"
+							role="button">Delete</a>
+					</p>
+				</div>
+			</div>
 			<p class="right">
 				<a href="/jokes/add" class="btn btn-primary" role="button">Add</a>
 			</p>
