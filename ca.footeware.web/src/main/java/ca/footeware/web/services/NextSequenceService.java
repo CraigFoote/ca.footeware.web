@@ -9,6 +9,8 @@ import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 
+import ca.footeware.web.exceptions.JokeException;
+
 /**
  * @author Footeware.ca
  *
@@ -21,10 +23,14 @@ public class NextSequenceService {
 	/**
 	 * @param seqName {@link String}
 	 * @return String
+	 * @throws JokeException when shit goes south
 	 */
-	public String getNextSequence(String seqName) {
+	public String getNextSequence(String seqName) throws JokeException {
 		CustomSequences counter = mongo.findAndModify(query(where("_id").is(seqName)), new Update().inc("seq", 1),
 				options().returnNew(true).upsert(true), CustomSequences.class);
-		return String.valueOf(counter.getSeq());
+		if (counter != null) {
+			return String.valueOf(counter.getSeq());
+		}
+		throw new JokeException("Counter is null");
 	}
 }
