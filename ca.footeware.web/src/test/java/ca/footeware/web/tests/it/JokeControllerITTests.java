@@ -9,7 +9,6 @@ import java.util.Map;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -148,13 +147,13 @@ public class JokeControllerITTests {
 		String page = template.getForObject("/jokes", String.class);
 		Assert.assertTrue("Incorrect page returned.",
 				page.contains("<li class=\"active\"><a href=\"/jokes\">Jokes</a></li>"));
-		Assert.assertTrue("Incorrect page returned.",
-				page.contains("href=\"#collapse-1\">Nine o&#39;clock</a>"));
+		Assert.assertTrue("Incorrect page returned.", page.contains("href=\"#collapse-1\">Nine o&#39;clock</a>"));
 	}
 
 	/**
 	 * Test method for
 	 * {@link ca.footeware.web.controllers.JokeController#postJoke(java.lang.String, java.lang.String, org.springframework.ui.Model)}.
+	 * 
 	 * @throws JokeException if shit goes south
 	 */
 	@Test
@@ -174,7 +173,7 @@ public class JokeControllerITTests {
 		HttpStatus status = response.getStatusCode();
 		Assert.assertEquals("Incorrect response status.", HttpStatus.OK, status);
 
-		String page = template.getForObject("/jokes/"+id, String.class);
+		String page = template.getForObject("/jokes/" + id, String.class);
 		Assert.assertTrue("Incorrect page returned.",
 				page.contains("<li class=\"active\"><a href=\"/jokes\">Jokes</a></li>"));
 		Assert.assertTrue("Incorrect page returned.", page.contains("<h3 class=\"title\">testTitle</h3>"));
