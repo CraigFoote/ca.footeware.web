@@ -48,6 +48,60 @@ public class JokeServiceTests {
 		jokeService.saveJoke(id, TEST_TITLE, TEST_BODY);
 		Joke joke = jokeService.getById(id);
 		Assert.assertEquals("Incorrect joke body.", TEST_BODY, joke.getBody());
+
+		// null id
+		JokeException exception = Assertions.assertThrows(JokeException.class, () -> {
+			jokeService.saveJoke(null, TEST_TITLE, TEST_BODY);
+		});
+		Assert.assertEquals("Incorrect exception.", "ID cannot be empty.", exception.getMessage());
+
+		// empty string id
+		exception = Assertions.assertThrows(JokeException.class, () -> {
+			jokeService.saveJoke("", TEST_TITLE, TEST_BODY);
+		});
+		Assert.assertEquals("Incorrect exception.", "ID cannot be empty.", exception.getMessage());
+
+		// whitespace id
+		exception = Assertions.assertThrows(JokeException.class, () -> {
+			jokeService.saveJoke(" ", TEST_TITLE, TEST_BODY);
+		});
+		Assert.assertEquals("Incorrect exception.", "ID cannot be empty.", exception.getMessage());
+
+		// null title
+		exception = Assertions.assertThrows(JokeException.class, () -> {
+			jokeService.saveJoke(id, null, TEST_BODY);
+		});
+		Assert.assertEquals("Incorrect exception.", "Title cannot be empty.", exception.getMessage());
+
+		// empty string title
+		exception = Assertions.assertThrows(JokeException.class, () -> {
+			jokeService.saveJoke(id, "", TEST_BODY);
+		});
+		Assert.assertEquals("Incorrect exception.", "Title cannot be empty.", exception.getMessage());
+
+		// whitespace title
+		exception = Assertions.assertThrows(JokeException.class, () -> {
+			jokeService.saveJoke(id, " ", TEST_BODY);
+		});
+		Assert.assertEquals("Incorrect exception.", "Title cannot be empty.", exception.getMessage());
+
+		// null body
+		exception = Assertions.assertThrows(JokeException.class, () -> {
+			jokeService.saveJoke(id, TEST_TITLE, null);
+		});
+		Assert.assertEquals("Incorrect exception.", "Body cannot be empty.", exception.getMessage());
+
+		// empty string title
+		exception = Assertions.assertThrows(JokeException.class, () -> {
+			jokeService.saveJoke(id, TEST_TITLE, "");
+		});
+		Assert.assertEquals("Incorrect exception.", "Body cannot be empty.", exception.getMessage());
+
+		// whitespace title
+		exception = Assertions.assertThrows(JokeException.class, () -> {
+			jokeService.saveJoke(id, TEST_TITLE, " ");
+		});
+		Assert.assertEquals("Incorrect exception.", "Body cannot be empty.", exception.getMessage());
 	}
 
 	/**
