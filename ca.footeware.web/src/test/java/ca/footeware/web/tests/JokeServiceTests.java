@@ -111,7 +111,8 @@ public class JokeServiceTests {
 	@Test
 	public void testCreateJokeWithBlankTitle() {
 		JokeException exception = Assertions.assertThrows(JokeException.class, () -> {
-			jokeService.saveJoke(seqService.getNextSequence("customSequences"), " ", TEST_BODY);
+			String id = seqService.getNextSequence("customSequences");
+			jokeService.saveJoke(id, " ", TEST_BODY);
 		});
 		String message = exception.getMessage();
 		Assert.assertEquals("Incorrect exception message.", JokeService.TITLE_ERROR, message);
