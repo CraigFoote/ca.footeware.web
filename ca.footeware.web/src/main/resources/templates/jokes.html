@@ -30,14 +30,14 @@
 		<div class="panel-group" id="accordion">
 			<div th:each="joke,iterStat : ${jokes}" class="panel panel-default"
 				style="margin: 10px;">
-				<div class="panel-heading">
+				<div class="panel-heading" style="background-color: #d8dee9">
 					<h4 class="panel-title">
-						<a data-toggle="collapse" data-parent="#accordion"
+						<a data-toggle="collapse" data-parent="#accordion" style="color: #4c566a"
 							th:href="'#collapse-'+${iterStat.count}" th:text="${joke.title}"></a>
 					</h4>
 				</div>
 				<div th:id="'collapse-'+${iterStat.count}"
-					class="panel-collapse collapse">
+					class="panel-collapse collapse" style="background-color: cornsilk">
 					<div class="panel-body" style="color: black;"
 						th:text="${joke.body}"></div>
 					<p class="right">
