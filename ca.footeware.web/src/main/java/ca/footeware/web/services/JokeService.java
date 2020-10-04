@@ -3,18 +3,17 @@
  */
 package ca.footeware.web.services;
 
-import java.io.File;
+import java.util.List;
 import java.util.Set;
-import java.util.concurrent.ConcurrentMap;
 
-import org.mapdb.DB;
-import org.mapdb.DBMaker;
-import org.mapdb.Serializer;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
 import ca.footeware.web.exceptions.JokeException;
+import ca.footeware.web.models.Joke;
+import ca.footeware.web.repositories.JokeRepository;
 
 /**
  * Provides access to jokes.
@@ -23,6 +22,12 @@ import ca.footeware.web.exceptions.JokeException;
  */
 @Service
 public class JokeService {
+
+	@Autowired
+	private JokeRepository jokeRepository;
+
+	@Autowired
+	private NextSequenceService seqService;
 
 	/**
 	 * 
@@ -40,55 +45,39 @@ public class JokeService {
 	 * 
 	 */
 	public static final String MAP_ERROR = "Unknown error, map not found.";
-	private DB db;
-	private ConcurrentMap<String, String> map;
 
 	/**
-	 * Create a new joke using provided title and body.
+	 * Create a new joke using provided id, title and body.
 	 * 
+	 * @param id    {@link String}
 	 * @param title {@link String}
 	 * @param body  {@link String}
 	 * @throws JokeException if shit goes south
 	 */
-	public void createJoke(String title, String body) throws JokeException {
+	public void saveJoke(String id, String title, String body) throws JokeException {
+		if (id == null || id.isBlank() || id.isEmpty()) {
+			throw new JokeException("ID cannot be empty.");
+		}
 		if (title == null || title.isBlank() || title.isEmpty()) {
 			throw new JokeException(TITLE_ERROR);
 		}
 		if (body == null || body.isBlank() || body.isEmpty()) {
 			throw new JokeException("Body cannot be empty.");
 		}
-		if (map == null) {
-			throw new JokeException(MAP_ERROR);
-		}
-		map.put(title, body);
-		if (db == null) {
-			throw new JokeException("Unknown error, database not found.");
-		}
-		db.commit();
+		jokeRepository.save(new Joke(id, title, body));
 	}
 
 	/**
 	 * Find a joke with provided title and delete it.
 	 * 
-	 * @param title {@link String}
+	 * @param id {@link String}
 	 * @throws JokeException if shit goes south
 	 */
-	public void deleteJoke(String title) throws JokeException {
-		if (title == null || title.isBlank() || title.isEmpty()) {
-			throw new JokeException(TITLE_ERROR);
+	public void deleteJoke(String id) throws JokeException {
+		if (id == null || id.isBlank() || id.isEmpty()) {
+			throw new JokeException("ID cannot be empty.");
 		}
-		if (map == null) {
-			throw new JokeException(MAP_ERROR);
-		}
-		String existing = map.get(title);
-		if (existing == null) {
-			throw new JokeException("Cannot delete. No joke exists with title: " + title);
-		}
-		map.remove(title);
-		if (db == null) {
-			throw new JokeException("Unknown error, database not found.");
-		}
-		db.commit();
+		jokeRepository.deleteById(id);
 	}
 
 	/**
@@ -98,14 +87,12 @@ public class JokeService {
 	 * @return {@link String} the joke body, may be null
 	 * @throws JokeException if shit goes south
 	 */
-	public String getJokeByTitle(String title) throws JokeException {
+	public Set<Joke> getJokesByTitle(String title) throws JokeException {
 		if (title == null || title.isBlank() || title.isEmpty()) {
 			throw new JokeException(TITLE_ERROR);
 		}
-		if (map == null) {
-			throw new JokeException(MAP_ERROR);
-		}
-		return map.get(title);
+		Set<Joke> jokes = jokeRepository.getByTitle(title);
+		return jokes;
 	}
 
 	/**
@@ -114,11 +101,18 @@ public class JokeService {
 	 * @return {@link Set} of {@link String}
 	 * @throws JokeException if shit goes south
 	 */
-	public Set<String> getTitles() throws JokeException {
-		if (map == null) {
-			throw new JokeException(MAP_ERROR);
-		}
-		return map.keySet();
+	public List<Joke> getJokes() throws JokeException {
+		return jokeRepository.findAll();
+	}
+
+	/**
+	 * Get a joke matching provided ID.
+	 * 
+	 * @param id {@link String}
+	 * @return {@link Joke}
+	 */
+	public Joke getById(String id) {
+		return jokeRepository.getById(id);
 	}
 
 	/**
@@ -129,11 +123,7 @@ public class JokeService {
 	@Bean
 	CommandLineRunner init() {
 		return args -> {
-			db = DBMaker.fileDB(new File("file.db")).closeOnJvmShutdown().fileMmapEnable().concurrencyDisable()
-					.fileLockDisable().make();
-			map = db.hashMap("map", Serializer.STRING, Serializer.STRING).createOrOpen();
-			map.put(JOKE_TITLE, JOKE_BODY);
-			db.commit();
+			jokeRepository.save(new Joke(seqService.getNextSequence("customSequences"), JOKE_TITLE, JOKE_BODY));
 		};
 	}
 

@@ -27,22 +27,22 @@
 	</nav>
 	<section class="container">
 		<div>
-			<div class="left center" th:unless="${name}">
+			<div class="left center">
 				<p th:if="${error}" th:text="${error}" />
-				<form action="#" th:action="@{/jokes/edit}" th:method="POST">
+				<form action="#" th:action="@{/jokes/edit}" th:method="POST"
+					th:if="${joke}">
 					<p>
-						<input id="title" class="form-control"
+						<input id="id" name="id" th:value="${joke.id}" type="hidden" /> <input
+							id="title" class="form-control"
 							style="background-color: cornsilk" type="text" name="title"
-							required="required" autofocus="autofocus" th:value="${title}"
-							placeholder="Title" /> <input id="originalTitle"
-							class="form-control" type="hidden" name="originalTitle"
-							th:value="${title}" />
+							required="required" autofocus="autofocus"
+							th:value="${joke.title}" placeholder="Title" />
 					</p>
 					<p>
 						<textarea id="body" class="form-control"
 							style="background-color: cornsilk" name="body" rows="15"
 							maxlength="1000" spellcheck="true" required="required"
-							th:text="${body}" placeholder="Body"></textarea>
+							wrap="hard" th:text="${joke.body}" placeholder="Body"></textarea>
 					</p>
 					<p class="right">
 						<a href="/jokes" class="btn btn-warning" role="button">Cancel</a>

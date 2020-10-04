@@ -3,7 +3,7 @@
  */
 package ca.footeware.web.tests;
 
-import java.util.Set;
+import java.util.List;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -14,7 +14,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import ca.footeware.web.exceptions.JokeException;
+import ca.footeware.web.models.Joke;
 import ca.footeware.web.services.JokeService;
+import ca.footeware.web.services.NextSequenceService;
 
 /**
  * Tests {@link JokeService}.
@@ -29,29 +31,33 @@ public class JokeServiceTests {
 	private static final String TEST_TITLE = "test title?";
 
 	@Autowired
-	private JokeService service;
+	private JokeService jokeService;
+
+	@Autowired
+	private NextSequenceService seqService;
 
 	/**
 	 * Test method for
-	 * {@link ca.footeware.web.services.JokeService#createJoke(java.lang.String, java.lang.String)}.
+	 * {@link ca.footeware.web.services.JokeService#saveJoke(String, String, String)}.
 	 * 
 	 * @throws JokeException if shit goes south
 	 */
 	@Test
-	public void testCreateJoke() throws JokeException {
-		service.createJoke(TEST_TITLE, TEST_BODY);
-		String body = service.getJokeByTitle(TEST_TITLE);
-		Assert.assertEquals("Incorrect joke body.", TEST_BODY, body);
+	public void testSaveJoke() throws JokeException {
+		String id = seqService.getNextSequence("customSequences");
+		jokeService.saveJoke(id, TEST_TITLE, TEST_BODY);
+		Joke joke = jokeService.getById(id);
+		Assert.assertEquals("Incorrect joke body.", TEST_BODY, joke.getBody());
 	}
 
 	/**
 	 * Test method for
-	 * {@link ca.footeware.web.services.JokeService#createJoke(java.lang.String, java.lang.String)}.
+	 * {@link ca.footeware.web.services.JokeService#saveJoke(java.lang.String, java.lang.String, java.lang.String)}.
 	 */
 	@Test
 	public void testCreateJokeWithBlankTitle() {
 		JokeException exception = Assertions.assertThrows(JokeException.class, () -> {
-			service.createJoke(" ", TEST_BODY);
+			jokeService.saveJoke(seqService.getNextSequence("customSequences"), " ", TEST_BODY);
 		});
 		String message = exception.getMessage();
 		Assert.assertEquals("Incorrect exception message.", JokeService.TITLE_ERROR, message);
@@ -59,12 +65,12 @@ public class JokeServiceTests {
 
 	/**
 	 * Test method for
-	 * {@link ca.footeware.web.services.JokeService#createJoke(java.lang.String, java.lang.String)}.
+	 * {@link ca.footeware.web.services.JokeService#saveJoke(java.lang.String, java.lang.String, java.lang.String)}.
 	 */
 	@Test
 	public void testCreateJokeWithEmptyTitle() {
 		JokeException exception = Assertions.assertThrows(JokeException.class, () -> {
-			service.createJoke("", TEST_BODY);
+			jokeService.saveJoke(seqService.getNextSequence("customSequences"), "", TEST_BODY);
 		});
 		String message = exception.getMessage();
 		Assert.assertEquals("Incorrect exception message.", JokeService.TITLE_ERROR, message);
@@ -72,12 +78,12 @@ public class JokeServiceTests {
 
 	/**
 	 * Test method for
-	 * {@link ca.footeware.web.services.JokeService#createJoke(java.lang.String, java.lang.String)}.
+	 * {@link ca.footeware.web.services.JokeService#saveJoke(String, String, String)}.
 	 */
 	@Test
-	public void testCreateJokeWithNUllTitle() {
+	public void testCreateJokeWithNullTitle() {
 		JokeException exception = Assertions.assertThrows(JokeException.class, () -> {
-			service.createJoke(null, TEST_BODY);
+			jokeService.saveJoke(seqService.getNextSequence("customSequences"), null, TEST_BODY);
 		});
 		String message = exception.getMessage();
 		Assert.assertEquals("Incorrect exception message.", JokeService.TITLE_ERROR, message);
@@ -91,59 +97,46 @@ public class JokeServiceTests {
 	 */
 	@Test
 	public void testDeleteJoke() throws JokeException {
-		service.createJoke(TEST_TITLE, TEST_BODY);
-		service.deleteJoke(TEST_TITLE);
-		String body = service.getJokeByTitle(TEST_TITLE);
-		Assert.assertNull("Joke body should have been null.", body);
+		String id = seqService.getNextSequence("customSequences");
+		jokeService.saveJoke(id, TEST_TITLE, TEST_BODY);
+		jokeService.deleteJoke(id);
+		Joke deleted = jokeService.getById(id);
+		Assert.assertNull("Joke body should have been null.", deleted);
 	}
 
 	/**
 	 * Test method for
 	 * {@link ca.footeware.web.services.JokeService#deleteJoke(java.lang.String)}.
+	 * 
+	 * @throws JokeException if shit goes south
 	 */
 	@Test
-	public void testDeleteJokeNotExists() {
-		Assertions.assertThrows(JokeException.class, () -> {
-			service.deleteJoke("bob");
-		});
+	public void testDeleteJokeNotExists() throws JokeException {
+		jokeService.deleteJoke("bob");
 	}
 
 	/**
 	 * Test method for
-	 * {@link ca.footeware.web.services.JokeService#getJokeByTitle(java.lang.String)}.
+	 * {@link ca.footeware.web.services.JokeService#getById(java.lang.String)}.
 	 * 
 	 * @throws JokeException if shit goes south
 	 */
 	@Test
-	public void testGetJokeByTitle() throws JokeException {
-		String body = service.getJokeByTitle(JokeService.JOKE_TITLE);
-		Assert.assertEquals("Incorrect joke body.", JokeService.JOKE_BODY, body);
-
-		body = service.getJokeByTitle("bad title");
-		Assert.assertEquals("Joke body should have been null.", null, body);
-
-		Assertions.assertThrows(JokeException.class, () -> {
-			service.getJokeByTitle(null);
-		});
-
-		Assertions.assertThrows(JokeException.class, () -> {
-			service.getJokeByTitle("");
-		});
-
-		Assertions.assertThrows(JokeException.class, () -> {
-			service.getJokeByTitle(" ");
-		});
+	public void testGetJokeById() throws JokeException {
+		String id = seqService.getNextSequence("customSequences");
+		Joke joke = jokeService.getById(id);
+		Assert.assertNull("Joke should have been deleted.", joke);
 	}
 
 	/**
-	 * Test method for {@link ca.footeware.web.services.JokeService#getTitles()}.
+	 * Test method for {@link ca.footeware.web.services.JokeService#getJokes()}.
 	 * 
 	 * @throws JokeException if shit goes south
 	 */
 	@Test
-	public void testGetTitles() throws JokeException {
-		Set<String> titles = service.getTitles();
-		Assert.assertTrue(titles.size() > 0);
+	public void testGetJokes() throws JokeException {
+		List<Joke> jokes = jokeService.getJokes();
+		Assert.assertTrue(jokes.size() > 0);
 	}
 
 }

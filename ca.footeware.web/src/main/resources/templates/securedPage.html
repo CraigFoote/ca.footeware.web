@@ -20,23 +20,21 @@
 					<li><a href="/gallery">Gallery</a></li>
 					<li><a href="/gear">Gear</a></li>
 					<li><a href="/webcam">Webcam</a></li>
-					<li class="active"><a href="/jokes">Jokes</a></li>
+					<li><a href="/jokes">Jokes</a></li>
+					<li class="active"><a href="/securedPage">Login</a></li>
 				</ul>
 			</div>
 		</div>
 	</nav>
-	<section class="container">
-		<h3 th:text="${joke.title}" class="title"></h3>
-		<div>
-			<p th:text="${joke.body}" style="word-break: normal;" />
-			<p class="right" th:if="${joke.title}">
-				<a th:href="@{/jokes/edit/{id}(id=${joke.id})}"
-					class="btn btn-primary" role="button">Edit</a> <a
-					th:href="@{/jokes/delete/{id}(id=${joke.id})}"
-					class="btn btn-danger" role="button">Delete</a>
-			</p>
-		</div>
-	</section>
-	<footer th:replace="fragments/footer :: footer"></footer>
+	<h1>Secured Page</h1>
+	<div>
+		User Name: <span th:text="${userName}"></span>
+	</div>
+	<div>
+		Client Name: <span th:text="${clientName}"></span>
+	</div>
+	<div>
+		User Attributes: <span th:text="${userAttributes}"></span>
+	</div>
 </body>
 </html>

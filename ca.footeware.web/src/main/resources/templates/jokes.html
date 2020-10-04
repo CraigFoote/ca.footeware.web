@@ -27,9 +27,9 @@
 	</nav>
 	<section class="container">
 		<div>
-			<ol th:if="${titles}">
-				<li th:each="title : ${titles}"><a
-					th:href="@{/jokes/{title}(title=${title})}" th:text="${title}"></a></li>
+			<ol th:if="${jokes}">
+				<li th:each="joke : ${jokes}"><a
+					th:href="@{/jokes/{id}(id=${joke.id})}" th:text="${joke.title}"></a></li>
 			</ol>
 			<p class="right">
 				<a href="/jokes/add" class="btn btn-primary" role="button">Add</a>

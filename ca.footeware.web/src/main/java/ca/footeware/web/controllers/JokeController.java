@@ -6,7 +6,7 @@
  */
 package ca.footeware.web.controllers;
 
-import java.util.Set;
+import java.util.List;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,7 +16,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import ca.footeware.web.exceptions.JokeException;
+import ca.footeware.web.models.Joke;
 import ca.footeware.web.services.JokeService;
+import ca.footeware.web.services.NextSequenceService;
 
 /**
  * Exposes joke-related endpoints.
@@ -26,22 +28,27 @@ import ca.footeware.web.services.JokeService;
 @Controller
 public class JokeController {
 
+	private static final String JOKE = "joke";
 	private static final String JOKES = "jokes";
-	private static final String TITLES = "titles";
-	private static final String TITLE = "title";
-	private JokeService service;
+	private JokeService jokeService;
+	private NextSequenceService seqService;
 
 	/**
 	 * Constructor.
 	 * 
-	 * @param service {@link JokeService} injected
+	 * @param jokeService {@link JokeService} injected
+	 * @param seqService  {@link NextSequenceService}
 	 * @throws JokeException if shit goes south
 	 */
-	public JokeController(JokeService service) throws JokeException {
-		if (service == null) {
+	public JokeController(JokeService jokeService, NextSequenceService seqService) throws JokeException {
+		if (jokeService == null) {
 			throw new JokeException("Joke service not found");
 		}
-		this.service = service;
+		if (seqService == null) {
+			throw new JokeException("Sequence service not found");
+		}
+		this.jokeService = jokeService;
+		this.seqService = seqService;
 	}
 
 	/**
@@ -54,25 +61,24 @@ public class JokeController {
 	 */
 	@GetMapping("/jokes/delete/{title}")
 	public String deleteJoke(@PathVariable String title, Model model) throws JokeException {
-		service.deleteJoke(title);
-		Set<String> titles = service.getTitles();
-		model.addAttribute(TITLES, titles);
+		jokeService.deleteJoke(title);
+		List<Joke> jokes = jokeService.getJokes();
+		model.addAttribute(JOKES, jokes);
 		return JOKES;
 	}
 
 	/**
-	 * Get a joke by it's title and forward it to the 'edit' page.
+	 * Get a joke by its id and forward it to the 'edit' page.
 	 * 
-	 * @param title {@link String}
+	 * @param id    {@link String}
 	 * @param model {@link Model}
 	 * @return {@link String} UI view
 	 * @throws JokeException if shit goes south
 	 */
-	@GetMapping("/jokes/edit/{title}")
-	public String editJoke(@PathVariable String title, Model model) throws JokeException {
-		String existing = service.getJokeByTitle(title);
-		model.addAttribute(TITLE, title);
-		model.addAttribute("body", existing);
+	@GetMapping("/jokes/edit/{id}")
+	public String editJoke(@PathVariable String id, Model model) throws JokeException {
+		Joke joke = jokeService.getById(id);
+		model.addAttribute(JOKE, joke);
 		return "editjoke";
 	}
 
@@ -88,21 +94,16 @@ public class JokeController {
 	}
 
 	/**
-	 * Get a joke by it's title.
+	 * Get a joke by its ID.
 	 * 
-	 * @param title {@link String}
+	 * @param id    {@link String}
 	 * @param model {@link Model}
 	 * @return {@link String} UI view
 	 * @throws JokeException if shit goes south
 	 */
-	@GetMapping("/jokes/{title}")
-	public String getJoke(@PathVariable String title, Model model) throws JokeException {
-		String body = service.getJokeByTitle(title);
-		if (body == null) {
-			return getTitles(model);
-		}
-		model.addAttribute(TITLE, title);
-		model.addAttribute("body", body);
+	@GetMapping("/jokes/{id}")
+	public String getJoke(@PathVariable String id, Model model) throws JokeException {
+		model.addAttribute(JOKE, jokeService.getById(id));
 		return "joke";
 	}
 
@@ -114,9 +115,8 @@ public class JokeController {
 	 * @throws JokeException if shit goes south
 	 */
 	@GetMapping("/jokes")
-	public String getTitles(Model model) throws JokeException {
-		Set<String> titles = service.getTitles();
-		model.addAttribute(TITLES, titles);
+	public String getJokes(Model model) throws JokeException {
+		model.addAttribute(JOKES, jokeService.getJokes());
 		return JOKES;
 	}
 
@@ -131,36 +131,26 @@ public class JokeController {
 	 */
 	@PostMapping("/jokes/add")
 	public String postJoke(@RequestParam String title, @RequestParam String body, Model model) throws JokeException {
-		String existing = service.getJokeByTitle(title);
-		if (existing != null) {
-			model.addAttribute("error", "A joke by that title exists. Please choose another.");
-			model.addAttribute(TITLE, title);
-			model.addAttribute("body", body);
-			return "addjoke";
-		}
-		service.createJoke(title, body);
-		Set<String> titles = service.getTitles();
-		model.addAttribute(TITLES, titles);
+		jokeService.saveJoke(seqService.getNextSequence("customSequences"), title, body);
+		model.addAttribute(JOKES, jokeService.getJokes());
 		return JOKES;
 	}
 
 	/**
 	 * Edit a joke.
 	 * 
-	 * @param title         {@link String}
-	 * @param originalTitle {@link String}
-	 * @param body          {@link String}
-	 * @param model         {@link Model}
+	 * @param id    {@link String}
+	 * @param title {@link String}
+	 * @param body  {@link String}
+	 * @param model {@link Model}
 	 * @return {@link String} UI view
 	 * @throws JokeException if shit goes south
 	 */
 	@PostMapping("/jokes/edit")
-	public String postEditedJoke(@RequestParam String title, @RequestParam String originalTitle, @RequestParam String body,
+	public String postEditedJoke(@RequestParam String id, @RequestParam String title, @RequestParam String body,
 			Model model) throws JokeException {
-		service.deleteJoke(originalTitle);
-		service.createJoke(title, body);
-		Set<String> titles = service.getTitles();
-		model.addAttribute(TITLES, titles);
+		jokeService.saveJoke(id, title, body);
+		model.addAttribute(JOKES, jokeService.getJokes());
 		return JOKES;
 	}
 }
