@@ -195,7 +195,7 @@ public class JokeServiceTests {
 	@Test
 	public void testGetJokes() throws JokeException {
 		List<Joke> jokes = jokeService.getJokes();
-		Assert.assertTrue(jokes != null);
+		Assert.assertNotNull(jokes);
 	}
 
 }
