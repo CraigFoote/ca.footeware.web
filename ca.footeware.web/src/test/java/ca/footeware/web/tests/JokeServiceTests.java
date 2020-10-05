@@ -8,6 +8,8 @@ import java.util.List;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -107,40 +109,15 @@ public class JokeServiceTests {
 	/**
 	 * Test method for
 	 * {@link ca.footeware.web.services.JokeService#saveJoke(java.lang.String, java.lang.String, java.lang.String)}.
+	 * 
+	 * @param arg {@link String}
 	 */
-	@Test
-	public void testCreateJokeWithBlankTitle() {
+	@ParameterizedTest
+	@ValueSource(strings = { " ", "" })
+	public void TestCreateJokeWithBadTitle(String arg) {
 		String id = seqService.getNextSequence("customSequences");
 		JokeException exception = Assertions.assertThrows(JokeException.class, () -> {
-			jokeService.saveJoke(id, " ", TEST_BODY);
-		});
-		String message = exception.getMessage();
-		Assert.assertEquals("Incorrect exception message.", JokeService.TITLE_ERROR, message);
-	}
-
-	/**
-	 * Test method for
-	 * {@link ca.footeware.web.services.JokeService#saveJoke(java.lang.String, java.lang.String, java.lang.String)}.
-	 */
-	@Test
-	public void testCreateJokeWithEmptyTitle() {
-		String id = seqService.getNextSequence("customSequences");
-		JokeException exception = Assertions.assertThrows(JokeException.class, () -> {
-			jokeService.saveJoke(id, "", TEST_BODY);
-		});
-		String message = exception.getMessage();
-		Assert.assertEquals("Incorrect exception message.", JokeService.TITLE_ERROR, message);
-	}
-
-	/**
-	 * Test method for
-	 * {@link ca.footeware.web.services.JokeService#saveJoke(String, String, String)}.
-	 */
-	@Test
-	public void testCreateJokeWithNullTitle() {
-		String id = seqService.getNextSequence("customSequences");
-		JokeException exception = Assertions.assertThrows(JokeException.class, () -> {
-			jokeService.saveJoke(id, null, TEST_BODY);
+			jokeService.saveJoke(id, arg, TEST_BODY);
 		});
 		String message = exception.getMessage();
 		Assert.assertEquals("Incorrect exception message.", JokeService.TITLE_ERROR, message);
