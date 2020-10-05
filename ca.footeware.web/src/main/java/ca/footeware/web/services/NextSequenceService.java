@@ -23,14 +23,13 @@ public class NextSequenceService {
 	/**
 	 * @param seqName {@link String}
 	 * @return String
-	 * @throws JokeException when shit goes south
 	 */
-	public String getNextSequence(String seqName) throws JokeException {
+	public String getNextSequence(String seqName) {
 		CustomSequences counter = mongo.findAndModify(query(where("_id").is(seqName)), new Update().inc("seq", 1),
 				options().returnNew(true).upsert(true), CustomSequences.class);
 		if (counter != null) {
 			return String.valueOf(counter.getSeq());
 		}
-		throw new JokeException("Counter is null");
+		throw new RuntimeException("Counter is null");
 	}
 }

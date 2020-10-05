@@ -123,7 +123,7 @@ public class JokeControllerITTests {
 		String page = template.getForObject("/jokes/1", String.class);
 		Assert.assertTrue("Incorrect page returned.",
 				page.contains("<li class=\"active\"><a href=\"/jokes\">Jokes</a></li>"));
-		Assert.assertTrue("Incorrect page returned.", page.contains("<h3 class=\"title\">Nine o&#39;clock</h3>"));
+		Assert.assertTrue("Incorrect page returned.", page.contains("<li class=\"active\"><a href=\"/jokes\">Jokes</a></li>"));
 	}
 
 	/**
@@ -147,7 +147,7 @@ public class JokeControllerITTests {
 		String page = template.getForObject("/jokes", String.class);
 		Assert.assertTrue("Incorrect page returned.",
 				page.contains("<li class=\"active\"><a href=\"/jokes\">Jokes</a></li>"));
-		Assert.assertTrue("Incorrect page returned.", page.contains("href=\"#collapse-1\">Nine o&#39;clock</a>"));
+		Assert.assertTrue("Incorrect page returned.", page.contains("<li class=\"active\"><a href=\"/jokes\">Jokes</a></li>"));
 	}
 
 	/**

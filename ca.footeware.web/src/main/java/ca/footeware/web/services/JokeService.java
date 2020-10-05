@@ -100,15 +100,4 @@ public class JokeService {
 		return jokeRepository.getById(id);
 	}
 
-	/**
-	 * Initializes the DB.
-	 * 
-	 * @author Footeware.ca
-	 */
-	@Bean
-	CommandLineRunner init() {
-		return args -> jokeRepository
-				.save(new Joke(seqService.getNextSequence("customSequences"), JOKE_TITLE, JOKE_BODY));
-	}
-
 }
