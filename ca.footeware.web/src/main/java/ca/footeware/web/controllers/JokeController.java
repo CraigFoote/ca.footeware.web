@@ -8,6 +8,8 @@ package ca.footeware.web.controllers;
 
 import java.util.List;
 
+import javax.management.ServiceNotFoundException;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -128,9 +130,10 @@ public class JokeController {
 	 * @param model {@link Model}
 	 * @return {@link String} UI view
 	 * @throws JokeException if shit goes south
+	 * @throws ServiceNotFoundException if shit goes back north
 	 */
 	@PostMapping("/jokes/add")
-	public String postJoke(@RequestParam String title, @RequestParam String body, Model model) throws JokeException {
+	public String postJoke(@RequestParam String title, @RequestParam String body, Model model) throws JokeException, ServiceNotFoundException {
 		jokeService.saveJoke(seqService.getNextSequence("customSequences"), title, body);
 		model.addAttribute(JOKES, jokeService.getJokes());
 		return JOKES;

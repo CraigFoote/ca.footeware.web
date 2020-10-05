@@ -6,6 +6,8 @@ package ca.footeware.web.tests.it;
 import java.util.List;
 import java.util.Map;
 
+import javax.management.ServiceNotFoundException;
+
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -70,7 +72,12 @@ public class JokeControllerITTests {
 	public void testDeleteJoke() throws JokeException {
 		// create a joke to delete
 		MultiValueMap<String, String> joke = new LinkedMultiValueMap<>();
-		String id = seqService.getNextSequence("customSequences");
+		String id = null;
+		try {
+			id = seqService.getNextSequence("customSequences");
+		} catch (ServiceNotFoundException e) {
+			Assert.fail("Call should have worked.");
+		}
 		joke.add("id", id);
 		joke.add("title", "testTitle?");
 		joke.add("body", "testBody");
@@ -155,10 +162,11 @@ public class JokeControllerITTests {
 	 * {@link ca.footeware.web.controllers.JokeController#postJoke(java.lang.String, java.lang.String, org.springframework.ui.Model)}.
 	 * 
 	 * @throws JokeException if shit goes south
+	 * @throws ServiceNotFoundException if shit goes north again
 	 */
 	@Test
 	@Ignore("broken @line 180")
-	public void testPostJoke() throws JokeException {
+	public void testPostJoke() throws JokeException, ServiceNotFoundException {
 		MultiValueMap<String, String> joke = new LinkedMultiValueMap<>();
 		String id = seqService.getNextSequence("customSequences");
 		joke.add("id", id);
@@ -193,10 +201,11 @@ public class JokeControllerITTests {
 	 * {@link ca.footeware.web.controllers.JokeController#editJoke(String, org.springframework.ui.Model)}.
 	 * 
 	 * @throws JokeException if shit goes south
+	 * @throws ServiceNotFoundException if shit goes north again
 	 */
 	@Test
 	@Ignore("broken @line 218")
-	public void testEditJoke() throws JokeException {
+	public void testEditJoke() throws JokeException, ServiceNotFoundException {
 		// create joke to edit
 		MultiValueMap<String, String> joke = new LinkedMultiValueMap<>();
 		String id = seqService.getNextSequence("customSequences");

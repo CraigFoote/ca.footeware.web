@@ -5,6 +5,8 @@ package ca.footeware.web.tests;
 
 import java.util.List;
 
+import javax.management.ServiceNotFoundException;
+
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
@@ -27,7 +29,7 @@ import ca.footeware.web.services.NextSequenceService;
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class JokeServiceTests {
+class JokeServiceTests {
 
 	private static final String TEST_BODY = "test body";
 	private static final String TEST_TITLE = "test title?";
@@ -46,7 +48,13 @@ public class JokeServiceTests {
 	 */
 	@Test
 	public void testSaveJoke() throws JokeException {
-		String id = seqService.getNextSequence("customSequences");
+		String id = null;
+		try {
+			id = seqService.getNextSequence("customSequences");
+		} catch (ServiceNotFoundException e) {
+			Assert.fail("The call should have worked.");
+		}
+		final String finalId = id;
 		jokeService.saveJoke(id, TEST_TITLE, TEST_BODY);
 		Joke joke = jokeService.getById(id);
 		Assert.assertEquals("Incorrect joke body.", TEST_BODY, joke.getBody());
@@ -71,37 +79,37 @@ public class JokeServiceTests {
 
 		// null title
 		exception = Assertions.assertThrows(JokeException.class, () -> {
-			jokeService.saveJoke(id, null, TEST_BODY);
+			jokeService.saveJoke(finalId, null, TEST_BODY);
 		});
 		Assert.assertEquals("Incorrect exception.", "Title cannot be empty.", exception.getMessage());
 
 		// empty string title
 		exception = Assertions.assertThrows(JokeException.class, () -> {
-			jokeService.saveJoke(id, "", TEST_BODY);
+			jokeService.saveJoke(finalId, "", TEST_BODY);
 		});
 		Assert.assertEquals("Incorrect exception.", "Title cannot be empty.", exception.getMessage());
 
 		// whitespace title
 		exception = Assertions.assertThrows(JokeException.class, () -> {
-			jokeService.saveJoke(id, " ", TEST_BODY);
+			jokeService.saveJoke(finalId, " ", TEST_BODY);
 		});
 		Assert.assertEquals("Incorrect exception.", "Title cannot be empty.", exception.getMessage());
 
 		// null body
 		exception = Assertions.assertThrows(JokeException.class, () -> {
-			jokeService.saveJoke(id, TEST_TITLE, null);
+			jokeService.saveJoke(finalId, TEST_TITLE, null);
 		});
 		Assert.assertEquals("Incorrect exception.", "Body cannot be empty.", exception.getMessage());
 
 		// empty string title
 		exception = Assertions.assertThrows(JokeException.class, () -> {
-			jokeService.saveJoke(id, TEST_TITLE, "");
+			jokeService.saveJoke(finalId, TEST_TITLE, "");
 		});
 		Assert.assertEquals("Incorrect exception.", "Body cannot be empty.", exception.getMessage());
 
 		// whitespace title
 		exception = Assertions.assertThrows(JokeException.class, () -> {
-			jokeService.saveJoke(id, TEST_TITLE, " ");
+			jokeService.saveJoke(finalId, TEST_TITLE, " ");
 		});
 		Assert.assertEquals("Incorrect exception.", "Body cannot be empty.", exception.getMessage());
 	}
@@ -114,10 +122,16 @@ public class JokeServiceTests {
 	 */
 	@ParameterizedTest
 	@ValueSource(strings = { " ", "" })
-	public void TestCreateJokeWithBadTitle(String arg) {
-		String id = seqService.getNextSequence("customSequences");
+	void TestCreateJokeWithBadTitle(String arg) {
+		String id = null;
+		try {
+			id = seqService.getNextSequence("customSequences");
+		} catch (ServiceNotFoundException e) {
+			Assert.fail("The call should have worked.");
+		}
+		final String finalId = id;
 		JokeException exception = Assertions.assertThrows(JokeException.class, () -> {
-			jokeService.saveJoke(id, arg, TEST_BODY);
+			jokeService.saveJoke(finalId, arg, TEST_BODY);
 		});
 		String message = exception.getMessage();
 		Assert.assertEquals("Incorrect exception message.", JokeService.TITLE_ERROR, message);
@@ -131,10 +145,16 @@ public class JokeServiceTests {
 	 */
 	@Test
 	public void testDeleteJoke() throws JokeException {
-		String id = seqService.getNextSequence("customSequences");
-		jokeService.saveJoke(id, TEST_TITLE, TEST_BODY);
-		jokeService.deleteJoke(id);
-		Joke deleted = jokeService.getById(id);
+		String id = null;
+		try {
+			id = seqService.getNextSequence("customSequences");
+		} catch (ServiceNotFoundException e) {
+			Assert.fail("The call should have worked.");
+		}
+		final String finalId = id;
+		jokeService.saveJoke(finalId, TEST_TITLE, TEST_BODY);
+		jokeService.deleteJoke(finalId);
+		Joke deleted = jokeService.getById(finalId);
 		Assert.assertNull("Joke body should have been null.", deleted);
 	}
 
@@ -159,8 +179,14 @@ public class JokeServiceTests {
 	 */
 	@Test
 	public void testGetJokeById() throws JokeException {
-		String id = seqService.getNextSequence("customSequences");
-		Joke joke = jokeService.getById(id);
+		String id = null;
+		try {
+			id = seqService.getNextSequence("customSequences");
+		} catch (ServiceNotFoundException e) {
+			Assert.fail("The call should have worked.");
+		}
+		final String finalId = id;
+		Joke joke = jokeService.getById(finalId);
 		Assert.assertNull("Joke should have been deleted.", joke);
 	}
 
