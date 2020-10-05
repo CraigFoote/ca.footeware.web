@@ -37,7 +37,7 @@ class NextSequenceServiceTest {
 		String nextSequence2 = nss.getNextSequence("customSequences");
 		int ns1 = Integer.parseInt(nextSequence1);
 		int ns2 = Integer.parseInt(nextSequence2);
-		Assert.assertTrue("Numbers were not sequential.", ns2 == ns1 + 1);
+		Assert.assertEquals("Numbers were not sequential.", ns2, ns1 + 1);
 	}
 
 }
