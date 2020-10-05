@@ -26,9 +26,6 @@ public class JokeService {
 	@Autowired
 	private JokeRepository jokeRepository;
 
-	@Autowired
-	private NextSequenceService seqService;
-
 	/**
 	 * 
 	 */
