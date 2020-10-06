@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head">
+</head>
+<body>
+	<nav class="navbar navbar-inverse navbar-fixed-top">
+		<div class="container">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed"
+					data-toggle="collapse" data-target=".navbar-collapse">
+					<span class="sr-only">Toggle navigation</span> <span
+						class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+				<a href="#" class="navbar-brand title">Footeware</a>
+			</div>
+			<div class="navbar-collapse collapse">
+				<ul class="nav navbar-nav">
+					<li><a href="/">Home</a></li>
+					<li><a href="/gallery">Gallery</a></li>
+					<li><a href="/gear">Gear</a></li>
+					<li><a href="/webcam">Webcam</a></li>
+					<li class="active"><a href="/jokes">Jokes</a></li>
+					<li><a href="/cookbook">Cookbook</a></li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+	<section class="container">
+		<div class="panel-group" id="accordion">
+			<div th:each="joke,iterStat : ${jokes}" class="panel panel-default"
+				style="margin: 10px;">
+				<div class="panel-heading" style="background-color: #d8dee9">
+					<h4 class="panel-title">
+						<a data-toggle="collapse" data-parent="#accordion" style="color: #4c566a"
+							th:href="'#collapse-'+${iterStat.count}" th:text="${joke.title}"></a>
+					</h4>
+				</div>
+				<div th:id="'collapse-'+${iterStat.count}"
+					class="panel-collapse collapse" style="background-color: cornsilk">
+					<div class="panel-body" style="color: black;"
+						th:text="${joke.body}"></div>
+					<p class="right">
+						<a th:href="@{/jokes/edit/{id}(id=${joke.id})}" class="btn btn-primary"
+							role="button">Edit</a>
+						<a th:href="@{/jokes/delete/{id}(id=${joke.id})}" class="btn btn-danger"
+							role="button">Delete</a>
+					</p>
+				</div>
+			</div>
+			<p class="right">
+				<a href="/jokes/add" class="btn btn-primary" role="button">Add</a>
+			</p>
+		</div>
+	</section>
+	<footer th:replace="fragments/footer :: footer"></footer>
+</body>
+</html>

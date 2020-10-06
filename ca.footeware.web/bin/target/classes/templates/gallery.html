@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head">
+</head>
+<body
+	th:style="'background-image:url(' + @{/images/limestone2.jpg} + ');'">
+	<img id="preloader" th:src="@{'/images/limestone2.jpg'}" width="1"
+		height="1" alt="preloader" />
+	<nav class="navbar navbar-inverse navbar-fixed-top">
+		<div class="container">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed"
+					data-toggle="collapse" data-target=".navbar-collapse">
+					<span class="sr-only">Toggle navigation</span> <span
+						class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+				<a href="#" class="navbar-brand title">Footeware</a>
+			</div>
+			<div class="navbar-collapse collapse">
+				<ul class="nav navbar-nav">
+					<li><a href="/">Home</a></li>
+					<li class="active"><a href="/gallery">Gallery</a></li>
+					<li><a href="/gear">Gear</a></li>
+					<li><a href="/webcam">Webcam</a></li>
+					<li><a href="/jokes">Jokes</a></li>
+					<li><a href="/cookbook">Cookbook</a></li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+	<section class="container">
+		<h3 th:if="${galleryName}" th:text="${galleryName}" class="title"></h3>
+		<h3 th:if="${galleries}" th:text="Galleries" class="title"></h3>
+
+		<div>
+			<!-- a list of galleries -->
+			<ul th:if="${galleries}">
+				<li th:each="gallery : ${galleries}"><a
+					th:href="@{'/gallery/' + ${gallery}}" th:text="${gallery}"></a></li>
+			</ul>
+
+			<!-- a list of thumbnails in one gallery -->
+			<ul class="center" th:if="${thumbs}">
+				<li class="inline" th:each="thumb : ${thumbs}"><a
+					data-fancybox="gallery"
+					th:href="@{'/gallery/' + ${galleryName} + '/' + ${thumb.key}}"><img
+						th:title="${thumb.value}"
+						th:src="@{'/gallery/thumbnails/' + ${galleryName} + '/' + ${thumb.key}}"
+						alt="thumbnail" th:alt="${thumb.key}" /></a></li>
+			</ul>
+		</div>
+	</section>
+	<footer th:replace="fragments/footer :: footer"></footer>
+</body>
+</html>
