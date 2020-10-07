@@ -1,5 +1,8 @@
 @charset "UTF-8";
 
+/**
+ * To accompany ca.footeware.web-5.x.x
+ */
 @font-face {
 	font-family: "fmc";
 	src: url(../fonts/fmc.ttf) format("truetype");
@@ -193,4 +196,3 @@ textarea#body {
 .active {
 	background-color: rgba(0, 0, 0, 0.2) !important;
 }
-
