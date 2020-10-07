@@ -1,5 +1,0 @@
-{"properties": [{
-  "name": "images.path",
-  "type": "java.lang.String",
-  "description": "Location of gallery images on disk."
-}]}

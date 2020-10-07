@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head">
+</head>
+<body>
+	<nav class="navbar navbar-inverse navbar-fixed-top">
+		<div class="container">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed"
+					data-toggle="collapse" data-target=".navbar-collapse">
+					<span class="sr-only">Toggle navigation</span> <span
+						class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+				<a href="#" class="navbar-brand title">Footeware</a>
+			</div>
+			<div class="navbar-collapse collapse">
+				<ul class="nav navbar-nav">
+					<li><a href="/">Home</a></li>
+					<li><a href="/gallery">Gallery</a></li>
+					<li><a href="/gear">Gear</a></li>
+					<li><a href="/webcam">Webcam</a></li>
+					<li><a href="/jokes">Jokes</a></li>
+					<li class="active"><a href="/cookbook">Cookbook</a></li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+	<section class="container">
+		<div style="text-align: center;">
+			<img src="/images/dsc_1595.jpg" alt="Annie Foote"
+				style="width: 80%; margin-left: auto; margin-right: auto; margin-bottom: 50px;" />
+			<iframe src="/images/AnnieFooteCookbook.pdf" class="center bordered"
+				width="100%" height="750" title="Annie Foote Cookbook (PDF)">
+			</iframe>
+			<p>
+				<a href="/AnnieFooteCookbook/AnnieFooteCookbook.html"
+					style="color: red;" target="_blank"><img
+					src="/images/chocolate-chip-cookies.jpg" style="margin: 20px;" alt="cookies" title="HTML version" /></a>
+			</p>
+		</div>
+	</section>
+	<footer th:replace="fragments/footer :: footer"></footer>
+</body>
+</html>

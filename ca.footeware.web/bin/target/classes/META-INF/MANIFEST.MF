@@ -1,8 +1,0 @@
-Manifest-Version: 1.0
-Build-Jdk-Spec: 14
-Implementation-Title: Footeware.ca
-Implementation-Version: 5.0.25-SNAPSHOT
-Implementation-Vendor: Pivotal Software, Inc.
-Main-Class: ca.footeware.web.Application
-Created-By: Maven Integration for Eclipse
-
