@@ -3,7 +3,7 @@
 <head th:replace="fragments/head :: head">
 </head>
 <body>
-	<nav class="navbar navbar-default navbar-fixed-top fw">
+	<nav class="navbar navbar-default fw">
 		<div class="container">
 			<div class="navbar-header">
 				<button type="button" class="navbar-toggle collapsed"
@@ -38,7 +38,7 @@
 					</h4>
 				</div>
 				<div th:id="'collapse-'+${iterStat.count}"
-					class="panel-collapse collapse" style="background-color: cornsilk">
+					class="panel-collapse collapse" style="background-color: #8fbcbb">
 					<div class="panel-body" style="color: black;"
 						th:text="${joke.body}"></div>
 					<p class="right">

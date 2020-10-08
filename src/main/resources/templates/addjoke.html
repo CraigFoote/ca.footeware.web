@@ -3,7 +3,7 @@
 <head th:replace="fragments/head :: head">
 </head>
 <body>
-	<nav class="navbar navbar-idefault navbar-fixed-top fw">
+	<nav class="navbar navbar-idefault fw">
 		<div class="container">
 			<div class="navbar-header">
 				<button type="button" class="navbar-toggle collapsed"
@@ -32,11 +32,11 @@
 				<p th:if="${error}" th:text="${error}" />
 				<form action="#" th:action="@{/jokes/add}" method="post">
 					<p>
-						<input id="title" class="form-control" style="background-color: cornsilk" type="text" name="title"
+						<input id="title" class="form-control" style="background-color: #8fbcbb" type="text" name="title"
 							required="required" autofocus="autofocus" th:value="${title}" placeholder="Title"/>
 					</p>
 					<p>
-						<textarea id="body" class="form-control" style="background-color: cornsilk" name="body" rows="15" maxlength="1000"
+						<textarea id="body" class="form-control" style="background-color: #8fbcbb" name="body" rows="15" maxlength="1000"
 							spellcheck="true" wrap="hard" required="required" th:text="${body}" placeholder="Body"></textarea>
 					</p>
 					<p class="right">

@@ -21,10 +21,6 @@ html, body {
 	cursor: url("/images/foot.png"), default;
 }
 
-body {
-/* 	background-image: url("/images/limestone.jpg"); */
-}
-
 li>a {
 	color: #9d9d9d; /* gray */
 	text-decoration: none;
@@ -75,11 +71,8 @@ dd>a:focus {
 
 .title {
 	font-family: "fmc";
-	font-size: 3em;
-/* 	font-weight: bolder; */
-/* 	letter-spacing: 10px; */
-	color: #4c566a; /*fallback*/
-/* 	color: rgba(9, 9, 9, 0.5); */
+	font-size: 3em !important;
+	color: #4c566a;
 }
 
 .large {
@@ -90,12 +83,7 @@ h3 {
 	text-align: center;
 }
 
-/* section { */
-/* 	margin: 80px 150px 30px 150px; */
-/* } */
-
 footer {
-	/* 	margin-top: 20px; */
 	padding: 10px;
 	border-top: 5px groove #5e81ac;
 	text-align: right;
@@ -103,17 +91,8 @@ footer {
 
 section>div {
 	font-family: "decker";
-/* 	background-color: #888; fallback */
-/* 	background-color: rgba(8, 8, 8, 0.5); */
 	color: #aaa;
 	font-size: 1.2em;
-/* 	padding-top: 50px; */
-/* 	padding-bottom: 50px; */
-/* 	border-top: 2px solid #444; */
-/* 	border-right: 2px solid #ccc; */
-/* 	border-bottom: 2px solid #ccc; */
-/* 	border-left: 2px solid #444; */
-/* 	border-radius: 8px; */
 }
 
 div ul {

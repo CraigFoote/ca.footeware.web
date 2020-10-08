@@ -3,7 +3,7 @@
 <head th:replace="fragments/head :: head">
 </head>
 <body>
-	<nav class="navbar navbar-default navbar-fixed-top fw">
+	<nav class="navbar navbar-default fw">
 		<div class="container">
 			<div class="navbar-header">
 				<button type="button" class="navbar-toggle collapsed"
@@ -35,11 +35,11 @@
 			<div class="right narrower center col-md-12" th:unless="${name}">
 				<form action="#" th:action="@{/login}" method="post">
 					<p>
-						<input class="form-control" style="background-color: cornsilk" type="text" name="username"
+						<input class="form-control" style="background-color: #8fbcbb" type="text" name="username"
 							autofocus="autofocus" placeholder="Name" />
 					</p>
 					<p>
-						<input class="form-control" style="background-color: cornsilk" type="password" name="password"
+						<input class="form-control" style="background-color: #8fbcbb" type="password" name="password"
 							placeholder="Password" />
 					</p>
 					<p>
