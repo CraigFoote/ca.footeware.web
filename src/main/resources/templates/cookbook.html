@@ -3,7 +3,7 @@
 <head th:replace="fragments/head :: head">
 </head>
 <body>
-	<nav class="navbar navbar-inverse navbar-fixed-top">
+	<nav class="navbar navbar-default navbar-fixed-top fw">
 		<div class="container">
 			<div class="navbar-header">
 				<button type="button" class="navbar-toggle collapsed"
@@ -26,20 +26,21 @@
 			</div>
 		</div>
 	</nav>
-	<section class="container">
-		<div style="text-align: center;">
+	<div class="container padTopAndBottom">
+		<div class="row center">
 			<img src="/images/dsc_1595.jpg" alt="Annie Foote"
 				style="width: 80%; margin-left: auto; margin-right: auto; margin-bottom: 50px;" />
 			<iframe src="/images/AnnieFooteCookbook.pdf" class="center bordered"
 				width="100%" height="750" title="Annie Foote Cookbook (PDF)">
 			</iframe>
 			<p>
-				<a href="/AnnieFooteCookbook/AnnieFooteCookbook.html"
-					style="color: red;" target="_blank"><img
-					src="/images/chocolate-chip-cookies.jpg" style="margin: 20px;" alt="cookies" title="HTML version" /></a>
+				<button title="On to the goodies!"
+					style="background-image: url('/images/chocolate-chip-cookies.jpg'); width: 620px; height: 325px; border-width: 5px;"
+					onclick="document.location='/AnnieFooteCookbook/AnnieFooteCookbook.html'">
+				</button>
 			</p>
 		</div>
-	</section>
+	</div>
 	<footer th:replace="fragments/footer :: footer"></footer>
 </body>
 </html>

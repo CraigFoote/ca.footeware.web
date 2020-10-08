@@ -3,7 +3,7 @@
 <head th:replace="fragments/head :: head">
 </head>
 <body>
-	<nav class="navbar navbar-inverse navbar-fixed-top">
+	<nav class="navbar navbar-idefault navbar-fixed-top fw">
 		<div class="container">
 			<div class="navbar-header">
 				<button type="button" class="navbar-toggle collapsed"
@@ -26,7 +26,7 @@
 			</div>
 		</div>
 	</nav>
-	<section class="container">
+	<div class="container padTopAndBottom">
 		<div>
 			<div class="left center" th:unless="${name}">
 				<p th:if="${error}" th:text="${error}" />
@@ -46,7 +46,7 @@
 				</form>
 			</div>
 		</div>
-	</section>
+	</div>
 	<footer th:replace="fragments/footer :: footer"></footer>
 </body>
 </html>

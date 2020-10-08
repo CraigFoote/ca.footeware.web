@@ -4,32 +4,31 @@
  * To accompany ca.footeware.web-6.x.x
  */
 body {
-	background-color: #e5e9f0;
+	background-color: #eceff4 !important;
 	background-image: none;
 	margin: 0;
 	padding: 0;
-	/* 	background-image: url("/images/burin.jpg"); */
 	background-repeat: no-repeat;
 }
 
-li>a {
+a {
 	color: #9d9d9d; /* gray */
 	text-decoration: none;
 }
 
-li>a:hover {
-	color: #8fbcbb !important;
+a:hover {
+	color: #b48ead !important;
 	transition: 0.5s ease;
 	text-decoration: none;
 }
 
-li>a:visited {
-	color: #9d9d9d;
+a:visited {
+	color: #9d9d9d !important;
 	text-decoration: none;
 }
 
-li>a:focus {
-	color: white;
+a:focus {
+	color: #d08770 !important;
 	outline: none;
 	text-decoration: none;
 }
@@ -37,4 +36,20 @@ li>a:focus {
 .fw {
 	background-color: #d8dee9 !important;
 	border-bottom: 5px groove #5e81ac !important;
+}
+
+img {
+	margin: 0;
+	padding: 0;
+}
+
+footer {
+	/* 	margin-top: 20px; */
+	padding: 10px;
+	border-top: 5px groove #5e81ac;
+	text-align: right;
+}
+
+.padTopAndBottom {
+	padding: 80px 0 50px 0;
 }

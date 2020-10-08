@@ -3,7 +3,7 @@
 <head th:replace="fragments/head :: head">
 </head>
 <body>
-	<nav class="navbar navbar-inverse navbar-fixed-top">
+	<nav class="navbar navbar-default navbar-fixed-top fw">
 		<div class="container">
 			<div class="navbar-header">
 				<button type="button" class="navbar-toggle collapsed"
@@ -26,40 +26,50 @@
 			</div>
 		</div>
 	</nav>
-	<section class="container">
-		<div id="gearContainer">
-			<a title="Nikon D7000" data-fancybox="gallery"
-				data-caption="Nikon D7000" href="/images/nikon.jpg"><img
-				class="bordered" src="/images/nikon-tn.jpg" alt="Nikon D7000" /></a>
-			<dl style="margin-left: 20%; margin-top: 25px;">
-				<dt>Camera</dt>
-				<dd>
-					<a href="http://www.dpreview.com/products/nikon/slrs/nikon_d7000" rel="noopener noreferrer"
-						target="_blank">Nikon D-7000</a>
-				</dd>
-				<dt>Lens</dt>
-				<dd>
-					<a
-						href="http://www.dpreview.com/products/nikon/lenses/nikon_18-200_3p5-5p6_vr_afs_ii" rel="noopener noreferrer"
-						target="_blank">Nikon AF-S DX Nikkor 18-200mm f/3.5-5.6G ED VR
-						II</a>
-				</dd>
-				<dt>Tripod</dt>
-				<dd>
-					<a
-						href="http://www.bhphotovideo.com/c/product/728796-REG/Benbo_BEN106C_Benbo_Trekker_Mk3_Compact.html" rel="noopener noreferrer"
-						target="_blank">Benbo Trekker Mk 3 Compact Aluminum Tripod
-						with Ball Head</a>
-				</dd>
-				<dt>Software</dt>
-				<dd>
-					<a href="https://wiki.gnome.org/Apps/Shotwell" target="_blank" rel="noopener noreferrer">Shotwell</a>,
-					<a href="http://ufraw.sourceforge.net/" target="_blank" rel="noopener noreferrer">UFRaw</a>,
-					<a href="https://www.gimp.org/" target="_blank" rel="noopener noreferrer">GIMP</a>
-				</dd>
-			</dl>
+
+	<div class="container padTopAndBottom">
+		<!--Row with two columns divided in 1:2 ratio -->
+		<div class="row">
+			<div class="col-md-8">
+				<a title="Nikon D7000" data-fancybox="gallery"
+					data-caption="Nikon D7000" href="/images/nikon.jpg"><img
+					class="bordered center" src="/images/nikon-tn.jpg"
+					alt="Nikon D7000" /></a>
+			</div>
+			<div class="col-md-4" style="border-left: 2px solid #bf616a">
+				<dl style="margin-left: 20%; margin-top: 25px;">
+					<dt>Camera</dt>
+					<dd>
+						<a href="http://www.dpreview.com/products/nikon/slrs/nikon_d7000"
+							rel="noopener noreferrer" target="_blank">Nikon D-7000</a>
+					</dd>
+					<dt>Lens</dt>
+					<dd>
+						<a
+							href="http://www.dpreview.com/products/nikon/lenses/nikon_18-200_3p5-5p6_vr_afs_ii"
+							rel="noopener noreferrer" target="_blank">Nikon AF-S DX
+							Nikkor 18-200mm f/3.5-5.6G ED VR II</a>
+					</dd>
+					<dt>Tripod</dt>
+					<dd>
+						<a
+							href="http://www.bhphotovideo.com/c/product/728796-REG/Benbo_BEN106C_Benbo_Trekker_Mk3_Compact.html"
+							rel="noopener noreferrer" target="_blank">Benbo Trekker Mk 3
+							Compact Aluminum Tripod with Ball Head</a>
+					</dd>
+					<dt>Software</dt>
+					<dd>
+						<a href="https://wiki.gnome.org/Apps/Shotwell" target="_blank"
+							rel="noopener noreferrer">Shotwell</a>, <a
+							href="http://ufraw.sourceforge.net/" target="_blank"
+							rel="noopener noreferrer">UFRaw</a>, <a
+							href="https://www.gimp.org/" target="_blank"
+							rel="noopener noreferrer">GIMP</a>
+					</dd>
+				</dl>
+			</div>
 		</div>
-	</section>
+	</div>
 	<footer th:replace="fragments/footer :: footer"></footer>
 </body>
 </html>
