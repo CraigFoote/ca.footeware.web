@@ -45,7 +45,7 @@ public class ImageControllerITTests {
 		Assert.assertTrue("Should have been sent to login page.",
 				page.contains("<form action=\"/login\" method=\"post\">"));
 		page = template.withBasicAuth(USERNAME, PASSWORD).getForObject("/gallery/", String.class);
-		Assert.assertTrue("Should have listed 'gallery1'.", page.contains("href=\"/gallery/gallery1\">gallery1</a></li>"));
+		Assert.assertTrue("Should have listed 'gallery1'.", page.contains("href=\"/gallery/gallery1\">gallery1</a>"));
 	}
 
 	/**

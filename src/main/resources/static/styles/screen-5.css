@@ -89,15 +89,9 @@ footer {
 	text-align: right;
 }
 
-section>div {
-	font-family: "decker";
-	color: #aaa;
-	font-size: 1.2em;
-}
-
 div ul {
 	padding: 5px 50px 5px 70px;
-	line-height: 2;
+	line-height: 4;
 }
 
 img {
@@ -107,14 +101,6 @@ img {
 p {
 	margin: 2px;
 	padding: 2px;
-}
-
-.narrow {
-	width: 700px;
-}
-
-.narrower {
-	width: 300px;
 }
 
 .center {

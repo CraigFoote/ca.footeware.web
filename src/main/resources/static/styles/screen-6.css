@@ -5,13 +5,13 @@
  */
 body {
 	background-color: #eceff4 !important;
-/* 	background-image: none; */
 	margin: 0;
 	padding: 0;
 	background-repeat: no-repeat;
 }
 
 a {
+	font-size: large;
 	color: #9d9d9d; /* gray */
 	text-decoration: none;
 }
