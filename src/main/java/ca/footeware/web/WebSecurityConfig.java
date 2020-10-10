@@ -29,6 +29,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity httpSecurity) throws Exception {
 		httpSecurity.httpBasic().and().authorizeRequests().antMatchers().permitAll().anyRequest().authenticated().and()
 				.formLogin().loginPage("/login").permitAll().and().logout().permitAll();
+		httpSecurity.headers().frameOptions().disable();
 	}
 
 	@Override
