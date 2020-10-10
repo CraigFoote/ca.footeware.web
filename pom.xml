@@ -106,6 +106,17 @@
 					<releaseProfiles>releases</releaseProfiles>
 				</configuration>
 			</plugin>
+
+			<plugin>
+				<groupId>org.sonatype.plugins</groupId>
+				<artifactId>nexus-staging-maven-plugin</artifactId>
+				<version>1.6.8</version>
+				<extensions>true</extensions>
+				<configuration>
+					<serverId>nexus</serverId>
+					<nexusUrl>http://server:8081</nexusUrl>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 
@@ -134,7 +145,7 @@
 			<layout>default</layout>
 		</repository>
 	</repositories>
-	
+
 	<distributionManagement>
 		<snapshotRepository>
 			<uniqueVersion>true</uniqueVersion>
