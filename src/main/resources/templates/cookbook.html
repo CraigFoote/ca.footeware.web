@@ -30,15 +30,21 @@
 		<div class="row center">
 			<img src="/images/dsc_1595.jpg" alt="Annie Foote"
 				style="width: 80%; margin-left: auto; margin-right: auto; margin-bottom: 50px;" />
-			<iframe src="/images/AnnieFooteCookbook.pdf" class="center bordered"
-				width="100%" height="750" title="Annie Foote Cookbook (PDF)">
-			</iframe>
 			<p>
-				<button title="On to the goodies!"
-					style="background-image: url('/images/chocolate-chip-cookies.jpg'); width: 620px; height: 325px; border-width: 5px;"
-					onclick="document.location='/AnnieFooteCookbook/AnnieFooteCookbook.html'">
+				<button type="button">
+					<a href="/AnnieFooteCookbook/AnnieFooteCookbook.html"> View
+						Online </a>
 				</button>
 			</p>
+			<p>
+				<button type="button">
+					<a href="/images/AnnieFooteCookbook.pdf"> Download the PDF</a>
+				</button>
+			</p>
+			<br /> <br />
+			<iframe src="/images/AnnieFooteCookbook.pdf" alt="Annie Foote's Cookbook" class="center bordered"
+				width="100%" height="750" title="Annie Foote's Cookbook (PDF)" style="width: 100%;">
+			</iframe>
 		</div>
 	</div>
 	<footer th:replace="fragments/footer :: footer"></footer>
