@@ -14,7 +14,6 @@ import org.junit.Test;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.client.TestRestTemplate;
@@ -47,7 +46,6 @@ public class JokeControllerITTests {
 	private JokeService jokeService;
 	@Autowired
 	private NextSequenceService seqService;
-	private String page;
 
 	/**
 	 * Empty DB after tests.

@@ -2,6 +2,10 @@ package ca.footeware.web.models;
 
 import java.io.File;
 
+/**
+ * @author Footeware.ca
+ *
+ */
 public class Gallery {
 
 	private String name;
