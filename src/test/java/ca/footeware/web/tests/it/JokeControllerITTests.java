@@ -68,7 +68,7 @@ public class JokeControllerITTests {
 	 * @throws JokeException if shit goes south
 	 */
 	@Test
-	@Ignore("broken @line 93")
+	@Ignore("broken @line 99")
 	public void testDeleteJoke() throws JokeException {
 		// create a joke to delete
 		MultiValueMap<String, String> joke = new LinkedMultiValueMap<>();
@@ -76,7 +76,7 @@ public class JokeControllerITTests {
 		try {
 			id = seqService.getNextSequence("customSequences");
 		} catch (ServiceNotFoundException e) {
-			Assert.fail("Call should have worked.");
+			Assert.fail(e.getMessage());
 		}
 		joke.add("id", id);
 		joke.add("title", "testTitle?");
