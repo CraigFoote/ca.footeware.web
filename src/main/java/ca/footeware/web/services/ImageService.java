@@ -15,7 +15,6 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -200,12 +199,7 @@ public class ImageService {
 				galleries.add(gallery);
 			}
 		}
-		Collections.sort(galleries, new Comparator<Gallery>() {
-			@Override
-			public int compare(Gallery o1, Gallery o2) {
-				return o1.getName().compareTo(o2.getName());
-			}
-		});
+		Collections.sort(galleries, (o1, o2) -> o1.getName().compareTo(o2.getName()));
 
 		return galleries;
 	}
