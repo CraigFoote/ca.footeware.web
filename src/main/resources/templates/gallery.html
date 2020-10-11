@@ -35,7 +35,9 @@
 			<div class="col-sm-6">
 				<ul>
 					<li th:each="gallery : ${galleries}"><a
-						th:href="@{'/gallery/' + ${gallery}}" th:text="${gallery}"></a></li>
+						th:href="@{'/gallery/' + ${gallery.name}}" th:text="${gallery.name}"></a>
+						<img src="/images/lock.png" alt="locked" th:if="${gallery.secret}"/>
+					</li>
 				</ul>
 			</div>
 			<div class="col-sm-6" style="border-left: 2px solid #bf616a">

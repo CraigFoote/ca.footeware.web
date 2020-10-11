@@ -4,9 +4,7 @@
 package ca.footeware.web.controllers;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.http.MediaType;
@@ -50,11 +48,7 @@ public class ImageController {
 	 */
 	@GetMapping("/gallery")
 	public String getGalleries(Model model) throws ImageException {
-		List<String> galleries = new ArrayList<>();
-		for (File file : service.getGalleries()) {
-			galleries.add(file.getName());
-		}
-		model.addAttribute("galleries", galleries);
+		model.addAttribute("galleries", service.getGalleries());
 		return "gallery";
 	}
 
@@ -66,11 +60,10 @@ public class ImageController {
 	 * @param galleryName {@link String}
 	 * @param model       {@link Model}
 	 * @return {@link String} UI template name
-	 * @throws ImageException     if an image-related exception occurs.
+	 * @throws ImageException if an image-related exception occurs.
 	 */
 	@GetMapping("/gallery/{galleryName}")
-	public String getGallery(@PathVariable String galleryName, Model model)
-			throws ImageException {
+	public String getGallery(@PathVariable String galleryName, Model model) throws ImageException {
 		Map<String, String> thumbs = new LinkedHashMap<>();
 		for (File file : service.getFiles(galleryName)) {
 			Map<String, String> exif = service.getExif(file);

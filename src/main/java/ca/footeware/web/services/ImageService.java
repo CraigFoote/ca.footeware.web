@@ -15,6 +15,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,6 +32,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import ca.footeware.web.exceptions.ImageException;
+import ca.footeware.web.models.Gallery;
 
 /**
  * Provides access to images.
@@ -174,7 +176,7 @@ public class ImageService {
 	 * @return {@link File} array
 	 * @throws ImageException if an image-related exception occurs.
 	 */
-	public File[] getGalleries() throws ImageException {
+	public List<Gallery> getGalleries() throws ImageException {
 		File folder = new File(imagesPath);
 		if (!folder.exists()) {
 			throw new ImageException("Image path not found: " + imagesPath);
@@ -183,19 +185,45 @@ public class ImageService {
 			throw new ImageException("Image path cannot be read: " + imagesPath);
 		}
 		File[] files = folder.listFiles();
-		List<File> galleries = new ArrayList<>();
+		List<Gallery> galleries = new ArrayList<>();
 		for (File file : files) {
+			Gallery gallery = new Gallery();
+			gallery.setName(file.getName());
 			if (file.isDirectory()) {
+				gallery.setFolder(file);
 				String folderName = file.getName();
 				if (!folderName.matches("[\\sa-zA-Z0-9_-]++")) {
 					throw new ImageException("Invalid gallery name: " + folderName
 							+ ". Must be spaces, a-z, A-Z, 0-9, underscores or dashes.");
 				}
-				galleries.add(file);
+				gallery.setSecret(checkSecret(file));
+				galleries.add(gallery);
 			}
 		}
-		Collections.sort(galleries, NameFileComparator.NAME_COMPARATOR);
-		return galleries.toArray(new File[galleries.size()]);
+		Collections.sort(galleries, new Comparator<Gallery>() {
+			@Override
+			public int compare(Gallery o1, Gallery o2) {
+				return o1.getName().compareTo(o2.getName());
+			}
+		});
+
+		return galleries;
+	}
+
+	/**
+	 * Determines if the provided folder should be kept secret.
+	 * 
+	 * @param folder {@link File}
+	 * @return boolean true if secret
+	 */
+	private boolean checkSecret(File folder) {
+		File[] files = folder.listFiles();
+		for (File file : files) {
+			if ("secret".equals(file.getName())) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/**

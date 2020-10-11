@@ -7,6 +7,7 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 import javax.imageio.ImageIO;
@@ -20,6 +21,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import ca.footeware.web.exceptions.ImageException;
+import ca.footeware.web.models.Gallery;
 import ca.footeware.web.services.ImageService;
 
 /**
@@ -59,8 +61,8 @@ public class ImageServiceTests {
 	 */
 	@Test
 	public void testGetGalleries() throws ImageException {
-		File[] galleries = service.getGalleries();
-		Assert.assertEquals("Should have been one gallery.", 1, galleries.length);
+		List<Gallery> galleries = service.getGalleries();
+		Assert.assertEquals("Should have been one gallery.", 1, galleries.size());
 	}
 
 	/**
@@ -174,7 +176,7 @@ public class ImageServiceTests {
 	 */
 	@Test
 	public void testExif() throws ImageException, IOException {
-		File gallery = service.getGalleries()[0];
+		Gallery gallery = service.getGalleries().get(0);
 		File[] imageFiles = service.getFiles(gallery.getName());
 		Map<String, String> exif = service.getExif(imageFiles[0]);
 		Assert.assertTrue("Missing 'Model' entry.", exif.containsKey("Model"));
