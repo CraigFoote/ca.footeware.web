@@ -68,7 +68,10 @@ public class ImageController {
 		for (File file : service.getFiles(galleryName)) {
 			Map<String, String> exif = service.getExif(file);
 			String name = file.getName();
-			if (exif != null) {
+			if ("secret".equals(name)) {
+				break;
+			}
+			else if (exif != null) {
 				thumbs.put(name, compileExifString(name, exif));
 			} else {
 				thumbs.put(name, "");

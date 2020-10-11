@@ -292,17 +292,19 @@ public class ImageService {
 	 */
 	public Map<String, String> getExif(File file) throws ImageException {
 		Map<String, String> map = new LinkedHashMap<>();
-		try {
-			ImageMetadata metadata = Imaging.getMetadata(file);
-			if (metadata != null) {
-				List<? extends ImageMetadataItem> items = metadata.getItems();
-				for (ImageMetadataItem item : items) {
-					String[] split = item.toString().split(": ");
-					map.put(split[0], split[1]);
+		if (!"secret".equals(file.getName())) {
+			try {
+				ImageMetadata metadata = Imaging.getMetadata(file);
+				if (metadata != null) {
+					List<? extends ImageMetadataItem> items = metadata.getItems();
+					for (ImageMetadataItem item : items) {
+						String[] split = item.toString().split(": ");
+						map.put(split[0], split[1]);
+					}
 				}
+			} catch (ImageReadException | IOException e) {
+				throw new ImageException(e.getLocalizedMessage());
 			}
-		} catch (ImageReadException | IOException e) {
-			throw new ImageException(e.getLocalizedMessage());
 		}
 		return map;
 	}
