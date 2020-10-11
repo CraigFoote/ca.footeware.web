@@ -36,7 +36,7 @@
 				<ul>
 					<li th:each="gallery : ${galleries}"><a
 						th:href="@{'/gallery/' + ${gallery.name}}" th:text="${gallery.name}"></a>
-						<img src="/images/lock.png" alt="locked" th:if="${gallery.secret}"/>
+						<img src="/images/lock.png" alt="locked" title="password protected" th:if="${gallery.secret}"/>
 					</li>
 				</ul>
 			</div>
