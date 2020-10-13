@@ -43,6 +43,10 @@ img {
 	padding: 0;
 }
 
+.noBullet {
+	list-style-type: none;
+}
+
 footer {
 	margin-top: 20px;
 	border-top: 5px groove #5e81ac;
