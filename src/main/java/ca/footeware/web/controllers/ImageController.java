@@ -37,6 +37,28 @@ public class ImageController {
 	}
 
 	/**
+	 * Create a linefeed-delimited String of specific exif item labels and values.
+	 * 
+	 * @param name
+	 * @param exif
+	 * @return {@link String}
+	 */
+	private String compileExifString(String name, Map<String, String> exif) {
+		StringBuilder b = new StringBuilder();
+		b.append("Name: " + name + "\n");
+		b.append("Model: " + exif.get("Model") + "\n");
+		b.append("ProcessingSoftware: " + exif.get("ProcessingSoftware") + "\n");
+		b.append("DateTime: " + exif.get("DateTime") + "\n");
+		b.append("ExposureTime: " + exif.get("ExposureTime") + "\n");
+		b.append("FNumber: " + exif.get("FNumber") + "\n");
+		b.append("PhotographicSensitivity: " + exif.get("PhotographicSensitivity") + "\n");
+		b.append("ExposureCompensation: " + exif.get("ExposureCompensation") + "\n");
+		b.append("FocalLength: " + exif.get("FocalLength") + "\n");
+		b.append("FocalLengthIn35mmFormat: " + exif.get("FocalLengthIn35mmFormat"));
+		return b.toString();
+	}
+
+	/**
 	 * Get the gallery page with names of the images to be dynamically obtained from
 	 * images in images.path. The names are used by thymeleaf to construct the image
 	 * links to the thumbnails and their full size versions.
@@ -70,8 +92,7 @@ public class ImageController {
 			String name = file.getName();
 			if ("secret".equals(name)) {
 				break;
-			}
-			else if (exif != null) {
+			} else if (exif != null) {
 				thumbs.put(name, compileExifString(name, exif));
 			} else {
 				thumbs.put(name, "");
@@ -80,28 +101,6 @@ public class ImageController {
 		model.addAttribute("thumbs", thumbs);
 		model.addAttribute("galleryName", galleryName);
 		return "gallery";
-	}
-
-	/**
-	 * Create a linefeed-delimited String of specific exif item labels and values.
-	 * 
-	 * @param name
-	 * @param exif
-	 * @return {@link String}
-	 */
-	private String compileExifString(String name, Map<String, String> exif) {
-		StringBuilder b = new StringBuilder();
-		b.append("Name: " + name + "\n");
-		b.append("Model: " + exif.get("Model") + "\n");
-		b.append("ProcessingSoftware: " + exif.get("ProcessingSoftware") + "\n");
-		b.append("DateTime: " + exif.get("DateTime") + "\n");
-		b.append("ExposureTime: " + exif.get("ExposureTime") + "\n");
-		b.append("FNumber: " + exif.get("FNumber") + "\n");
-		b.append("PhotographicSensitivity: " + exif.get("PhotographicSensitivity") + "\n");
-		b.append("ExposureCompensation: " + exif.get("ExposureCompensation") + "\n");
-		b.append("FocalLength: " + exif.get("FocalLength") + "\n");
-		b.append("FocalLengthIn35mmFormat: " + exif.get("FocalLengthIn35mmFormat"));
-		return b.toString();
 	}
 
 	/**

@@ -66,6 +66,22 @@ public class ImageService {
 	}
 
 	/**
+	 * Determines if the provided folder should be kept secret.
+	 * 
+	 * @param folder {@link File}
+	 * @return boolean true if secret
+	 */
+	private boolean checkSecret(File folder) {
+		File[] files = folder.listFiles();
+		for (File file : files) {
+			if ("secret".equals(file.getName())) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
 	 * Convert provided image to byte array.
 	 * 
 	 * @param image {@link BufferedImage}
@@ -106,6 +122,33 @@ public class ImageService {
 			dim.width = Math.round(ratio * max);
 		}
 		return dim;
+	}
+
+	/**
+	 * Get the EXIF from the provided file and convert it to a map of EXIF item
+	 * labels and values.
+	 * 
+	 * @param file {@link File}
+	 * @return {@link Map} of {@link String} label to {@link String} value
+	 * @throws ImageException if shit goes south
+	 */
+	public Map<String, String> getExif(File file) throws ImageException {
+		Map<String, String> map = new LinkedHashMap<>();
+		if (!"secret".equals(file.getName())) {
+			try {
+				ImageMetadata metadata = Imaging.getMetadata(file);
+				if (metadata != null) {
+					List<? extends ImageMetadataItem> items = metadata.getItems();
+					for (ImageMetadataItem item : items) {
+						String[] split = item.toString().split(": ");
+						map.put(split[0], split[1]);
+					}
+				}
+			} catch (ImageReadException | IOException e) {
+				throw new ImageException(e.getLocalizedMessage());
+			}
+		}
+		return map;
 	}
 
 	/**
@@ -205,22 +248,6 @@ public class ImageService {
 	}
 
 	/**
-	 * Determines if the provided folder should be kept secret.
-	 * 
-	 * @param folder {@link File}
-	 * @return boolean true if secret
-	 */
-	private boolean checkSecret(File folder) {
-		File[] files = folder.listFiles();
-		for (File file : files) {
-			if ("secret".equals(file.getName())) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	/**
 	 * Get an image as bytes from provided gallery and image file names.
 	 * 
 	 * @param galleryName {@link String}
@@ -274,33 +301,6 @@ public class ImageService {
 		g.drawImage(originalImage, 0, 0, dim.width, dim.height, null);
 		g.dispose();
 		return resizedImage;
-	}
-
-	/**
-	 * Get the EXIF from the provided file and convert it to a map of EXIF item
-	 * labels and values.
-	 * 
-	 * @param file {@link File}
-	 * @return {@link Map} of {@link String} label to {@link String} value
-	 * @throws ImageException if shit goes south
-	 */
-	public Map<String, String> getExif(File file) throws ImageException {
-		Map<String, String> map = new LinkedHashMap<>();
-		if (!"secret".equals(file.getName())) {
-			try {
-				ImageMetadata metadata = Imaging.getMetadata(file);
-				if (metadata != null) {
-					List<? extends ImageMetadataItem> items = metadata.getItems();
-					for (ImageMetadataItem item : items) {
-						String[] split = item.toString().split(": ");
-						map.put(split[0], split[1]);
-					}
-				}
-			} catch (ImageReadException | IOException e) {
-				throw new ImageException(e.getLocalizedMessage());
-			}
-		}
-		return map;
 	}
 
 }

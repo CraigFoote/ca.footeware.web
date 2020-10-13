@@ -98,6 +98,50 @@ public class JokeControllerITTests {
 
 	/**
 	 * Test method for
+	 * {@link ca.footeware.web.controllers.JokeController#editJoke(String, org.springframework.ui.Model)}.
+	 * 
+	 * @throws JokeException            if shit goes south
+	 * @throws ServiceNotFoundException if shit goes north again
+	 */
+	@Test
+	public void testEditJoke() throws JokeException, ServiceNotFoundException {
+		// create joke to edit
+		MultiValueMap<String, String> joke = new LinkedMultiValueMap<>();
+		joke.add("title", "testTitle");
+		joke.add("body", "testBody");
+		HttpHeaders requestHeaders = new HttpHeaders();
+		requestHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+		HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(joke, requestHeaders);
+		ResponseEntity<String> response = template.postForEntity("/jokes/add", request, String.class);
+		HttpStatus status = response.getStatusCode();
+		Assert.assertEquals("Incorrect response status.", HttpStatus.OK, status);
+
+		// find id
+		HttpHeaders responseHeaders = response.getHeaders();
+		Assert.assertTrue("Missing response header 'X-Id'.", responseHeaders.containsKey("X-Id"));
+		String id = responseHeaders.get("X-Id").get(0);
+
+		// fetch joke
+		String page = template.getForObject("/jokes/edit/" + id, String.class);
+		Assert.assertTrue("Incorrect page returned.",
+				page.contains("<li class=\"active\"><a href=\"/jokes\">Jokes</a></li>"));
+		Assert.assertTrue("Incorrect page returned.", page.contains("value=\"testTitle\" placeholder=\"Title\" />"));
+
+		// simulate editing of joke and clicking save
+		joke = new LinkedMultiValueMap<>();
+		joke.add("id", id);
+		joke.add("title", "testTitle2");
+		joke.add("body", "testBody2");
+		request = new HttpEntity<>(joke, requestHeaders);
+		response = template.exchange("/jokes/edit", HttpMethod.POST, request, String.class);
+		page = response.getBody();
+		Assert.assertFalse("Joke should have updated title.", page.contains("testTitle</a>"));
+		Assert.assertTrue("Joke should have updated title.", page.contains("testTitle2</a>"));
+		Assert.assertTrue("Joke should have updated body.", page.contains("testBody2</div>"));
+	}
+
+	/**
+	 * Test method for
 	 * {@link ca.footeware.web.controllers.JokeController#getAddJokePage(org.springframework.ui.Model)}.
 	 */
 	@Test
@@ -181,50 +225,6 @@ public class JokeControllerITTests {
 		requestHeaders = new HttpHeaders();
 		requestHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 		request = new HttpEntity<>(joke, requestHeaders);
-	}
-
-	/**
-	 * Test method for
-	 * {@link ca.footeware.web.controllers.JokeController#editJoke(String, org.springframework.ui.Model)}.
-	 * 
-	 * @throws JokeException            if shit goes south
-	 * @throws ServiceNotFoundException if shit goes north again
-	 */
-	@Test
-	public void testEditJoke() throws JokeException, ServiceNotFoundException {
-		// create joke to edit
-		MultiValueMap<String, String> joke = new LinkedMultiValueMap<>();
-		joke.add("title", "testTitle");
-		joke.add("body", "testBody");
-		HttpHeaders requestHeaders = new HttpHeaders();
-		requestHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-		HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(joke, requestHeaders);
-		ResponseEntity<String> response = template.postForEntity("/jokes/add", request, String.class);
-		HttpStatus status = response.getStatusCode();
-		Assert.assertEquals("Incorrect response status.", HttpStatus.OK, status);
-
-		// find id
-		HttpHeaders responseHeaders = response.getHeaders();
-		Assert.assertTrue("Missing response header 'X-Id'.", responseHeaders.containsKey("X-Id"));
-		String id = responseHeaders.get("X-Id").get(0);
-
-		// fetch joke
-		String page = template.getForObject("/jokes/edit/" + id, String.class);
-		Assert.assertTrue("Incorrect page returned.",
-				page.contains("<li class=\"active\"><a href=\"/jokes\">Jokes</a></li>"));
-		Assert.assertTrue("Incorrect page returned.", page.contains("value=\"testTitle\" placeholder=\"Title\" />"));
-
-		// simulate editing of joke and clicking save
-		joke = new LinkedMultiValueMap<>();
-		joke.add("id", id);
-		joke.add("title", "testTitle2");
-		joke.add("body", "testBody2");
-		request = new HttpEntity<>(joke, requestHeaders);
-		response = template.exchange("/jokes/edit", HttpMethod.POST, request, String.class);
-		page = response.getBody();
-		Assert.assertFalse("Joke should have updated title.", page.contains("testTitle</a>"));
-		Assert.assertTrue("Joke should have updated title.", page.contains("testTitle2</a>"));
-		Assert.assertTrue("Joke should have updated body.", page.contains("testBody2</div>"));
 	}
 
 }

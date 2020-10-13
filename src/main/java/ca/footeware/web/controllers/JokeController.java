@@ -117,6 +117,26 @@ public class JokeController {
 	}
 
 	/**
+	 * Edit a joke.
+	 * 
+	 * @param id       {@link String}
+	 * @param title    {@link String}
+	 * @param body     {@link String}
+	 * @param model    {@link Model}
+	 * @param response {@link HttpServletResponse}
+	 * @return {@link String} UI view
+	 * @throws JokeException if shit goes south
+	 */
+	@PostMapping("/jokes/edit")
+	public String postEditedJoke(@RequestParam String id, @RequestParam String title, @RequestParam String body,
+			Model model, HttpServletResponse response) throws JokeException {
+		Joke joke = jokeService.saveJoke(id, title, body);
+		model.addAttribute(JOKES, jokeService.getJokes());
+		response.addHeader("X-Id", joke.getId());
+		return JOKES;
+	}
+
+	/**
 	 * Add a joke.
 	 * 
 	 * @param title    {@link String}
@@ -130,27 +150,9 @@ public class JokeController {
 	@PostMapping("/jokes/add")
 	public String postJoke(@RequestParam String title, @RequestParam String body, Model model,
 			HttpServletResponse response) throws JokeException, ServiceNotFoundException {
-		Joke joke = jokeService.saveJoke(null, title, body);
+		Joke joke = jokeService.saveJoke(title, body);
 		model.addAttribute(JOKES, jokeService.getJokes());
 		response.addHeader("X-Id", joke.getId());
-		return JOKES;
-	}
-
-	/**
-	 * Edit a joke.
-	 * 
-	 * @param id    {@link String}
-	 * @param title {@link String}
-	 * @param body  {@link String}
-	 * @param model {@link Model}
-	 * @return {@link String} UI view
-	 * @throws JokeException if shit goes south
-	 */
-	@PostMapping("/jokes/edit")
-	public String postEditedJoke(@RequestParam String id, @RequestParam String title, @RequestParam String body,
-			Model model) throws JokeException {
-		jokeService.saveJoke(id, title, body);
-		model.addAttribute(JOKES, jokeService.getJokes());
 		return JOKES;
 	}
 }

@@ -30,6 +30,13 @@ public class Joke {
 	}
 
 	/**
+	 * @return the body
+	 */
+	public String getBody() {
+		return body;
+	}
+
+	/**
 	 * @return the id
 	 */
 	public String getId() {
@@ -44,20 +51,6 @@ public class Joke {
 	}
 
 	/**
-	 * @param title the title to set
-	 */
-	public void setTitle(String title) {
-		this.title = title;
-	}
-
-	/**
-	 * @return the body
-	 */
-	public String getBody() {
-		return body;
-	}
-
-	/**
 	 * @param body the body to set
 	 */
 	public void setBody(String body) {
@@ -69,6 +62,13 @@ public class Joke {
 	 */
 	public void setId(String id) {
 		this.id = id;
+	}
+
+	/**
+	 * @param title the title to set
+	 */
+	public void setTitle(String title) {
+		this.title = title;
 	}
 
 }

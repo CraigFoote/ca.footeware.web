@@ -34,6 +34,70 @@ class JokeServiceTests {
 
 	/**
 	 * Test method for
+	 * {@link ca.footeware.web.services.JokeService#saveJoke(java.lang.String, java.lang.String, java.lang.String)}.
+	 * 
+	 * @param arg {@link String}
+	 */
+	@ParameterizedTest
+	@NullAndEmptySource
+	@ValueSource(strings = { " ", "   ", "\n", "\t" })
+	void TestCreateJokeWithBadTitle(String arg) {
+		JokeException exception = Assertions.assertThrows(JokeException.class, () -> {
+			jokeService.saveJoke(arg, TEST_BODY);
+		});
+		String message = exception.getMessage();
+		Assert.assertEquals("Incorrect exception message.", JokeService.TITLE_ERROR, message);
+	}
+
+	/**
+	 * Test method for
+	 * {@link ca.footeware.web.services.JokeService#deleteJoke(java.lang.String)}.
+	 * 
+	 * @throws JokeException if shit goes south
+	 */
+	@Test
+	public void testDeleteJoke() throws JokeException {
+		Joke joke = jokeService.saveJoke(TEST_TITLE, TEST_BODY);
+		jokeService.deleteJoke(joke.getId());
+		Joke deleted = jokeService.getById(joke.getId());
+		Assert.assertNull("Joke should have been null.", deleted);
+	}
+
+	/**
+	 * Test method for
+	 * {@link ca.footeware.web.services.JokeService#deleteJoke(java.lang.String)}.
+	 */
+	@Test
+	public void testDeleteJokeNotExists() {
+		try {
+			jokeService.deleteJoke("bob");
+		} catch (JokeException e) {
+			Assert.fail("No exception is expected in this call.");
+		}
+	}
+
+	@Test
+	public void testGetJokeById() throws JokeException {
+		Joke joke1 = jokeService.saveJoke(TEST_TITLE, TEST_BODY);
+		Joke joke2 = jokeService.getById(joke1.getId());
+		Assert.assertEquals("IDs should be the same", joke1.getId(), joke2.getId());
+		Assert.assertEquals("Titles should be the same", joke1.getTitle(), joke2.getTitle());
+		Assert.assertEquals("Bodies should be the same", joke1.getBody(), joke2.getBody());
+	}
+
+	/**
+	 * Test method for {@link ca.footeware.web.services.JokeService#getJokes()}.
+	 * 
+	 * @throws JokeException if shit goes south
+	 */
+	@Test
+	public void testGetJokes() throws JokeException {
+		List<Joke> jokes = jokeService.getJokes();
+		Assert.assertNotNull(jokes);
+	}
+
+	/**
+	 * Test method for
 	 * {@link ca.footeware.web.services.JokeService#saveJoke(String, String)}.
 	 * 
 	 * @throws JokeException if shit goes south
@@ -83,23 +147,6 @@ class JokeServiceTests {
 
 	/**
 	 * Test method for
-	 * {@link ca.footeware.web.services.JokeService#saveJoke(java.lang.String, java.lang.String, java.lang.String)}.
-	 * 
-	 * @param arg {@link String}
-	 */
-	@ParameterizedTest
-	@NullAndEmptySource
-	@ValueSource(strings = { " ", "   ", "\n", "\t" })
-	void TestCreateJokeWithBadTitle(String arg) {
-		JokeException exception = Assertions.assertThrows(JokeException.class, () -> {
-			jokeService.saveJoke(arg, TEST_BODY);
-		});
-		String message = exception.getMessage();
-		Assert.assertEquals("Incorrect exception message.", JokeService.TITLE_ERROR, message);
-	}
-
-	/**
-	 * Test method for
 	 * {@link ca.footeware.web.services.JokeService#saveJoke(String, String, String)}
 	 * 
 	 * @throws JokeException if shit goes south
@@ -110,59 +157,12 @@ class JokeServiceTests {
 	void testSaveWithIdWithBadBody(String arg) throws JokeException {
 		Joke savedJoke = jokeService.saveJoke(TEST_TITLE, TEST_BODY);
 		String id = savedJoke.getId();
-		
+
 		JokeException exception = Assertions.assertThrows(JokeException.class, () -> {
 			jokeService.saveJoke(id, TEST_TITLE, arg);
 		});
 		String message = exception.getMessage();
 		Assert.assertEquals("Incorrect exception message.", JokeService.BODY_ERROR, message);
-	}
-
-	/**
-	 * Test method for
-	 * {@link ca.footeware.web.services.JokeService#deleteJoke(java.lang.String)}.
-	 * 
-	 * @throws JokeException if shit goes south
-	 */
-	@Test
-	public void testDeleteJoke() throws JokeException {
-		Joke joke = jokeService.saveJoke(TEST_TITLE, TEST_BODY);
-		jokeService.deleteJoke(joke.getId());
-		Joke deleted = jokeService.getById(joke.getId());
-		Assert.assertNull("Joke should have been null.", deleted);
-	}
-
-	/**
-	 * Test method for
-	 * {@link ca.footeware.web.services.JokeService#deleteJoke(java.lang.String)}.
-	 */
-	@Test
-	public void testDeleteJokeNotExists() {
-		try {
-			jokeService.deleteJoke("bob");
-		} catch (JokeException e) {
-			Assert.fail("No exception is expected in this call.");
-		}
-	}
-
-	@Test
-	public void testGetJokeById() throws JokeException {
-		Joke joke1 = jokeService.saveJoke(TEST_TITLE, TEST_BODY);
-		Joke joke2 = jokeService.getById(joke1.getId());
-		Assert.assertEquals("IDs should be the same", joke1.getId(), joke2.getId());
-		Assert.assertEquals("Titles should be the same", joke1.getTitle(), joke2.getTitle());
-		Assert.assertEquals("Bodies should be the same", joke1.getBody(), joke2.getBody());
-	}
-
-	/**
-	 * Test method for {@link ca.footeware.web.services.JokeService#getJokes()}.
-	 * 
-	 * @throws JokeException if shit goes south
-	 */
-	@Test
-	public void testGetJokes() throws JokeException {
-		List<Joke> jokes = jokeService.getJokes();
-		Assert.assertNotNull(jokes);
 	}
 
 }

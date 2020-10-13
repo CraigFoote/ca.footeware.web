@@ -28,7 +28,7 @@ public class Application {
 		LOG.info("Application starting...");
 		SpringApplication.run(Application.class, args);
 	}
-	
+
 	@PostConstruct
 	protected void postConstruct() {
 		LOG.info("Application started");

@@ -45,6 +45,20 @@ public class ImageServiceTests {
 	String imagesPath;
 
 	/**
+	 * Test method for {@link ca.footeware.web.services.ImageService#getExif(File)}
+	 * 
+	 * @throws ImageException when shit goes south
+	 * @throws IOException    when shit goes south
+	 */
+	@Test
+	public void testExif() throws ImageException, IOException {
+		Gallery gallery = service.getGalleries().get(0);
+		File[] imageFiles = service.getFiles(gallery.getName());
+		Map<String, String> exif = service.getExif(imageFiles[0]);
+		Assert.assertTrue("Missing 'Model' entry.", exif.containsKey("Model"));
+	}
+
+	/**
 	 * Test method for {@link ca.footeware.web.services.ImageService#getFiles()}.
 	 */
 	@Test
@@ -167,19 +181,6 @@ public class ImageServiceTests {
 		height = image.getHeight();
 		Assert.assertEquals("Thumbnail was not the correct width.", ImageService.MAX_TN_DIMENSION, width);
 		Assert.assertEquals("Thumbnail was not the correct height.", ImageService.MAX_TN_DIMENSION, height);
-	}
-
-	/**
-	 * Test method for {@link ca.footeware.web.services.ImageService#getExif(File)}
-	 * @throws ImageException when shit goes south
-	 * @throws IOException when shit goes south
-	 */
-	@Test
-	public void testExif() throws ImageException, IOException {
-		Gallery gallery = service.getGalleries().get(0);
-		File[] imageFiles = service.getFiles(gallery.getName());
-		Map<String, String> exif = service.getExif(imageFiles[0]);
-		Assert.assertTrue("Missing 'Model' entry.", exif.containsKey("Model"));
 	}
 
 }
