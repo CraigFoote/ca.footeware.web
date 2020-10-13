@@ -3,6 +3,8 @@
  */
 package ca.footeware.web.models;
 
+import java.util.UUID;
+
 import org.springframework.data.annotation.Id;
 
 /**
@@ -12,19 +14,17 @@ import org.springframework.data.annotation.Id;
 public class Joke {
 
 	@Id
-	private String id;
+	private String id = UUID.randomUUID().toString();
 	private String title;
 	private String body;
 
 	/**
 	 * Constructor.
 	 * 
-	 * @param id    {@link String}
 	 * @param title {@link String}
 	 * @param body  {@link String}
 	 */
-	public Joke(String id, String title, String body) {
-		this.id = id;
+	public Joke(String title, String body) {
 		this.title = title;
 		this.body = body;
 	}
@@ -34,13 +34,6 @@ public class Joke {
 	 */
 	public String getId() {
 		return id;
-	}
-
-	/**
-	 * @param id the id to set
-	 */
-	public void setId(String id) {
-		this.id = id;
 	}
 
 	/**
@@ -69,6 +62,13 @@ public class Joke {
 	 */
 	public void setBody(String body) {
 		this.body = body;
+	}
+
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(String id) {
+		this.id = id;
 	}
 
 }

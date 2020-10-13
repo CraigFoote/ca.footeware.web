@@ -44,26 +44,23 @@ public class JokeService {
 	/**
 	 * Create a new joke using provided id, title and body.
 	 * 
-	 * @param id    {@link String}
 	 * @param title {@link String}
 	 * @param body  {@link String}
+	 * @return {@link Joke}
 	 * @throws JokeException if shit goes south
 	 */
-	public void saveJoke(String id, String title, String body) throws JokeException {
-		if (id == null || id.isBlank() || id.isEmpty()) {
-			throw new JokeException("ID cannot be empty.");
-		}
+	public Joke saveJoke(String title, String body) throws JokeException {
 		if (title == null || title.isBlank() || title.isEmpty()) {
 			throw new JokeException(TITLE_ERROR);
 		}
 		if (body == null || body.isBlank() || body.isEmpty()) {
 			throw new JokeException("Body cannot be empty.");
 		}
-		jokeRepository.save(new Joke(id, title, body));
+		return jokeRepository.save(new Joke(title, body));
 	}
 
 	/**
-	 * Find a joke with provided title and delete it.
+	 * Find a joke with provided id and delete it.
 	 * 
 	 * @param id {@link String}
 	 * @throws JokeException if shit goes south
@@ -78,7 +75,7 @@ public class JokeService {
 	/**
 	 * Get the joke titles.
 	 * 
-	 * @return {@link Set} of {@link String}
+	 * @return {@link List} of {@link Joke}
 	 * @throws JokeException if shit goes south
 	 */
 	public List<Joke> getJokes() throws JokeException {

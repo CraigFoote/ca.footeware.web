@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import ca.footeware.web.exceptions.JokeException;
 import ca.footeware.web.models.Joke;
 import ca.footeware.web.services.JokeService;
-import ca.footeware.web.services.NextSequenceService;
 
 /**
  * Exposes joke-related endpoints.
@@ -33,24 +32,18 @@ public class JokeController {
 	private static final String JOKE = "joke";
 	private static final String JOKES = "jokes";
 	private JokeService jokeService;
-	private NextSequenceService seqService;
 
 	/**
 	 * Constructor.
 	 * 
 	 * @param jokeService {@link JokeService} injected
-	 * @param seqService  {@link NextSequenceService}
 	 * @throws JokeException if shit goes south
 	 */
-	public JokeController(JokeService jokeService, NextSequenceService seqService) throws JokeException {
+	public JokeController(JokeService jokeService) throws JokeException {
 		if (jokeService == null) {
 			throw new JokeException("Joke service not found");
 		}
-		if (seqService == null) {
-			throw new JokeException("Sequence service not found");
-		}
 		this.jokeService = jokeService;
-		this.seqService = seqService;
 	}
 
 	/**
@@ -129,12 +122,13 @@ public class JokeController {
 	 * @param body  {@link String}
 	 * @param model {@link Model}
 	 * @return {@link String} UI view
-	 * @throws JokeException if shit goes south
+	 * @throws JokeException            if shit goes south
 	 * @throws ServiceNotFoundException if shit goes back north
 	 */
 	@PostMapping("/jokes/add")
-	public String postJoke(@RequestParam String title, @RequestParam String body, Model model) throws JokeException, ServiceNotFoundException {
-		jokeService.saveJoke(seqService.getNextSequence("customSequences"), title, body);
+	public String postJoke(@RequestParam String title, @RequestParam String body, Model model)
+			throws JokeException, ServiceNotFoundException {
+		jokeService.saveJoke(title, body);
 		model.addAttribute(JOKES, jokeService.getJokes());
 		return JOKES;
 	}
@@ -142,7 +136,6 @@ public class JokeController {
 	/**
 	 * Edit a joke.
 	 * 
-	 * @param id    {@link String}
 	 * @param title {@link String}
 	 * @param body  {@link String}
 	 * @param model {@link Model}
@@ -150,9 +143,9 @@ public class JokeController {
 	 * @throws JokeException if shit goes south
 	 */
 	@PostMapping("/jokes/edit")
-	public String postEditedJoke(@RequestParam String id, @RequestParam String title, @RequestParam String body,
-			Model model) throws JokeException {
-		jokeService.saveJoke(id, title, body);
+	public String postEditedJoke(@RequestParam String title, @RequestParam String body, Model model)
+			throws JokeException {
+		jokeService.saveJoke(title, body);
 		model.addAttribute(JOKES, jokeService.getJokes());
 		return JOKES;
 	}

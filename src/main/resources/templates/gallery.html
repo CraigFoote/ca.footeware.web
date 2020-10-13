@@ -34,9 +34,10 @@
 		<div class="row" th:if="${galleries}">
 			<div class="col-sm-6">
 				<ul>
-					<li th:each="gallery : ${galleries}"><a
+					<li th:each="gallery : ${galleries}"><a style="font-size: 16pt"
 						th:href="@{'/gallery/' + ${gallery.name}}" th:text="${gallery.name}"></a>
-						<img src="/images/lock.png" alt="locked" title="password protected" th:if="${gallery.secret}"/>
+						<img src="/images/lock_closed.png" alt="locked" title="Password Protected" th:if="${gallery.secret}"/>
+						<img src="/images/lock_open.png" alt="locked" title="Open" th:unless="${gallery.secret}"/>
 					</li>
 				</ul>
 			</div>
