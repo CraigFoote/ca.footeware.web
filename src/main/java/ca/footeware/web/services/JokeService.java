@@ -91,7 +91,7 @@ public class JokeService {
 			throw new JokeException(TITLE_ERROR);
 		}
 		if (body == null || body.isBlank() || body.isEmpty()) {
-			throw new JokeException("Body cannot be empty.");
+			throw new JokeException(BODY_ERROR);
 		}
 		Joke joke = new Joke(title, body);
 		joke.setTitle(title);
@@ -118,7 +118,7 @@ public class JokeService {
 		if (body == null || body.isBlank() || body.isEmpty()) {
 			throw new JokeException(BODY_ERROR);
 		}
-		Joke joke = id == null ? new Joke(title, body) : jokeRepository.getById(id);
+		Joke joke = jokeRepository.getById(id);
 		joke.setTitle(title);
 		joke.setBody(body);
 		return jokeRepository.save(joke);
