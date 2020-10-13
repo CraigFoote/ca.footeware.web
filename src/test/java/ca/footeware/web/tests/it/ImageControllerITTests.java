@@ -94,14 +94,15 @@ public class ImageControllerITTests {
 		Assert.assertEquals("Image wrong width.", 1920, image.getWidth());
 		Assert.assertEquals("Image wrong height.", 1920, image.getHeight());
 
-//		bytes = template.withBasicAuth(USERNAME, PASSWORD).getForObject("/gallery/gallery1/test-image-bad.png",
-//				byte[].class);
-//		Assert.assertNull("Should have been no bytes for image with bad name.", bytes);
+		bytes = template.withBasicAuth(USERNAME, PASSWORD).getForObject("/gallery/gallery1/test-image-bad.png",
+				byte[].class);
+		Assert.assertTrue("Should have been an error message for image with bad name.",
+				new String(bytes).contains("gallery1/test-image-bad.png not found."));
 	}
 
 	/**
 	 * Test method for
-	 * {@link ca.footeware.web.controllers.ImageController#getThumbnail(java.lang.String, java.lang.String)}.
+	 * {@link ImageController#getThumbnail(java.lang.String, java.lang.String)}.
 	 * 
 	 * @throws IOException when shit goes south
 	 */
@@ -128,9 +129,10 @@ public class ImageControllerITTests {
 		Assert.assertEquals("Image wrong width.", 150, image.getWidth());
 		Assert.assertEquals("Image wrong height.", 150, image.getHeight());
 
-//		bytes = template.withBasicAuth(USERNAME, PASSWORD)
-//				.getForObject("/gallery/thumbnails/gallery1/test-image-bad.png", byte[].class);
-//		Assert.assertNull("Should have been no bytes for thumbnail with bad name.", bytes);
+		bytes = template.withBasicAuth(USERNAME, PASSWORD)
+				.getForObject("/gallery/thumbnails/gallery1/test-image-bad.png", byte[].class);
+		Assert.assertTrue("Should have been an error message for thumbnail with bad name.",
+				new String(bytes).contains("gallery1/test-image-bad.png not found."));
 	}
 
 }

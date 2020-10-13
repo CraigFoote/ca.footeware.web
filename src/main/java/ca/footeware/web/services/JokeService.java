@@ -4,7 +4,6 @@
 package ca.footeware.web.services;
 
 import java.util.List;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -44,19 +43,23 @@ public class JokeService {
 	/**
 	 * Create a new joke using provided id, title and body.
 	 * 
+	 * @param id    {@link String}
 	 * @param title {@link String}
 	 * @param body  {@link String}
 	 * @return {@link Joke}
 	 * @throws JokeException if shit goes south
 	 */
-	public Joke saveJoke(String title, String body) throws JokeException {
+	public Joke saveJoke(String id, String title, String body) throws JokeException {
 		if (title == null || title.isBlank() || title.isEmpty()) {
 			throw new JokeException(TITLE_ERROR);
 		}
 		if (body == null || body.isBlank() || body.isEmpty()) {
 			throw new JokeException("Body cannot be empty.");
 		}
-		return jokeRepository.save(new Joke(title, body));
+		Joke joke = id == null ? new Joke(title, body) : jokeRepository.getById(id);
+		joke.setTitle(title);
+		joke.setBody(body);
+		return jokeRepository.save(joke);
 	}
 
 	/**
