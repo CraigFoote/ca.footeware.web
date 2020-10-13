@@ -34,7 +34,7 @@ class JokeServiceTests {
 
 	/**
 	 * Test method for
-	 * {@link ca.footeware.web.services.JokeService#saveJoke(String, String, String)}.
+	 * {@link ca.footeware.web.services.JokeService#saveJoke(String, String)}.
 	 * 
 	 * @throws JokeException if shit goes south
 	 */
@@ -104,12 +104,18 @@ class JokeServiceTests {
 	 * 
 	 * @throws JokeException if shit goes south
 	 */
-	@Test
-	public void testSaveWithId() throws JokeException {
+	@ParameterizedTest
+	@NullAndEmptySource
+	@ValueSource(strings = { " ", "   ", "\n", "\t" })
+	void testSaveWithIdWithBadBody(String arg) throws JokeException {
 		Joke savedJoke = jokeService.saveJoke(TEST_TITLE, TEST_BODY);
 		String id = savedJoke.getId();
-		Joke savedJoke2 = jokeService.saveJoke(id, TEST_TITLE, TEST_BODY);
-		Assert.assertEquals("Id should have persisted.", savedJoke.getId(), savedJoke2.getId());
+		
+		JokeException exception = Assertions.assertThrows(JokeException.class, () -> {
+			jokeService.saveJoke(id, TEST_TITLE, arg);
+		});
+		String message = exception.getMessage();
+		Assert.assertEquals("Incorrect exception message.", JokeService.BODY_ERROR, message);
 	}
 
 	/**

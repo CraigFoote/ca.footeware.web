@@ -38,7 +38,11 @@ public class JokeService {
 	/**
 	 * 
 	 */
-	public static final String MAP_ERROR = "Unknown error, map not found.";
+	public static final String BODY_ERROR = "Body cannot be empty.";
+	/**
+	 * 
+	 */
+	public static final String ID_ERROR = "Id cannot be empty.";
 
 	/**
 	 * Create a new joke using provided id, title and body.
@@ -50,11 +54,14 @@ public class JokeService {
 	 * @throws JokeException if shit goes south
 	 */
 	public Joke saveJoke(String id, String title, String body) throws JokeException {
+		if (id == null || id.isBlank() || id.isEmpty()) {
+			throw new JokeException(ID_ERROR);
+		}
 		if (title == null || title.isBlank() || title.isEmpty()) {
 			throw new JokeException(TITLE_ERROR);
 		}
 		if (body == null || body.isBlank() || body.isEmpty()) {
-			throw new JokeException("Body cannot be empty.");
+			throw new JokeException(BODY_ERROR);
 		}
 		Joke joke = id == null ? new Joke(title, body) : jokeRepository.getById(id);
 		joke.setTitle(title);
