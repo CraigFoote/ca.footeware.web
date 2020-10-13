@@ -37,7 +37,7 @@ class JokeServiceTests {
 
 	/**
 	 * Test method for
-	 * {@link ca.footeware.web.services.JokeService#saveJoke(String, String, String)}.
+	 * {@link ca.footeware.web.services.JokeService#saveJoke(String, String)}.
 	 * 
 	 * @throws JokeException if shit goes south
 	 */
