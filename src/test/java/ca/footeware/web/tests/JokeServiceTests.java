@@ -11,10 +11,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.NullAndEmptySource;
 import org.junit.jupiter.params.provider.ValueSource;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import ca.footeware.web.exceptions.JokeException;
 import ca.footeware.web.models.Joke;
@@ -25,7 +23,6 @@ import ca.footeware.web.services.JokeService;
  * 
  * @author Footeware.ca
  */
-@RunWith(SpringRunner.class)
 @SpringBootTest
 class JokeServiceTests {
 
@@ -103,6 +100,20 @@ class JokeServiceTests {
 
 	/**
 	 * Test method for
+	 * {@link ca.footeware.web.services.JokeService#saveJoke(String, String, String)}
+	 * 
+	 * @throws JokeException if shit goes south
+	 */
+	@Test
+	public void testSaveWithId() throws JokeException {
+		Joke savedJoke = jokeService.saveJoke(TEST_TITLE, TEST_BODY);
+		String id = savedJoke.getId();
+		Joke savedJoke2 = jokeService.saveJoke(id, TEST_TITLE, TEST_BODY);
+		Assert.assertEquals("Id should have persisted.", savedJoke.getId(), savedJoke2.getId());
+	}
+
+	/**
+	 * Test method for
 	 * {@link ca.footeware.web.services.JokeService#deleteJoke(java.lang.String)}.
 	 * 
 	 * @throws JokeException if shit goes south
@@ -128,12 +139,6 @@ class JokeServiceTests {
 		}
 	}
 
-	/**
-	 * Test method for
-	 * {@link ca.footeware.web.services.JokeService#getById(java.lang.String)}.
-	 * 
-	 * @throws JokeException if shit goes south
-	 */
 	@Test
 	public void testGetJokeById() throws JokeException {
 		Joke joke1 = jokeService.saveJoke(TEST_TITLE, TEST_BODY);
