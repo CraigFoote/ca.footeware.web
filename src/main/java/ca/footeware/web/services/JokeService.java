@@ -63,6 +63,28 @@ public class JokeService {
 	}
 
 	/**
+	 * Save joke using provided title and body. This is for updating the joke while
+	 * maintaining ID.
+	 * 
+	 * @param title {@link String}
+	 * @param body  {@link String}
+	 * @return {@link Joke}
+	 * @throws JokeException if shit goes south
+	 */
+	public Joke saveJoke(String title, String body) throws JokeException {
+		if (title == null || title.isBlank() || title.isEmpty()) {
+			throw new JokeException(TITLE_ERROR);
+		}
+		if (body == null || body.isBlank() || body.isEmpty()) {
+			throw new JokeException("Body cannot be empty.");
+		}
+		Joke joke = new Joke(title, body);
+		joke.setTitle(title);
+		joke.setBody(body);
+		return jokeRepository.save(joke);
+	}
+
+	/**
 	 * Find a joke with provided id and delete it.
 	 * 
 	 * @param id {@link String}
