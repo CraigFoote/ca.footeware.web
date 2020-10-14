@@ -63,6 +63,16 @@ class JokeServiceTests {
 		Assert.assertNull("Joke should have been null.", deleted);
 	}
 
+	@ParameterizedTest
+	@NullAndEmptySource
+	@ValueSource(strings = { " ", "   ", "\n", "\t" })
+	void testDeleteWithBadId(String arg) {
+		JokeException exception = Assertions.assertThrows(JokeException.class, () -> {
+			jokeService.deleteJoke(arg);
+		});
+		Assert.assertEquals("Wrong exception message.", JokeService.ID_ERROR, exception.getMessage());
+	}
+
 	/**
 	 * Test method for
 	 * {@link ca.footeware.web.services.JokeService#deleteJoke(java.lang.String)}.

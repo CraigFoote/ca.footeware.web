@@ -52,7 +52,7 @@ public class JokeService {
 	 */
 	public void deleteJoke(String id) throws JokeException {
 		if (id == null || id.isBlank() || id.isEmpty()) {
-			throw new JokeException("ID cannot be empty.");
+			throw new JokeException(ID_ERROR);
 		}
 		jokeRepository.deleteById(id);
 	}
