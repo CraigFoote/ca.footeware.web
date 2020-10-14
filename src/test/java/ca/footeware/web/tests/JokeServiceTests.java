@@ -102,6 +102,16 @@ class JokeServiceTests {
 		});
 		Assert.assertEquals("Wrong exception message.", JokeService.ID_ERROR, exception.getMessage());
 	}
+	
+	@ParameterizedTest
+	@NullAndEmptySource
+	@ValueSource(strings = { " ", "   ", "\n", "\t" })
+	void testGetJokeByIdWithBadId(String arg) {
+		JokeException exception = Assertions.assertThrows(JokeException.class, () -> {
+			jokeService.getById(arg);
+		});
+		Assert.assertEquals("Wrong exception message.", JokeService.ID_ERROR, exception.getMessage());
+	}
 
 	@Test
 	public void testGetJokeById() throws JokeException {
@@ -137,7 +147,7 @@ class JokeServiceTests {
 	void testSaveJoke(String arg) throws JokeException {
 		Joke newJoke = jokeService.saveJoke(TEST_TITLE, TEST_BODY);
 		Joke savedJoke = jokeService.getById(newJoke.getId());
-		Assert.assertEquals("Incorrect joke body.", newJoke.getId(), savedJoke.getId());
+		Assert.assertEquals("Incorrect joke id.", newJoke.getId(), savedJoke.getId());
 
 		JokeException exception = Assertions.assertThrows(JokeException.class, () -> {
 			jokeService.saveJoke(arg, TEST_BODY);

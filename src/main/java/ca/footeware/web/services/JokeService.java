@@ -62,8 +62,12 @@ public class JokeService {
 	 * 
 	 * @param id {@link String}
 	 * @return {@link Joke}
+	 * @throws JokeException if shit goes south
 	 */
-	public Joke getById(String id) {
+	public Joke getById(String id) throws JokeException {
+		if (id == null || id.isBlank() || id.isEmpty()) {
+			throw new JokeException(ID_ERROR);
+		}
 		return jokeRepository.getById(id);
 	}
 
