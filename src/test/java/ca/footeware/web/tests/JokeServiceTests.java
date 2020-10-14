@@ -41,6 +41,23 @@ class JokeServiceTests {
 	@ParameterizedTest
 	@NullAndEmptySource
 	@ValueSource(strings = { " ", "   ", "\n", "\t" })
+	void TestCreateJokeWithBadBody(String arg) {
+		JokeException exception = Assertions.assertThrows(JokeException.class, () -> {
+			jokeService.saveJoke(TEST_TITLE, arg);
+		});
+		String message = exception.getMessage();
+		Assert.assertEquals("Incorrect exception message.", JokeService.BODY_ERROR, message);
+	}
+
+	/**
+	 * Test method for
+	 * {@link ca.footeware.web.services.JokeService#saveJoke(java.lang.String, java.lang.String, java.lang.String)}.
+	 * 
+	 * @param arg {@link String}
+	 */
+	@ParameterizedTest
+	@NullAndEmptySource
+	@ValueSource(strings = { " ", "   ", "\n", "\t" })
 	void TestCreateJokeWithBadTitle(String arg) {
 		JokeException exception = Assertions.assertThrows(JokeException.class, () -> {
 			jokeService.saveJoke(arg, TEST_BODY);
@@ -63,16 +80,6 @@ class JokeServiceTests {
 		Assert.assertNull("Joke should have been null.", deleted);
 	}
 
-	@ParameterizedTest
-	@NullAndEmptySource
-	@ValueSource(strings = { " ", "   ", "\n", "\t" })
-	void testDeleteWithBadId(String arg) {
-		JokeException exception = Assertions.assertThrows(JokeException.class, () -> {
-			jokeService.deleteJoke(arg);
-		});
-		Assert.assertEquals("Wrong exception message.", JokeService.ID_ERROR, exception.getMessage());
-	}
-
 	/**
 	 * Test method for
 	 * {@link ca.footeware.web.services.JokeService#deleteJoke(java.lang.String)}.
@@ -82,8 +89,18 @@ class JokeServiceTests {
 		try {
 			jokeService.deleteJoke("bob");
 		} catch (JokeException e) {
-			Assert.fail("No exception is expected in this call.");
+			Assert.fail("No exception is expected in this call. " + e.getMessage());
 		}
+	}
+
+	@ParameterizedTest
+	@NullAndEmptySource
+	@ValueSource(strings = { " ", "   ", "\n", "\t" })
+	void testDeleteWithBadId(String arg) {
+		JokeException exception = Assertions.assertThrows(JokeException.class, () -> {
+			jokeService.deleteJoke(arg);
+		});
+		Assert.assertEquals("Wrong exception message.", JokeService.ID_ERROR, exception.getMessage());
 	}
 
 	@Test
@@ -110,49 +127,27 @@ class JokeServiceTests {
 	 * Test method for
 	 * {@link ca.footeware.web.services.JokeService#saveJoke(String, String)}.
 	 * 
+	 * @param arg {@link String}
+	 * 
 	 * @throws JokeException if shit goes south
 	 */
-	@Test
-	public void testSaveJoke() throws JokeException {
+	@ParameterizedTest
+	@NullAndEmptySource
+	@ValueSource(strings = { " ", "   ", "\n", "\t" })
+	void testSaveJoke(String arg) throws JokeException {
 		Joke newJoke = jokeService.saveJoke(TEST_TITLE, TEST_BODY);
 		Joke savedJoke = jokeService.getById(newJoke.getId());
 		Assert.assertEquals("Incorrect joke body.", newJoke.getId(), savedJoke.getId());
 
-		// null title
 		JokeException exception = Assertions.assertThrows(JokeException.class, () -> {
-			jokeService.saveJoke(null, TEST_BODY);
+			jokeService.saveJoke(arg, TEST_BODY);
 		});
-		Assert.assertEquals("Incorrect exception.", "Title cannot be empty.", exception.getMessage());
+		Assert.assertTrue("Incorrect exception.", !exception.getMessage().isEmpty());
 
-		// empty string title
 		exception = Assertions.assertThrows(JokeException.class, () -> {
-			jokeService.saveJoke("", TEST_BODY);
+			jokeService.saveJoke(TEST_TITLE, arg);
 		});
-		Assert.assertEquals("Incorrect exception.", "Title cannot be empty.", exception.getMessage());
-
-		// whitespace title
-		exception = Assertions.assertThrows(JokeException.class, () -> {
-			jokeService.saveJoke(null, " ", TEST_BODY);
-		});
-		Assert.assertEquals("Incorrect exception.", "Title cannot be empty.", exception.getMessage());
-
-		// null body
-		exception = Assertions.assertThrows(JokeException.class, () -> {
-			jokeService.saveJoke(TEST_TITLE, null);
-		});
-		Assert.assertEquals("Incorrect exception.", "Body cannot be empty.", exception.getMessage());
-
-		// empty string title
-		exception = Assertions.assertThrows(JokeException.class, () -> {
-			jokeService.saveJoke(TEST_TITLE, "");
-		});
-		Assert.assertEquals("Incorrect exception.", "Body cannot be empty.", exception.getMessage());
-
-		// whitespace body
-		exception = Assertions.assertThrows(JokeException.class, () -> {
-			jokeService.saveJoke(TEST_TITLE, " ");
-		});
-		Assert.assertEquals("Incorrect exception.", "Body cannot be empty.", exception.getMessage());
+		Assert.assertTrue("Incorrect exception.", !exception.getMessage().isEmpty());
 	}
 
 	/**
@@ -171,8 +166,7 @@ class JokeServiceTests {
 		JokeException exception = Assertions.assertThrows(JokeException.class, () -> {
 			jokeService.saveJoke(id, TEST_TITLE, arg);
 		});
-		String message = exception.getMessage();
-		Assert.assertEquals("Incorrect exception message.", JokeService.BODY_ERROR, message);
+		Assert.assertEquals("Incorrect exception message.", JokeService.BODY_ERROR, exception.getMessage());
 	}
 
 }
