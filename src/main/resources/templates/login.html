@@ -36,10 +36,11 @@
 				<form action="#" th:action="@{/login}" method="post">
 					<p>
 						<input class="form-control" style="background-color: #8fbcbb" type="text" name="username"
-							autofocus="autofocus" placeholder="Name" />
+							autofocus="autofocus" required="required" placeholder="Name" />
 					</p>
 					<p>
-						<input class="form-control" style="background-color: #8fbcbb" type="password" name="password"
+						<input class="form-control" style="background-color: #8fbcbb"
+							type="password" name="password" required="required"
 							placeholder="Password" />
 					</p>
 					<p>
