@@ -44,6 +44,12 @@ public class ImageServiceTests {
 	@Value("${images.path}")
 	String imagesPath;
 
+	@Value("${images.max.dimension}")
+	private Integer maxImgDim;
+
+	@Value("${images.thumbnails.max.dimension}")
+	private Integer maxTnDim;
+
 	/**
 	 * Test method for {@link ca.footeware.web.services.ImageService#getExif(File)}
 	 * 
@@ -152,35 +158,32 @@ public class ImageServiceTests {
 		byte[] bytes = service.getImageAsBytes(GALLERY_NAME, IMAGE_HORIZONTAL);
 		BufferedImage originalImage = ImageIO.read(new ByteArrayInputStream(bytes));
 		int type = originalImage.getType() == 0 ? BufferedImage.TYPE_INT_ARGB : originalImage.getType();
-		BufferedImage image = service.resize(originalImage, type,
-				service.getDimensions(originalImage, ImageService.MAX_TN_DIMENSION));
+		BufferedImage image = service.resize(originalImage, type, service.getDimensions(originalImage, maxTnDim));
 		Assert.assertNotNull("Image was null.", image);
 		int width = image.getWidth();
 		int height = image.getHeight();
-		Assert.assertEquals("Thumbnail was not the correct width.", ImageService.MAX_TN_DIMENSION, width);
-		Assert.assertTrue("Thumbnail was too tall.", height <= ImageService.MAX_TN_DIMENSION);
+		Assert.assertEquals("Thumbnail was not the correct width.", maxTnDim.intValue(), width);
+		Assert.assertTrue("Thumbnail was too tall.", height <= maxTnDim);
 
 		bytes = service.getImageAsBytes(GALLERY_NAME, IMAGE_VERTICAL);
 		originalImage = ImageIO.read(new ByteArrayInputStream(bytes));
 		type = originalImage.getType() == 0 ? BufferedImage.TYPE_INT_ARGB : originalImage.getType();
-		image = service.resize(originalImage, type,
-				service.getDimensions(originalImage, ImageService.MAX_TN_DIMENSION));
+		image = service.resize(originalImage, type, service.getDimensions(originalImage, maxTnDim));
 		Assert.assertNotNull("Image was null.", image);
 		width = image.getWidth();
 		height = image.getHeight();
-		Assert.assertTrue("Thumbnail was too wide.", width <= ImageService.MAX_TN_DIMENSION);
-		Assert.assertEquals("Thumbnail was not the correct height.", ImageService.MAX_TN_DIMENSION, height);
+		Assert.assertTrue("Thumbnail was too wide.", width <= maxTnDim);
+		Assert.assertEquals("Thumbnail was not the correct height.", maxTnDim.intValue(), height);
 
 		bytes = service.getImageAsBytes(GALLERY_NAME, IMAGE_SQUARE);
 		originalImage = ImageIO.read(new ByteArrayInputStream(bytes));
 		type = originalImage.getType() == 0 ? BufferedImage.TYPE_INT_ARGB : originalImage.getType();
-		image = service.resize(originalImage, type,
-				service.getDimensions(originalImage, ImageService.MAX_TN_DIMENSION));
+		image = service.resize(originalImage, type, service.getDimensions(originalImage, maxTnDim));
 		Assert.assertNotNull("Image was null.", image);
 		width = image.getWidth();
 		height = image.getHeight();
-		Assert.assertEquals("Thumbnail was not the correct width.", ImageService.MAX_TN_DIMENSION, width);
-		Assert.assertEquals("Thumbnail was not the correct height.", ImageService.MAX_TN_DIMENSION, height);
+		Assert.assertEquals("Thumbnail was not the correct width.", maxTnDim.intValue(), width);
+		Assert.assertEquals("Thumbnail was not the correct height.", maxTnDim.intValue(), height);
 	}
 
 }

@@ -41,14 +41,12 @@ import ca.footeware.web.models.Gallery;
 @Service
 public class ImageService {
 
-	/**
-	 * 
-	 */
-	public static final int MAX_IMG_DIMENSION = 1920;
-	/**
-	 * 
-	 */
-	public static final int MAX_TN_DIMENSION = 150;
+	@Value("${images.max.dimension}")
+	private String maxImgDim;
+
+	@Value("${images.thumbnails.max.dimension}")
+	private Integer maxTnDim;
+
 	private String imagesPath;
 
 	/**
@@ -260,7 +258,8 @@ public class ImageService {
 			File file = getFileByName(galleryName, imageName);
 			BufferedImage originalImage = ImageIO.read(file);
 			int type = originalImage.getType() == 0 ? BufferedImage.TYPE_INT_ARGB : originalImage.getType();
-			BufferedImage image = resize(originalImage, type, getDimensions(originalImage, MAX_IMG_DIMENSION));
+			BufferedImage image = resize(originalImage, type,
+					getDimensions(originalImage, Integer.parseInt(maxImgDim)));
 			return convertToBytes(image);
 		} catch (IOException e) {
 			throw new ImageException(e.getLocalizedMessage());
@@ -280,7 +279,7 @@ public class ImageService {
 			File file = getFileByName(galleryName, imageName);
 			BufferedImage originalImage = ImageIO.read(file);
 			int type = originalImage.getType() == 0 ? BufferedImage.TYPE_INT_ARGB : originalImage.getType();
-			BufferedImage image = resize(originalImage, type, getDimensions(originalImage, MAX_TN_DIMENSION));
+			BufferedImage image = resize(originalImage, type, getDimensions(originalImage, maxTnDim));
 			return convertToBytes(image);
 		} catch (IOException e) {
 			throw new ImageException(e.getLocalizedMessage());

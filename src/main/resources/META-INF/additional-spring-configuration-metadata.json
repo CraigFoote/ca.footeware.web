@@ -1,5 +1,17 @@
-{"properties": [{
-  "name": "images.path",
-  "type": "java.lang.String",
-  "description": "Location of gallery images on disk."
-}]}
+{"properties": [
+  {
+    "name": "images.path",
+    "type": "java.lang.String",
+    "description": "Location of gallery images on disk."
+  },
+  {
+    "name": "images.thumbnails.max.dimension",
+    "type": "java.lang.String",
+    "description": "The maximum width or length at which a thumbnail is displayed."
+  },
+  {
+    "name": "images.max.dimension",
+    "type": "java.lang.String",
+    "description": "The maximum width or length at which an image is displayed."
+  }
+]}
