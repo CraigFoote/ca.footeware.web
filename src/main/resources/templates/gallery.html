@@ -37,9 +37,8 @@
 					<li class="noBullet" th:each="gallery : ${galleries}"><a
 						style="font-size: 16pt" th:href="@{'/gallery/' + ${gallery.name}}"
 						th:text="${gallery.name}"></a> <img src="/images/lock_closed.png"
-						alt="Locked" title="Password Protected" th:if="${gallery.secret}" />
-						<img src="/images/lock_open.png" alt="Open" title="Open"
-						th:unless="${gallery.secret}" /></li>
+						alt="Locked" title="Password Protected" th:if="${gallery.secret}"
+						style="margin-top: -10px;" /></li>
 				</ul>
 			</div>
 			<div class="col-sm-6" style="border-left: 2px solid #bf616a">
