@@ -37,7 +37,7 @@ public class ImageController {
 	}
 
 	/**
-	 * Create a linefeed-delimited String of specific exif item labels and values.
+	 * Create a line-feed-delimited String of specific EXIF item labels and values.
 	 * 
 	 * @param name
 	 * @param exif

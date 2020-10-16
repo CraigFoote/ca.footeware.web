@@ -65,7 +65,8 @@ public class ImageServiceTests {
 	}
 
 	/**
-	 * Test method for {@link ca.footeware.web.services.ImageService#getFiles()}.
+	 * Test method for
+	 * {@link ca.footeware.web.services.ImageService#getFiles()}.
 	 */
 	@Test
 	public void testGetFiles() {
