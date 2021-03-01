@@ -189,7 +189,8 @@ public class ImageService {
 	 * @throws ImageException if an image-related exception occurs.
 	 */
 	public File[] getFiles(String galleryName) throws ImageException {
-		// Restrict the galleryName to letters and digits only. OK, and dashes and underscores.
+		// Restrict the galleryName to letters and digits only. OK, and dashes and
+		// underscores.
 		if (!galleryName.matches("[\\sa-zA-Z0-9_-]++")) {
 			throw new ImageException(
 					"Invalid gallery name: " + galleryName + ". Must be spaces, a-z, A-Z, 0-9, underscores or dashes.");

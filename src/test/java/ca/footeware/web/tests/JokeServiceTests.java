@@ -5,9 +5,8 @@ package ca.footeware.web.tests;
 
 import java.util.List;
 
-import org.junit.Assert;
-import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.NullAndEmptySource;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -46,7 +45,7 @@ class JokeServiceTests {
 			jokeService.saveJoke(TEST_TITLE, arg);
 		});
 		String message = exception.getMessage();
-		Assert.assertEquals("Incorrect exception message.", JokeService.BODY_ERROR, message);
+		Assertions.assertEquals(JokeService.BODY_ERROR, message, "Incorrect exception message.");
 	}
 
 	/**
@@ -63,7 +62,7 @@ class JokeServiceTests {
 			jokeService.saveJoke(arg, TEST_BODY);
 		});
 		String message = exception.getMessage();
-		Assert.assertEquals("Incorrect exception message.", JokeService.TITLE_ERROR, message);
+		Assertions.assertEquals(JokeService.TITLE_ERROR, message, "Incorrect exception message.");
 	}
 
 	/**
@@ -77,7 +76,7 @@ class JokeServiceTests {
 		Joke joke = jokeService.saveJoke(TEST_TITLE, TEST_BODY);
 		jokeService.deleteJoke(joke.getId());
 		Joke deleted = jokeService.getById(joke.getId());
-		Assert.assertNull("Joke should have been null.", deleted);
+		Assertions.assertNull(deleted);
 	}
 
 	/**
@@ -89,7 +88,7 @@ class JokeServiceTests {
 		try {
 			jokeService.deleteJoke("bob");
 		} catch (JokeException e) {
-			Assert.fail("No exception is expected in this call. " + e.getMessage());
+			Assertions.fail("No exception is expected in this call. " + e.getMessage());
 		}
 	}
 
@@ -100,9 +99,9 @@ class JokeServiceTests {
 		JokeException exception = Assertions.assertThrows(JokeException.class, () -> {
 			jokeService.deleteJoke(arg);
 		});
-		Assert.assertEquals("Wrong exception message.", JokeService.ID_ERROR, exception.getMessage());
+		Assertions.assertEquals(JokeService.ID_ERROR, exception.getMessage(), "Wrong exception message.");
 	}
-	
+
 	@ParameterizedTest
 	@NullAndEmptySource
 	@ValueSource(strings = { " ", "   ", "\n", "\t" })
@@ -110,16 +109,16 @@ class JokeServiceTests {
 		JokeException exception = Assertions.assertThrows(JokeException.class, () -> {
 			jokeService.getById(arg);
 		});
-		Assert.assertEquals("Wrong exception message.", JokeService.ID_ERROR, exception.getMessage());
+		Assertions.assertEquals(JokeService.ID_ERROR, exception.getMessage(), "Wrong exception message.");
 	}
 
 	@Test
 	public void testGetJokeById() throws JokeException {
 		Joke joke1 = jokeService.saveJoke(TEST_TITLE, TEST_BODY);
 		Joke joke2 = jokeService.getById(joke1.getId());
-		Assert.assertEquals("IDs should be the same", joke1.getId(), joke2.getId());
-		Assert.assertEquals("Titles should be the same", joke1.getTitle(), joke2.getTitle());
-		Assert.assertEquals("Bodies should be the same", joke1.getBody(), joke2.getBody());
+		Assertions.assertEquals(joke1.getId(), joke2.getId(), "IDs should be the same");
+		Assertions.assertEquals(joke1.getTitle(), joke2.getTitle(), "Titles should be the same");
+		Assertions.assertEquals(joke1.getBody(), joke2.getBody(), "Bodies should be the same");
 	}
 
 	/**
@@ -130,7 +129,7 @@ class JokeServiceTests {
 	@Test
 	public void testGetJokes() throws JokeException {
 		List<Joke> jokes = jokeService.getJokes();
-		Assert.assertNotNull(jokes);
+		Assertions.assertNotNull(jokes);
 	}
 
 	/**
@@ -147,17 +146,17 @@ class JokeServiceTests {
 	void testSaveJoke(String arg) throws JokeException {
 		Joke newJoke = jokeService.saveJoke(TEST_TITLE, TEST_BODY);
 		Joke savedJoke = jokeService.getById(newJoke.getId());
-		Assert.assertEquals("Incorrect joke id.", newJoke.getId(), savedJoke.getId());
+		Assertions.assertEquals(newJoke.getId(), savedJoke.getId(), "Incorrect joke id.");
 
 		JokeException exception = Assertions.assertThrows(JokeException.class, () -> {
 			jokeService.saveJoke(arg, TEST_BODY);
 		});
-		Assert.assertTrue("Incorrect exception.", !exception.getMessage().isEmpty());
+		Assertions.assertFalse(exception.getMessage().isEmpty(), "Incorrect exception.");
 
 		exception = Assertions.assertThrows(JokeException.class, () -> {
 			jokeService.saveJoke(TEST_TITLE, arg);
 		});
-		Assert.assertTrue("Incorrect exception.", !exception.getMessage().isEmpty());
+		Assertions.assertFalse(exception.getMessage().isEmpty(), "Incorrect exception.");
 	}
 
 	/**
@@ -176,7 +175,7 @@ class JokeServiceTests {
 		JokeException exception = Assertions.assertThrows(JokeException.class, () -> {
 			jokeService.saveJoke(id, TEST_TITLE, arg);
 		});
-		Assert.assertEquals("Incorrect exception message.", JokeService.BODY_ERROR, exception.getMessage());
+		Assertions.assertEquals(JokeService.BODY_ERROR, exception.getMessage(), "Incorrect exception message.");
 	}
 
 }

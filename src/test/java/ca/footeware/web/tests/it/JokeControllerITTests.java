@@ -8,10 +8,9 @@ import java.util.List;
 import javax.management.ServiceNotFoundException;
 import javax.servlet.http.HttpServletResponse;
 
-import org.junit.Assert;
-import org.junit.Test;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
@@ -22,7 +21,6 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
@@ -35,7 +33,6 @@ import ca.footeware.web.services.JokeService;
  * @author Footeware.ca
  *
  */
-@RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 public class JokeControllerITTests {
 
@@ -74,14 +71,14 @@ public class JokeControllerITTests {
 		HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(joke, headers);
 		ResponseEntity<String> response = template.postForEntity("/jokes/add", request, String.class);
 		HttpStatus status = response.getStatusCode();
-		Assert.assertEquals("Incorrect response status.", HttpStatus.OK, status);
+		Assertions.assertEquals(HttpStatus.OK, status);
 		String body = response.getBody();
-		Assert.assertTrue("Should have displayed new joke title.", body.contains("testTitle</a>"));
-		Assert.assertTrue("Should have displayed new joke body.", body.contains("testBody</div>"));
+		Assertions.assertTrue(body.contains("testTitle</a>"), "Should have displayed new joke title.");
+		Assertions.assertTrue(body.contains("testBody</div>"), "Should have displayed new joke body.");
 
 		// find id
 		HttpHeaders responseHeaders = response.getHeaders();
-		Assert.assertTrue("Missing response header 'X-Id'.", responseHeaders.containsKey("X-Id"));
+		Assertions.assertTrue(responseHeaders.containsKey("X-Id"), "Missing response header 'X-Id'.");
 		String id = responseHeaders.get("X-Id").get(0);
 
 		// delete it
@@ -89,11 +86,10 @@ public class JokeControllerITTests {
 		ResponseEntity<String> responseEntity = template.exchange("/jokes/delete/" + id, HttpMethod.GET, requestEntity,
 				String.class);
 		status = response.getStatusCode();
-		Assert.assertEquals("Incorrect response status.", HttpStatus.OK, status);
+		Assertions.assertEquals(HttpStatus.OK, status);
 		String page = responseEntity.getBody();
-		Assert.assertTrue("Incorrect page returned.",
-				page.contains("<li class=\"active\"><a href=\"/jokes\">Jokes</a></li>"));
-		Assert.assertFalse("Incorrect page returned.", page.contains("testTitle</a>"));
+		Assertions.assertTrue(page.contains("<li class=\"active\"><a href=\"/jokes\">Jokes</a></li>"));
+		Assertions.assertFalse(page.contains("testTitle</a>"));
 	}
 
 	/**
@@ -114,18 +110,19 @@ public class JokeControllerITTests {
 		HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(joke, requestHeaders);
 		ResponseEntity<String> response = template.postForEntity("/jokes/add", request, String.class);
 		HttpStatus status = response.getStatusCode();
-		Assert.assertEquals("Incorrect response status.", HttpStatus.OK, status);
+		Assertions.assertEquals(HttpStatus.OK, status);
 
 		// find id
 		HttpHeaders responseHeaders = response.getHeaders();
-		Assert.assertTrue("Missing response header 'X-Id'.", responseHeaders.containsKey("X-Id"));
+		Assertions.assertTrue(responseHeaders.containsKey("X-Id"), "Missing response header 'X-Id'.");
 		String id = responseHeaders.get("X-Id").get(0);
 
 		// fetch joke
 		String page = template.getForObject("/jokes/edit/" + id, String.class);
-		Assert.assertTrue("Incorrect page returned.",
-				page.contains("<li class=\"active\"><a href=\"/jokes\">Jokes</a></li>"));
-		Assert.assertTrue("Incorrect page returned.", page.contains("value=\"testTitle\" placeholder=\"Title\" />"));
+		Assertions.assertTrue(page.contains("<li class=\"active\"><a href=\"/jokes\">Jokes</a></li>"),
+				"Incorrect page returned.");
+		Assertions.assertTrue(page.contains("value=\"testTitle\" placeholder=\"Title\" />"),
+				"Incorrect page returned.");
 
 		// simulate editing of joke and clicking save
 		joke = new LinkedMultiValueMap<>();
@@ -135,9 +132,9 @@ public class JokeControllerITTests {
 		request = new HttpEntity<>(joke, requestHeaders);
 		response = template.exchange("/jokes/edit", HttpMethod.POST, request, String.class);
 		page = response.getBody();
-		Assert.assertFalse("Joke should have updated title.", page.contains("testTitle</a>"));
-		Assert.assertTrue("Joke should have updated title.", page.contains("testTitle2</a>"));
-		Assert.assertTrue("Joke should have updated body.", page.contains("testBody2</div>"));
+		Assertions.assertFalse(page.contains("testTitle</a>"), "Joke should have updated title.");
+		Assertions.assertTrue(page.contains("testTitle2</a>"), "Joke should have updated title.");
+		Assertions.assertTrue(page.contains("testBody2</div>"), "Joke should have updated body.");
 	}
 
 	/**
@@ -147,9 +144,10 @@ public class JokeControllerITTests {
 	@Test
 	public void testGetAddJokePage() {
 		String page = template.getForObject("/jokes/add", String.class);
-		Assert.assertTrue("Incorrect page returned.",
-				page.contains("<li class=\"active\"><a href=\"/jokes\">Jokes</a></li>"));
-		Assert.assertTrue("Incorrect page returned.", page.contains("<form action=\"/jokes/add\" method=\"post\">"));
+		Assertions.assertTrue(page.contains("<li class=\"active\"><a href=\"/jokes\">Jokes</a></li>"),
+				"Incorrect page returned.");
+		Assertions.assertTrue(page.contains("<form action=\"/jokes/add\" method=\"post\">"),
+				"Incorrect page returned.");
 	}
 
 	/**
@@ -159,10 +157,10 @@ public class JokeControllerITTests {
 	@Test
 	public void testGetJoke() {
 		String page = template.getForObject("/jokes/1", String.class);
-		Assert.assertTrue("Incorrect page returned.",
-				page.contains("<li class=\"active\"><a href=\"/jokes\">Jokes</a></li>"));
-		Assert.assertTrue("Incorrect page returned.",
-				page.contains("<li class=\"active\"><a href=\"/jokes\">Jokes</a></li>"));
+		Assertions.assertTrue(page.contains("<li class=\"active\"><a href=\"/jokes\">Jokes</a></li>"),
+				"Incorrect page returned.");
+		Assertions.assertTrue(page.contains("<li class=\"active\"><a href=\"/jokes\">Jokes</a></li>"),
+				"Incorrect page returned.");
 	}
 
 	/**
@@ -172,9 +170,9 @@ public class JokeControllerITTests {
 	@Test
 	public void testGetJokeBadTitle() {
 		String page = template.getForObject("/jokes/bad", String.class);
-		Assert.assertTrue("Incorrect page returned.",
-				page.contains("<li class=\"active\"><a href=\"/jokes\">Jokes</a></li>"));
-		Assert.assertTrue("Incorrect page returned.", !page.contains("<h3 class=\"title\">Nine o&amp;</h3>"));
+		Assertions.assertTrue(page.contains("<li class=\"active\"><a href=\"/jokes\">Jokes</a></li>"),
+				"Incorrect page returned.");
+		Assertions.assertTrue(!page.contains("<h3 class=\"title\">Nine o&amp;</h3>"), "Incorrect page returned.");
 	}
 
 	/**
@@ -184,10 +182,10 @@ public class JokeControllerITTests {
 	@Test
 	public void testGetJokes() {
 		String page = template.getForObject("/jokes", String.class);
-		Assert.assertTrue("Incorrect page returned.",
-				page.contains("<li class=\"active\"><a href=\"/jokes\">Jokes</a></li>"));
-		Assert.assertTrue("Incorrect page returned.",
-				page.contains("<li class=\"active\"><a href=\"/jokes\">Jokes</a></li>"));
+		Assertions.assertTrue(page.contains("<li class=\"active\"><a href=\"/jokes\">Jokes</a></li>"),
+				"Incorrect page returned.");
+		Assertions.assertTrue(page.contains("<li class=\"active\"><a href=\"/jokes\">Jokes</a></li>"),
+				"Incorrect page returned.");
 	}
 
 	/**
@@ -209,18 +207,18 @@ public class JokeControllerITTests {
 
 		ResponseEntity<String> response = template.postForEntity("/jokes/add", request, String.class);
 		HttpStatus status = response.getStatusCode();
-		Assert.assertEquals("Incorrect response status.", HttpStatus.OK, status);
+		Assertions.assertEquals(HttpStatus.OK, status);
 
 		// find id
 		HttpHeaders responseHeaders = response.getHeaders();
-		Assert.assertTrue("Missing response header 'X-Id'.", responseHeaders.containsKey("X-Id"));
+		Assertions.assertTrue(responseHeaders.containsKey("X-Id"), "Missing response header 'X-Id'.");
 		String id = responseHeaders.get("X-Id").get(0);
 
 		// fetch new joke
 		String page = template.getForObject("/jokes/" + id, String.class);
-		Assert.assertTrue("Incorrect page returned.",
-				page.contains("<li class=\"active\"><a href=\"/jokes\">Jokes</a></li>"));
-		Assert.assertTrue("Incorrect page returned.", page.contains("<h3 class=\"title\">testTitle</h3>"));
+		Assertions.assertTrue(page.contains("<li class=\"active\"><a href=\"/jokes\">Jokes</a></li>"),
+				"Incorrect page returned.");
+		Assertions.assertTrue(page.contains("<h3 class=\"title\">testTitle</h3>"), "Incorrect page returned.");
 
 		requestHeaders = new HttpHeaders();
 		requestHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
