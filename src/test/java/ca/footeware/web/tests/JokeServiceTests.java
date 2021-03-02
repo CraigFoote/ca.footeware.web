@@ -72,7 +72,7 @@ class JokeServiceTests {
 	 * @throws JokeException if shit goes south
 	 */
 	@Test
-	public void testDeleteJoke() throws JokeException {
+	void testDeleteJoke() throws JokeException {
 		Joke joke = jokeService.saveJoke(TEST_TITLE, TEST_BODY);
 		jokeService.deleteJoke(joke.getId());
 		Joke deleted = jokeService.getById(joke.getId());
@@ -84,7 +84,7 @@ class JokeServiceTests {
 	 * {@link ca.footeware.web.services.JokeService#deleteJoke(java.lang.String)}.
 	 */
 	@Test
-	public void testDeleteJokeNotExists() {
+	void testDeleteJokeNotExists() {
 		try {
 			jokeService.deleteJoke("bob");
 		} catch (JokeException e) {
@@ -113,7 +113,7 @@ class JokeServiceTests {
 	}
 
 	@Test
-	public void testGetJokeById() throws JokeException {
+	void testGetJokeById() throws JokeException {
 		Joke joke1 = jokeService.saveJoke(TEST_TITLE, TEST_BODY);
 		Joke joke2 = jokeService.getById(joke1.getId());
 		Assertions.assertEquals(joke1.getId(), joke2.getId(), "IDs should be the same");
@@ -127,7 +127,7 @@ class JokeServiceTests {
 	 * @throws JokeException if shit goes south
 	 */
 	@Test
-	public void testGetJokes() throws JokeException {
+	void testGetJokes() throws JokeException {
 		List<Joke> jokes = jokeService.getJokes();
 		Assertions.assertNotNull(jokes);
 	}

@@ -24,7 +24,7 @@ import ca.footeware.web.controllers.ImageController;
  * @author Footeware.ca
  */
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
-public class ImageControllerITTests {
+class ImageControllerITTests {
 
 	private static final String PASSWORD = "bogie97";
 	private static final String USERNAME = "foote";
@@ -37,7 +37,7 @@ public class ImageControllerITTests {
 	 * {@link ca.footeware.web.controllers.ImageController#getGalleries(org.springframework.ui.Model)}.
 	 */
 	@Test
-	public void testGetGalleries() {
+	void testGetGalleries() {
 		String page = template.getForObject("/gallery/", String.class);
 		Assertions.assertTrue(page.contains("<form action=\"/login\" method=\"post\">"),
 				"Should have been sent to login page.");
@@ -51,7 +51,7 @@ public class ImageControllerITTests {
 	 * {@link ca.footeware.web.controllers.ImageController#getGallery(java.lang.String, org.springframework.ui.Model)}.
 	 */
 	@Test
-	public void testGetGallery() {
+	void testGetGallery() {
 		String page = template.getForObject("/gallery/gallery1/", String.class);
 		Assertions.assertTrue(page.contains("<form action=\"/login\" method=\"post\">"),
 				"Should have been sent to login page.");
@@ -73,24 +73,24 @@ public class ImageControllerITTests {
 	 * @throws IOException when shit goes south
 	 */
 	@Test
-	public void testGetImage() throws IOException {
+	void testGetImage() throws IOException {
 		byte[] bytes = template.withBasicAuth(USERNAME, PASSWORD)
 				.getForObject("/gallery/gallery1/test-image-horizontal.png", byte[].class);
 		BufferedImage image = ImageIO.read(new ByteArrayInputStream(bytes));
-		Assertions.assertEquals(image.getWidth(), 1920, "Image wrong width.");
-		Assertions.assertEquals(image.getHeight(), 1241, "Image wrong height.");
+		Assertions.assertEquals(1920, image.getWidth(), "Image wrong width.");
+		Assertions.assertEquals(1241, image.getHeight(), "Image wrong height.");
 
 		bytes = template.withBasicAuth(USERNAME, PASSWORD).getForObject("/gallery/gallery1/test-image-vertical.png",
 				byte[].class);
 		image = ImageIO.read(new ByteArrayInputStream(bytes));
-		Assertions.assertEquals(image.getWidth(), 1241, "Image wrong width.");
-		Assertions.assertEquals(image.getHeight(), 1920, "Image wrong height.");
+		Assertions.assertEquals(1241, image.getWidth(), "Image wrong width.");
+		Assertions.assertEquals(1920, image.getHeight(), "Image wrong height.");
 
 		bytes = template.withBasicAuth(USERNAME, PASSWORD).getForObject("/gallery/gallery1/test-image-square.png",
 				byte[].class);
 		image = ImageIO.read(new ByteArrayInputStream(bytes));
-		Assertions.assertEquals(image.getWidth(), 1920, "Image wrong width.");
-		Assertions.assertEquals(image.getHeight(), 1920, "Image wrong height.");
+		Assertions.assertEquals(1920, image.getWidth(), "Image wrong width.");
+		Assertions.assertEquals(1920, image.getHeight(), "Image wrong height.");
 
 		bytes = template.withBasicAuth(USERNAME, PASSWORD).getForObject("/gallery/gallery1/test-image-bad.png",
 				byte[].class);
@@ -105,27 +105,27 @@ public class ImageControllerITTests {
 	 * @throws IOException when shit goes south
 	 */
 	@Test
-	public void testGetThumbnail() throws IOException {
+	void testGetThumbnail() throws IOException {
 		byte[] bytes = template.withBasicAuth(USERNAME, PASSWORD)
 				.getForObject("/gallery/thumbnails/gallery1/test-image-horizontal.png", byte[].class);
-		Assertions.assertEquals(bytes.length, 2781, "Wrong number of bytes for thumbnail.");
+		Assertions.assertEquals(2781, bytes.length, "Wrong number of bytes for thumbnail.");
 		BufferedImage image = ImageIO.read(new ByteArrayInputStream(bytes));
-		Assertions.assertEquals(image.getWidth(), 150, "Image wrong width.");
-		Assertions.assertEquals(image.getHeight(), 97, "Image wrong height.");
+		Assertions.assertEquals(150, image.getWidth(), "Image wrong width.");
+		Assertions.assertEquals(97, image.getHeight(), "Image wrong height.");
 
 		bytes = template.withBasicAuth(USERNAME, PASSWORD)
 				.getForObject("/gallery/thumbnails/gallery1/test-image-vertical.png", byte[].class);
-		Assertions.assertEquals(bytes.length, 1395, "Wrong number of bytes for thumbnail.");
+		Assertions.assertEquals(1395, bytes.length, "Wrong number of bytes for thumbnail.");
 		image = ImageIO.read(new ByteArrayInputStream(bytes));
-		Assertions.assertEquals(image.getWidth(), 97, "Image wrong width.");
-		Assertions.assertEquals(image.getHeight(), 150, "Image wrong height.");
+		Assertions.assertEquals(97, image.getWidth(), "Image wrong width.");
+		Assertions.assertEquals(150, image.getHeight(), "Image wrong height.");
 
 		bytes = template.withBasicAuth(USERNAME, PASSWORD)
 				.getForObject("/gallery/thumbnails/gallery1/test-image-square.png", byte[].class);
-		Assertions.assertEquals(bytes.length, 1617, "Wrong number of bytes for thumbnail.");
+		Assertions.assertEquals(1617, bytes.length, "Wrong number of bytes for thumbnail.");
 		image = ImageIO.read(new ByteArrayInputStream(bytes));
-		Assertions.assertEquals(image.getWidth(), 150, "Image wrong width.");
-		Assertions.assertEquals(image.getHeight(), 150, "Image wrong height.");
+		Assertions.assertEquals(150, image.getWidth(), "Image wrong width.");
+		Assertions.assertEquals(150, image.getHeight(), "Image wrong height.");
 
 		bytes = template.withBasicAuth(USERNAME, PASSWORD)
 				.getForObject("/gallery/thumbnails/gallery1/test-image-bad.png", byte[].class);

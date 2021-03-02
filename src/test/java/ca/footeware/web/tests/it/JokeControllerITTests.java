@@ -34,7 +34,7 @@ import ca.footeware.web.services.JokeService;
  *
  */
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
-public class JokeControllerITTests {
+class JokeControllerITTests {
 
 	@Autowired
 	private TestRestTemplate template;
@@ -47,7 +47,7 @@ public class JokeControllerITTests {
 	 * @throws JokeException if shit goes south
 	 */
 	@AfterEach
-	public void tearDown() throws JokeException {
+	void tearDown() throws JokeException {
 		List<Joke> jokes = jokeService.getJokes();
 		for (Joke joke : jokes) {
 			jokeService.deleteJoke(joke.getId());
@@ -61,7 +61,7 @@ public class JokeControllerITTests {
 	 * @throws JokeException if shit goes south
 	 */
 	@Test
-	public void testDeleteJoke() throws JokeException {
+	void testDeleteJoke() throws JokeException {
 		// create a joke to delete
 		MultiValueMap<String, String> joke = new LinkedMultiValueMap<>();
 		joke.add("title", "testTitle");
@@ -100,7 +100,7 @@ public class JokeControllerITTests {
 	 * @throws ServiceNotFoundException if shit goes north again
 	 */
 	@Test
-	public void testEditJoke() throws JokeException, ServiceNotFoundException {
+	void testEditJoke() throws JokeException, ServiceNotFoundException {
 		// create joke to edit
 		MultiValueMap<String, String> joke = new LinkedMultiValueMap<>();
 		joke.add("title", "testTitle");
@@ -142,7 +142,7 @@ public class JokeControllerITTests {
 	 * {@link ca.footeware.web.controllers.JokeController#getAddJokePage(org.springframework.ui.Model)}.
 	 */
 	@Test
-	public void testGetAddJokePage() {
+	void testGetAddJokePage() {
 		String page = template.getForObject("/jokes/add", String.class);
 		Assertions.assertTrue(page.contains("<li class=\"active\"><a href=\"/jokes\">Jokes</a></li>"),
 				"Incorrect page returned.");
@@ -155,7 +155,7 @@ public class JokeControllerITTests {
 	 * {@link ca.footeware.web.controllers.JokeController#getJoke(java.lang.String, org.springframework.ui.Model)}.
 	 */
 	@Test
-	public void testGetJoke() {
+	void testGetJoke() {
 		String page = template.getForObject("/jokes/1", String.class);
 		Assertions.assertTrue(page.contains("<li class=\"active\"><a href=\"/jokes\">Jokes</a></li>"),
 				"Incorrect page returned.");
@@ -168,7 +168,7 @@ public class JokeControllerITTests {
 	 * {@link ca.footeware.web.controllers.JokeController#getJoke(java.lang.String, org.springframework.ui.Model)}.
 	 */
 	@Test
-	public void testGetJokeBadTitle() {
+	void testGetJokeBadTitle() {
 		String page = template.getForObject("/jokes/bad", String.class);
 		Assertions.assertTrue(page.contains("<li class=\"active\"><a href=\"/jokes\">Jokes</a></li>"),
 				"Incorrect page returned.");
@@ -180,7 +180,7 @@ public class JokeControllerITTests {
 	 * {@link ca.footeware.web.controllers.JokeController#getJokes(org.springframework.ui.Model)}.
 	 */
 	@Test
-	public void testGetJokes() {
+	void testGetJokes() {
 		String page = template.getForObject("/jokes", String.class);
 		Assertions.assertTrue(page.contains("<li class=\"active\"><a href=\"/jokes\">Jokes</a></li>"),
 				"Incorrect page returned.");
@@ -196,7 +196,7 @@ public class JokeControllerITTests {
 	 * @throws ServiceNotFoundException if shit goes north again
 	 */
 	@Test
-	public void testPostJoke() throws JokeException, ServiceNotFoundException {
+	void testPostJoke() throws JokeException, ServiceNotFoundException {
 		MultiValueMap<String, String> joke = new LinkedMultiValueMap<>();
 		joke.add("title", "testTitle");
 		joke.add("body", "testBody");

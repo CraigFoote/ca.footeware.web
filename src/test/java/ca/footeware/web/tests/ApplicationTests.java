@@ -16,7 +16,7 @@ import ca.footeware.web.controllers.JokeController;
  *
  */
 @SpringBootTest
-public class ApplicationTests {
+class ApplicationTests {
 
 	@Autowired
 	private ImageController imageController;
@@ -28,16 +28,16 @@ public class ApplicationTests {
 	 * 
 	 */
 	@Test
-	public void imageControllerLoads() {
-		Assertions.assertTrue(imageController != null);
+	void imageControllerLoads() {
+		Assertions.assertNotNull(imageController);
 	}
 
 	/**
 	 * 
 	 */
 	@Test
-	public void jokeControllerLoads() {
-		Assertions.assertTrue(jokeController != null);
+	void jokeControllerLoads() {
+		Assertions.assertNotNull(jokeController);
 	}
 
 }
