@@ -97,7 +97,7 @@ public class JokeService {
 		if (body == null || body.isBlank() || body.isEmpty()) {
 			throw new JokeException(BODY_ERROR);
 		}
-		Joke joke = new Joke(title, body);
+		var joke = new Joke(title, body);
 		joke.setTitle(title);
 		joke.setBody(body);
 		return jokeRepository.save(joke);

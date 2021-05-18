@@ -103,7 +103,7 @@ public class ImageService {
 	public Dimension getDimensions(BufferedImage image, int max) {
 		int width = image.getWidth();
 		int height = image.getHeight();
-		Dimension dim = new Dimension();
+		var dim = new Dimension();
 		if (width == height) {
 			// square
 			dim.width = max;
@@ -175,7 +175,7 @@ public class ImageService {
 	 * @return {@link File}[]
 	 */
 	public File[] getFiles() {
-		File folder = new File(imagesPath);
+		var folder = new File(imagesPath);
 		File[] files = folder.listFiles();
 		Arrays.sort(files, NameFileComparator.NAME_COMPARATOR);
 		return files;
@@ -195,7 +195,7 @@ public class ImageService {
 			throw new ImageException(
 					"Invalid gallery name: " + galleryName + ". Must be spaces, a-z, A-Z, 0-9, underscores or dashes.");
 		}
-		File folder = new File(imagesPath + File.separator + galleryName);
+		var folder = new File(imagesPath + File.separator + galleryName);
 		if (!folder.isDirectory()) {
 			throw new ImageException(
 					"Expected a folder at " + imagesPath + File.separator + galleryName + " but it wasn't one.");
@@ -218,7 +218,7 @@ public class ImageService {
 	 * @throws ImageException if an image-related exception occurs.
 	 */
 	public List<Gallery> getGalleries() throws ImageException {
-		File folder = new File(imagesPath);
+		var folder = new File(imagesPath);
 		if (!folder.exists()) {
 			throw new ImageException("Image path not found: " + imagesPath);
 		}
@@ -228,7 +228,7 @@ public class ImageService {
 		File[] files = folder.listFiles();
 		List<Gallery> galleries = new ArrayList<>();
 		for (File file : files) {
-			Gallery gallery = new Gallery();
+			var gallery = new Gallery();
 			gallery.setName(file.getName());
 			if (file.isDirectory()) {
 				gallery.setFolder(file);
@@ -256,7 +256,7 @@ public class ImageService {
 	 */
 	public byte[] getImageAsBytes(String galleryName, String imageName) throws ImageException {
 		try {
-			File file = getFileByName(galleryName, imageName);
+			var file = getFileByName(galleryName, imageName);
 			BufferedImage originalImage = ImageIO.read(file);
 			int type = originalImage.getType() == 0 ? BufferedImage.TYPE_INT_ARGB : originalImage.getType();
 			BufferedImage image = resize(originalImage, type,
@@ -277,7 +277,7 @@ public class ImageService {
 	 */
 	public byte[] getThumbnailAsBytes(String galleryName, String imageName) throws ImageException {
 		try {
-			File file = getFileByName(galleryName, imageName);
+			var file = getFileByName(galleryName, imageName);
 			BufferedImage originalImage = ImageIO.read(file);
 			int type = originalImage.getType() == 0 ? BufferedImage.TYPE_INT_ARGB : originalImage.getType();
 			BufferedImage image = resize(originalImage, type, getDimensions(originalImage, maxTnDim));
@@ -296,7 +296,7 @@ public class ImageService {
 	 * @return {@link BufferedImage}
 	 */
 	public BufferedImage resize(BufferedImage originalImage, int type, Dimension dim) {
-		BufferedImage resizedImage = new BufferedImage(dim.width, dim.height, type);
+		var resizedImage = new BufferedImage(dim.width, dim.height, type);
 		Graphics2D g = resizedImage.createGraphics();
 		g.drawImage(originalImage, 0, 0, dim.width, dim.height, null);
 		g.dispose();

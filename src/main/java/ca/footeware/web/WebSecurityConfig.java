@@ -13,7 +13,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.firewall.StrictHttpFirewall;
 
 /**
@@ -49,7 +48,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	 */
 	@Autowired
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-		PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
+		var encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
 		String password = encoder.encode("bogie97");
 		UserDetails user = User.withUsername("foote").password(password).roles("USER").build();
 		auth.inMemoryAuthentication().withUser(user);

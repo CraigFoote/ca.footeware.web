@@ -73,7 +73,7 @@ public class JokeController {
 	 */
 	@GetMapping("/jokes/edit/{id}")
 	public String editJoke(@PathVariable String id, Model model) throws JokeException {
-		Joke joke = jokeService.getById(id);
+		var joke = jokeService.getById(id);
 		model.addAttribute(JOKE, joke);
 		return "editjoke";
 	}
@@ -130,7 +130,7 @@ public class JokeController {
 	@PostMapping("/jokes/edit")
 	public String postEditedJoke(@RequestParam String id, @RequestParam String title, @RequestParam String body,
 			Model model, HttpServletResponse response) throws JokeException {
-		Joke joke = jokeService.saveJoke(id, title, body);
+		var joke = jokeService.saveJoke(id, title, body);
 		model.addAttribute(JOKES, jokeService.getJokes());
 		response.addHeader("X-Id", joke.getId());
 		return JOKES;
@@ -150,7 +150,7 @@ public class JokeController {
 	@PostMapping("/jokes/add")
 	public String postJoke(@RequestParam String title, @RequestParam String body, Model model,
 			HttpServletResponse response) throws JokeException, ServiceNotFoundException {
-		Joke joke = jokeService.saveJoke(title, body);
+		var joke = jokeService.saveJoke(title, body);
 		model.addAttribute(JOKES, jokeService.getJokes());
 		response.addHeader("X-Id", joke.getId());
 		return JOKES;

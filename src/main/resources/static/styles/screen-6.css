@@ -43,6 +43,10 @@ img {
 	padding: 0;
 }
 
+img.padded {
+ padding: 5px;	
+}
+
 .noBullet {
 	list-style-type: none;
 }

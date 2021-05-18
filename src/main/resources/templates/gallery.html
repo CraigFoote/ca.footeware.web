@@ -56,7 +56,7 @@
 					<li class="inline" th:each="thumb : ${thumbs}"><a
 						data-fancybox="gallery"
 						th:href="@{'/gallery/' + ${galleryName} + '/' + ${thumb.key}}"><img
-							th:title="${thumb.value}"
+							th:title="${thumb.value}" class="padded"
 							th:src="@{'/gallery/thumbnails/' + ${galleryName} + '/' + ${thumb.key}}"
 							alt="thumbnail" th:alt="${thumb.key}" /></a></li>
 				</ul>

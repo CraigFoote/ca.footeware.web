@@ -11,7 +11,7 @@ class ExceptionController {
 
 	@ExceptionHandler(value = Exception.class)
 	public ModelAndView defaultErrorHandler(HttpServletRequest req, Exception e) {
-		ModelAndView mav = new ModelAndView();
+		var mav = new ModelAndView();
 		mav.addObject("error", e.getMessage());
 		mav.setViewName("error");
 		return mav;

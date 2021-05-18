@@ -44,7 +44,7 @@ public class ImageController {
 	 * @return {@link String}
 	 */
 	private String compileExifString(String name, Map<String, String> exif) {
-		StringBuilder b = new StringBuilder();
+		var b = new StringBuilder();
 		b.append("Name: " + name + "\n");
 		b.append("Model: " + exif.get("Model") + "\n");
 		b.append("ProcessingSoftware: " + exif.get("ProcessingSoftware") + "\n");
