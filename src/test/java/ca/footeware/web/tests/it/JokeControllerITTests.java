@@ -152,31 +152,6 @@ class JokeControllerITTests {
 
 	/**
 	 * Test method for
-	 * {@link ca.footeware.web.controllers.JokeController#getJoke(java.lang.String, org.springframework.ui.Model)}.
-	 */
-	@Test
-	void testGetJoke() {
-		String page = template.getForObject("/jokes/1", String.class);
-		Assertions.assertTrue(page.contains("<li class=\"active\"><a href=\"/jokes\">Jokes</a></li>"),
-				"Incorrect page returned.");
-		Assertions.assertTrue(page.contains("<li class=\"active\"><a href=\"/jokes\">Jokes</a></li>"),
-				"Incorrect page returned.");
-	}
-
-	/**
-	 * Test method for
-	 * {@link ca.footeware.web.controllers.JokeController#getJoke(java.lang.String, org.springframework.ui.Model)}.
-	 */
-	@Test
-	void testGetJokeBadTitle() {
-		String page = template.getForObject("/jokes/bad", String.class);
-		Assertions.assertTrue(page.contains("<li class=\"active\"><a href=\"/jokes\">Jokes</a></li>"),
-				"Incorrect page returned.");
-		Assertions.assertTrue(!page.contains("<h3 class=\"title\">Nine o&amp;</h3>"), "Incorrect page returned.");
-	}
-
-	/**
-	 * Test method for
 	 * {@link ca.footeware.web.controllers.JokeController#getJokes(org.springframework.ui.Model)}.
 	 */
 	@Test
@@ -212,13 +187,6 @@ class JokeControllerITTests {
 		// find id
 		HttpHeaders responseHeaders = response.getHeaders();
 		Assertions.assertTrue(responseHeaders.containsKey("X-Id"), "Missing response header 'X-Id'.");
-		String id = responseHeaders.get("X-Id").get(0);
-
-		// fetch new joke
-		String page = template.getForObject("/jokes/" + id, String.class);
-		Assertions.assertTrue(page.contains("<li class=\"active\"><a href=\"/jokes\">Jokes</a></li>"),
-				"Incorrect page returned.");
-		Assertions.assertTrue(page.contains("<h3 class=\"title\">testTitle</h3>"), "Incorrect page returned.");
 
 		requestHeaders = new HttpHeaders();
 		requestHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);

@@ -90,20 +90,6 @@ public class JokeController {
 	}
 
 	/**
-	 * Get a joke by its ID.
-	 * 
-	 * @param id    {@link String}
-	 * @param model {@link Model}
-	 * @return {@link String} UI view
-	 * @throws JokeException if shit goes south
-	 */
-	@GetMapping("/jokes/{id}")
-	public String getJoke(@PathVariable String id, Model model) throws JokeException {
-		model.addAttribute(JOKE, jokeService.getById(id));
-		return "joke";
-	}
-
-	/**
 	 * Get the titles of all the jokes.
 	 * 
 	 * @param model {@link Model}
