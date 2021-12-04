@@ -104,6 +104,7 @@
 					<quiet>true</quiet>
 					<show>public</show>
 					<splitindex>true</splitindex>
+					<javadocExecutable>/usr/bin/javadoc</javadocExecutable>
 				</configuration>
 				<executions>
 					<execution>
