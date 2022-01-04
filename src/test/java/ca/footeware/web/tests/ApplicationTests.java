@@ -60,10 +60,10 @@ class ApplicationTests {
 		Assertions.assertNull(ex.getMessage());
 
 		ex = new SslException("test");
-		Assertions.assertEquals(ex.getMessage(), "test");
+		Assertions.assertEquals("test", ex.getMessage());
 
 		ex = new SslException("test", new Exception());
-		Assertions.assertEquals(ex.getMessage(), "test");
+		Assertions.assertEquals("test", ex.getMessage());
 
 		ex = new SslException(new Exception());
 		Assertions.assertNotNull(ex.getCause());
