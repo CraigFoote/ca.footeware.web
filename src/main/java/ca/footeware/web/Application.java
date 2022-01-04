@@ -13,7 +13,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
  * Entry point to application.
- * 
+ *
  * @author Footeware.ca
  */
 @SpringBootApplication

@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package ca.footeware.web.services;
 
@@ -35,7 +35,7 @@ import ca.footeware.web.models.Gallery;
 
 /**
  * Provides access to images.
- * 
+ *
  * @author Footeware.ca
  */
 @Service
@@ -51,7 +51,7 @@ public class ImageService {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param imagesPath {@link String} location on disk of images, injected
 	 * @throws ImageException if an images-related exception occurs.
 	 */
@@ -65,7 +65,7 @@ public class ImageService {
 
 	/**
 	 * Determines if the provided folder should be kept secret.
-	 * 
+	 *
 	 * @param folder {@link File}
 	 * @return boolean true if secret
 	 */
@@ -81,7 +81,7 @@ public class ImageService {
 
 	/**
 	 * Convert provided image to byte array.
-	 * 
+	 *
 	 * @param image {@link BufferedImage}
 	 * @return byte array
 	 * @throws IOException
@@ -95,7 +95,7 @@ public class ImageService {
 
 	/**
 	 * Determine the width and height of the received image.
-	 * 
+	 *
 	 * @param image {@link BufferedImage}
 	 * @param max   int maximum dimension, width or height
 	 * @return {@link Dimension}
@@ -125,7 +125,7 @@ public class ImageService {
 	/**
 	 * Get the EXIF from the provided file and convert it to a map of EXIF item
 	 * labels and values.
-	 * 
+	 *
 	 * @param file {@link File}
 	 * @return {@link Map} of {@link String} label to {@link String} value
 	 * @throws ImageException if shit goes south
@@ -151,7 +151,7 @@ public class ImageService {
 
 	/**
 	 * Get a file by provided name in provided gallery.
-	 * 
+	 *
 	 * @param galleryName {@link String}
 	 * @param imageName   {@link String}
 	 * @return {@link File}
@@ -171,7 +171,7 @@ public class ImageService {
 	/**
 	 * Get all the files at the configured image path. These should be the gallery
 	 * folders, each with image files.
-	 * 
+	 *
 	 * @return {@link File}[]
 	 */
 	public File[] getFiles() {
@@ -183,7 +183,7 @@ public class ImageService {
 
 	/**
 	 * Get all the image files in the provided gallery by name.
-	 * 
+	 *
 	 * @param galleryName {@link String}
 	 * @return {@link File} array
 	 * @throws ImageException if an image-related exception occurs.
@@ -213,7 +213,7 @@ public class ImageService {
 
 	/**
 	 * Get the list of Gallery folders.
-	 * 
+	 *
 	 * @return {@link File} array
 	 * @throws ImageException if an image-related exception occurs.
 	 */
@@ -248,7 +248,7 @@ public class ImageService {
 
 	/**
 	 * Get an image as bytes from provided gallery and image file names.
-	 * 
+	 *
 	 * @param galleryName {@link String}
 	 * @param imageName   {@link String}
 	 * @return byte[] may be empty
@@ -269,7 +269,7 @@ public class ImageService {
 
 	/**
 	 * Get an image thumbnail as bytes from provided gallery and image file name.
-	 * 
+	 *
 	 * @param galleryName {@link String}
 	 * @param imageName   {@link String} image file name
 	 * @return byte[] may be empty
@@ -289,7 +289,7 @@ public class ImageService {
 
 	/**
 	 * Resize the received image to provided size.
-	 * 
+	 *
 	 * @param originalImage {@link BufferedImage}
 	 * @param type          int See {@link BufferedImage#TYPE_INT_RGB}, etc.
 	 * @param dim           {@link Dimension} height and width to resize to

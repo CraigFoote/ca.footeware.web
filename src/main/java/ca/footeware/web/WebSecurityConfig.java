@@ -16,9 +16,9 @@ import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.web.firewall.StrictHttpFirewall;
 
 /**
- * Specify the URLs to which the current user can access and those that are forwarded to
- * login.
- * 
+ * Specify the URLs to which the current user can access and those that are
+ * forwarded to login.
+ *
  * @author Footeware.ca
  */
 @Configuration

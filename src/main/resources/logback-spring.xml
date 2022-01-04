@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
 
-	<property name="LOG_HOME" value="./logs" />
+	<include
+		resource="org/springframework/boot/logging/logback/base.xml" />
+
+	<property name="LOG_HOME" value="./logs/footeware-web" />
 
 	<property name="LOG_PATTERN"
 		value="%d{yyyy-MM-dd'T'HH:mm:ss.SSS} [%thread] [%level] [%logger{36}] %msg%n" />
@@ -15,7 +18,7 @@
 
 	<appender name="LOGFILE"
 		class="ch.qos.logback.core.rolling.RollingFileAppender">
-		<file>${LOG_HOME}/app.log</file>
+		<file>${LOG_HOME}/footeware-web.log</file>
 		<encoder
 			class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
 			<Pattern>${LOG_PATTERN}</Pattern>
@@ -23,7 +26,7 @@
 		<rollingPolicy
 			class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
 			<!-- roll-over daily -->
-			<fileNamePattern>${LOG_HOME}/archived/app.%d{yyyy-MM-dd}.%i.log
+			<fileNamePattern>${LOG_HOME}/archived/footeware-web.%d{yyyy-MM-dd}.%i.log
 			</fileNamePattern>
 			<!-- each file should be at most 50MB, keep 7 days worth of history, but 
 				at most 10GB -->

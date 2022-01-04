@@ -15,7 +15,7 @@ public interface JokeRepository extends MongoRepository<Joke, String> {
 
 	/**
 	 * Get a joke by its ID.
-	 * 
+	 *
 	 * @param id {@link String}
 	 * @return {@link Joke}
 	 */
@@ -23,7 +23,7 @@ public interface JokeRepository extends MongoRepository<Joke, String> {
 
 	/**
 	 * Get the set of jokes with provided title.
-	 * 
+	 *
 	 * @param title {@link String}
 	 * @return {@link Joke}
 	 */

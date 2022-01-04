@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package ca.footeware.web.controllers;
 
@@ -15,7 +15,7 @@ public class ResourceController {
 
 	/**
 	 * Get the Cookbook page.
-	 * 
+	 *
 	 * @return {@link String} the view
 	 */
 	@GetMapping("/cookbook")

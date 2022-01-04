@@ -9,7 +9,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
  * Assign view names to URLs.
- * 
+ *
  * @author Footeware.ca
  *
  */

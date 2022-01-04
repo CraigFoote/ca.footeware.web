@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package ca.footeware.web.tests;
 
@@ -19,7 +19,7 @@ import ca.footeware.web.services.JokeService;
 
 /**
  * Tests {@link JokeService}.
- * 
+ *
  * @author Footeware.ca
  */
 @SpringBootTest
@@ -34,7 +34,7 @@ class JokeServiceTests {
 	/**
 	 * Test method for
 	 * {@link ca.footeware.web.services.JokeService#saveJoke(java.lang.String, java.lang.String, java.lang.String)}.
-	 * 
+	 *
 	 * @param arg {@link String}
 	 */
 	@ParameterizedTest
@@ -51,7 +51,7 @@ class JokeServiceTests {
 	/**
 	 * Test method for
 	 * {@link ca.footeware.web.services.JokeService#saveJoke(java.lang.String, java.lang.String, java.lang.String)}.
-	 * 
+	 *
 	 * @param arg {@link String}
 	 */
 	@ParameterizedTest
@@ -68,7 +68,7 @@ class JokeServiceTests {
 	/**
 	 * Test method for
 	 * {@link ca.footeware.web.services.JokeService#deleteJoke(java.lang.String)}.
-	 * 
+	 *
 	 * @throws JokeException if shit goes south
 	 */
 	@Test
@@ -123,7 +123,7 @@ class JokeServiceTests {
 
 	/**
 	 * Test method for {@link ca.footeware.web.services.JokeService#getJokes()}.
-	 * 
+	 *
 	 * @throws JokeException if shit goes south
 	 */
 	@Test
@@ -135,9 +135,9 @@ class JokeServiceTests {
 	/**
 	 * Test method for
 	 * {@link ca.footeware.web.services.JokeService#saveJoke(String, String)}.
-	 * 
+	 *
 	 * @param arg {@link String}
-	 * 
+	 *
 	 * @throws JokeException if shit goes south
 	 */
 	@ParameterizedTest
@@ -162,7 +162,7 @@ class JokeServiceTests {
 	/**
 	 * Test method for
 	 * {@link ca.footeware.web.services.JokeService#saveJoke(String, String, String)}
-	 * 
+	 *
 	 * @throws JokeException if shit goes south
 	 */
 	@ParameterizedTest

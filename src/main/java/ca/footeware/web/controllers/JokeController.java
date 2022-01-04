@@ -2,7 +2,7 @@
  * Copyright (c) 2016 Footeware.ca
  *******************************************************************************/
 /**
- * 
+ *
  */
 package ca.footeware.web.controllers;
 
@@ -24,7 +24,7 @@ import ca.footeware.web.services.JokeService;
 
 /**
  * Exposes joke-related endpoints.
- * 
+ *
  * @author Footeware.ca
  */
 @Controller
@@ -36,7 +36,7 @@ public class JokeController {
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param jokeService {@link JokeService} injected
 	 * @throws JokeException if shit goes south
 	 */
@@ -49,7 +49,7 @@ public class JokeController {
 
 	/**
 	 * Delete a joke by title.
-	 * 
+	 *
 	 * @param title {@link String}
 	 * @param model {@link Model}
 	 * @return {@link String} UI view
@@ -65,7 +65,7 @@ public class JokeController {
 
 	/**
 	 * Get a joke by its id and forward it to the 'edit' page.
-	 * 
+	 *
 	 * @param id    {@link String}
 	 * @param model {@link Model}
 	 * @return {@link String} UI view
@@ -80,7 +80,7 @@ public class JokeController {
 
 	/**
 	 * Forward user to page that allows them to add a joke.
-	 * 
+	 *
 	 * @param model {@link Model}
 	 * @return {@link String} UI view
 	 */
@@ -91,7 +91,7 @@ public class JokeController {
 
 	/**
 	 * Get the titles of all the jokes.
-	 * 
+	 *
 	 * @param model {@link Model}
 	 * @return {@link String} UI view
 	 * @throws JokeException if shit goes south
@@ -104,7 +104,7 @@ public class JokeController {
 
 	/**
 	 * Edit a joke.
-	 * 
+	 *
 	 * @param id       {@link String}
 	 * @param title    {@link String}
 	 * @param body     {@link String}
@@ -124,7 +124,7 @@ public class JokeController {
 
 	/**
 	 * Add a joke.
-	 * 
+	 *
 	 * @param title    {@link String}
 	 * @param body     {@link String}
 	 * @param model    {@link Model}

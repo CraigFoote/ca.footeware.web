@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package ca.footeware.web.exceptions;
 
@@ -10,7 +10,7 @@ package ca.footeware.web.exceptions;
 public class JokeException extends Exception {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 

@@ -12,7 +12,7 @@ import ca.footeware.web.controllers.ImageController;
 import ca.footeware.web.controllers.JokeController;
 
 /**
- * @author craig
+ * @author Footeware.ca
  *
  */
 @SpringBootTest
@@ -25,7 +25,7 @@ class ApplicationTests {
 	private JokeController jokeController;
 
 	/**
-	 * 
+	 *
 	 */
 	@Test
 	void imageControllerLoads() {
@@ -33,7 +33,7 @@ class ApplicationTests {
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	@Test
 	void jokeControllerLoads() {

@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package ca.footeware.web.controllers;
 
@@ -19,7 +19,7 @@ import ca.footeware.web.services.ImageService;
 
 /**
  * Exposes image-related endpoints.
- * 
+ *
  * @author Footeware.ca
  */
 @Controller
@@ -29,7 +29,7 @@ public class ImageController {
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param service {@link ImageService} injected
 	 */
 	public ImageController(ImageService service) {
@@ -38,7 +38,7 @@ public class ImageController {
 
 	/**
 	 * Create a line-feed-delimited String of specific EXIF item labels and values.
-	 * 
+	 *
 	 * @param name
 	 * @param exif
 	 * @return {@link String}
@@ -62,7 +62,7 @@ public class ImageController {
 	 * Get the gallery page with names of the images to be dynamically obtained from
 	 * images in images.path. The names are used by thymeleaf to construct the image
 	 * links to the thumbnails and their full size versions.
-	 * 
+	 *
 	 * @param model {@link Model}
 	 * @return {@link String} name of thymeleaf template to pass model to for
 	 *         rendering
@@ -78,7 +78,7 @@ public class ImageController {
 	 * Get the gallery page by name with names of the images to be dynamically
 	 * obtained from images in images.path. The names are used by thymeleaf to
 	 * construct the image links to the thumbnails and their full size versions.
-	 * 
+	 *
 	 * @param galleryName {@link String}
 	 * @param model       {@link Model}
 	 * @return {@link String} UI template name
@@ -105,7 +105,7 @@ public class ImageController {
 
 	/**
 	 * Get the full-size version from the received gallery and image name.
-	 * 
+	 *
 	 * @param galleryName {@link String} gallery name
 	 * @param imageName   {@link String} image file name
 	 * @return byte[] the 'produces' attribute dictates how the browser will handle
@@ -125,7 +125,7 @@ public class ImageController {
 
 	/**
 	 * Get the thumbnail version from the received gallery and image name.
-	 * 
+	 *
 	 * @param galleryName {@link String} gallery name
 	 * @param imageName   {@link String} image name
 	 * @return byte[] the 'produces' attribute dictates how the browser will handle

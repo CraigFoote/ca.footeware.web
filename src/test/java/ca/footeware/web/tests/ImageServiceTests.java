@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package ca.footeware.web.tests;
 
@@ -24,7 +24,7 @@ import ca.footeware.web.services.ImageService;
 
 /**
  * Tests {@link ImageService}.
- * 
+ *
  * @author Footeware.ca
  */
 @SpringBootTest
@@ -49,7 +49,7 @@ class ImageServiceTests {
 
 	/**
 	 * Test method for {@link ca.footeware.web.services.ImageService#getExif(File)}
-	 * 
+	 *
 	 * @throws ImageException when shit goes south
 	 * @throws IOException    when shit goes south
 	 */
@@ -73,7 +73,7 @@ class ImageServiceTests {
 	/**
 	 * Test method for
 	 * {@link ca.footeware.web.services.ImageService#getGalleries()}.
-	 * 
+	 *
 	 * @throws ImageException when shit goes south
 	 */
 	@Test
@@ -85,7 +85,7 @@ class ImageServiceTests {
 	/**
 	 * Test method for
 	 * {@link ca.footeware.web.services.ImageService#getImageAsBytes(java.lang.String, java.lang.String)}.
-	 * 
+	 *
 	 * @throws IOException    when shit goes south
 	 * @throws ImageException when shit goes south
 	 */
@@ -110,7 +110,7 @@ class ImageServiceTests {
 	/**
 	 * Test method for
 	 * {@link ca.footeware.web.services.ImageService#getThumbnailAsBytes(java.lang.String, java.lang.String)}.
-	 * 
+	 *
 	 * @throws IOException    when shit goes south
 	 * @throws ImageException when shit goes south
 	 */
@@ -134,7 +134,7 @@ class ImageServiceTests {
 
 	/**
 	 * Test method for {@link ca.footeware.web.services.ImageService#ImageService}.
-	 * 
+	 *
 	 * @throws ImageException when shit goes south
 	 */
 	@Test
@@ -146,7 +146,7 @@ class ImageServiceTests {
 	/**
 	 * Test method for
 	 * {@link ca.footeware.web.services.ImageService#resize(BufferedImage, int, java.awt.Dimension)}
-	 * 
+	 *
 	 * @throws IOException    when shit goes south
 	 * @throws ImageException when shit goes south
 	 */

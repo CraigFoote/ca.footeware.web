@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package ca.footeware.web.services;
 
@@ -14,31 +14,31 @@ import ca.footeware.web.repositories.JokeRepository;
 
 /**
  * Provides access to jokes.
- * 
+ *
  * @author Footeware.ca
  */
 @Service
 public class JokeService {
 
 	/**
-	 * 
+	 *
 	 */
 	public static final String JOKE_BODY = "A newfie rolls into his factory job at 10:30. The floor manager comes up to him and says, \"You should have been here at nine o'clock,\" to which the newfie responds \"Why, what happened?\"";
 
 	/**
-	 * 
+	 *
 	 */
 	public static final String JOKE_TITLE = "Nine o'clock";
 	/**
-	 * 
+	 *
 	 */
 	public static final String TITLE_ERROR = "Title cannot be empty.";
 	/**
-	 * 
+	 *
 	 */
 	public static final String BODY_ERROR = "Body cannot be empty.";
 	/**
-	 * 
+	 *
 	 */
 	public static final String ID_ERROR = "Id cannot be empty.";
 	@Autowired
@@ -46,7 +46,7 @@ public class JokeService {
 
 	/**
 	 * Find a joke with provided id and delete it.
-	 * 
+	 *
 	 * @param id {@link String}
 	 * @throws JokeException if shit goes south
 	 */
@@ -59,7 +59,7 @@ public class JokeService {
 
 	/**
 	 * Get a joke matching provided ID.
-	 * 
+	 *
 	 * @param id {@link String}
 	 * @return {@link Joke}
 	 * @throws JokeException if shit goes south
@@ -73,7 +73,7 @@ public class JokeService {
 
 	/**
 	 * Get the joke titles.
-	 * 
+	 *
 	 * @return {@link List} of {@link Joke}
 	 * @throws JokeException if shit goes south
 	 */
@@ -84,7 +84,7 @@ public class JokeService {
 	/**
 	 * Save joke using provided title and body. This is for updating the joke while
 	 * maintaining ID.
-	 * 
+	 *
 	 * @param title {@link String}
 	 * @param body  {@link String}
 	 * @return {@link Joke}
@@ -105,7 +105,7 @@ public class JokeService {
 
 	/**
 	 * Create a new joke using provided id, title and body.
-	 * 
+	 *
 	 * @param id    {@link String}
 	 * @param title {@link String}
 	 * @param body  {@link String}

@@ -3,68 +3,71 @@
 <head th:replace="fragments/head :: head">
 </head>
 <body>
-	<nav class="navbar navbar-default fw">
-		<div class="container">
-			<div class="navbar-header">
-				<button type="button" class="navbar-toggle collapsed"
-					data-toggle="collapse" data-target=".navbar-collapse">
-					<span class="sr-only">Toggle navigation</span> <span
-						class="icon-bar"></span> <span class="icon-bar"></span> <span
-						class="icon-bar"></span>
-				</button>
-				<a href="#" class="navbar-brand title">Footeware</a>
-			</div>
-			<div class="navbar-collapse collapse">
-				<ul class="nav navbar-nav">
-					<li><a href="/">Home</a></li>
-					<li><a href="/gallery">Gallery</a></li>
-					<li class="active"><a href="/gear">Gear</a></li>
-					<li><a href="/webcam">Webcam</a></li>
-					<li><a href="/jokes">Jokes</a></li>
-					<li><a href="/cookbook">Cookbook</a></li>
+	<nav class="navbar navbar-expand-lg navbar-dark navbar-bordered-bottom"
+		aria-label="Tenth navbar example">
+		<div class="container-fluid">
+			<button class="navbar-toggler" type="button"
+				data-bs-toggle="collapse" data-bs-target="#navbar"
+				aria-controls="navbar" aria-expanded="false"
+				aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse justify-content-md-center"
+				id="navbar">
+				<span class="navbar-brand title">Footeware</span>
+				<ul class="navbar-nav title-links">
+					<li class="nav-item"><a class="nav-link" aria-current="page"
+						href="/">Home</a></li>
+					<li class="nav-item"><a class="nav-link" href="/gallery">Gallery</a></li>
+					<li class="nav-item"><a class="nav-link active" href="/gear">Gear</a></li>
+					<li class="nav-item"><a class="nav-link" href="/webcam">Webcam</a></li>
+					<li class="nav-item"><a class="nav-link" href="/jokes">Jokes</a></li>
+					<li class="nav-item"><a class="nav-link" href="/cookbook">Cookbook</a></li>
 				</ul>
 			</div>
 		</div>
 	</nav>
-
-	<div class="container padTopAndBottom">
+	<div class="container">
 		<!--Row with two columns divided in 1:2 ratio -->
 		<div class="row">
-			<div class="col-md-8">
+			<h3 class="title center">Gear</h3>
+			<div class="col-md-6">
 				<a title="Nikon D7000" data-fancybox="gallery"
 					data-caption="Nikon D7000" href="/images/nikon.jpg"><img
-					class="bordered center" src="/images/nikon-tn.jpg"
-					alt="Nikon D7000" /></a>
+					class="bordered" src="/images/nikon-tn.jpg" alt="Nikon D7000" /></a>
 			</div>
-			<div class="col-md-4" style="border-left: 2px solid #bf616a">
+			<div class="col-md-6 left-red-border">
 				<dl style="margin-left: 20%; margin-top: 25px;">
 					<dt>Camera</dt>
 					<dd>
-						<a href="http://www.dpreview.com/products/nikon/slrs/nikon_d7000"
+						<a class="link"
+							href="http://www.dpreview.com/products/nikon/slrs/nikon_d7000"
 							rel="noopener noreferrer" target="_blank">Nikon D-7000</a>
 					</dd>
 					<dt>Lens</dt>
 					<dd>
-						<a
+						<a class="link"
 							href="http://www.dpreview.com/products/nikon/lenses/nikon_18-200_3p5-5p6_vr_afs_ii"
 							rel="noopener noreferrer" target="_blank">Nikon AF-S DX
 							Nikkor 18-200mm f/3.5-5.6G ED VR II</a>
 					</dd>
 					<dt>Tripod</dt>
 					<dd>
-						<a
+						<a class="link"
 							href="https://www.patersonphotographic.com/product/trekker-tripod-kit/"
 							rel="noopener noreferrer" target="_blank">Benbo Trekker Mk 3
 							Compact Aluminum Tripod with Ball Head</a>
 					</dd>
 					<dt>Software</dt>
 					<dd>
-						<a href="https://wiki.gnome.org/Apps/Shotwell" target="_blank"
-							rel="noopener noreferrer">Shotwell</a>, <a
-							href="https://rawtherapee.com/" target="_blank"
-							rel="noopener noreferrer">RawTherapee</a>, <a
+						<a class="link" href="https://wiki.gnome.org/Apps/Shotwell"
+							target="_blank" rel="noopener noreferrer">Shotwell</a>, <a
+							class="link" href="https://rawtherapee.com/" target="_blank"
+							rel="noopener noreferrer">RawTherapee</a>, <a class="link"
 							href="https://www.gimp.org/" target="_blank"
-							rel="noopener noreferrer">GIMP</a>
+							rel="noopener noreferrer">GIMP</a>, <a class="link"
+							href="http://qtpfsgui.sourceforge.net/" target="_blank"
+							rel="noopener noreferrer">Luminance HDR</a>
 					</dd>
 				</dl>
 			</div>

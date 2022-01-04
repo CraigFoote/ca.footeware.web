@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package ca.footeware.web.models;
 
@@ -20,7 +20,7 @@ public class Joke {
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param title {@link String}
 	 * @param body  {@link String}
 	 */

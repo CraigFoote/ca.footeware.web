@@ -3,64 +3,66 @@
 <head th:replace="fragments/head :: head">
 </head>
 <body>
-	<nav class="navbar navbar-default fw">
-		<div class="container">
-			<div class="navbar-header">
-				<button type="button" class="navbar-toggle collapsed"
-					data-toggle="collapse" data-target=".navbar-collapse">
-					<span class="sr-only">Toggle navigation</span> <span
-						class="icon-bar"></span> <span class="icon-bar"></span> <span
-						class="icon-bar"></span>
-				</button>
-				<a href="#" class="navbar-brand title">Footeware</a>
-			</div>
-			<div class="navbar-collapse collapse">
-				<ul class="nav navbar-nav">
-					<li><a href="/">Home</a></li>
-					<li class="active"><a href="/gallery">Gallery</a></li>
-					<li><a href="/gear">Gear</a></li>
-					<li><a href="/webcam">Webcam</a></li>
-					<li><a href="/jokes">Jokes</a></li>
-					<li><a href="/cookbook">Cookbook</a></li>
+	<nav class="navbar navbar-expand-lg navbar-dark navbar-bordered-bottom"
+		aria-label="Tenth navbar example">
+		<div class="container-fluid">
+			<button class="navbar-toggler" type="button"
+				data-bs-toggle="collapse" data-bs-target="#navbar"
+				aria-controls="navbar" aria-expanded="false"
+				aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+
+			<div class="collapse navbar-collapse justify-content-md-center"
+				id="navbar">
+				<span class="navbar-brand title">Footeware</span>
+				<ul class="navbar-nav title-links">
+					<li class="nav-item"><a class="nav-link" aria-current="page"
+						href="/">Home</a></li>
+					<li class="nav-item"><a class="nav-link active"
+						href="/gallery">Gallery</a></li>
+					<li class="nav-item"><a class="nav-link" href="/gear">Gear</a></li>
+					<li class="nav-item"><a class="nav-link" href="/webcam">Webcam</a></li>
+					<li class="nav-item"><a class="nav-link" href="/jokes">Jokes</a></li>
+					<li class="nav-item"><a class="nav-link" href="/cookbook">Cookbook</a></li>
 				</ul>
 			</div>
 		</div>
 	</nav>
-	<div class="container padTopAndBottom">
-		<h3 th:if="${galleryName}" th:text="${galleryName}" class="title"></h3>
-		<h3 th:if="${galleries}" th:text="Galleries" class="title"></h3>
+	<div class="container">
+		<h3 th:if="${galleryName}" th:text="${galleryName}"
+			class="title center"></h3>
+		<h3 th:if="${galleries}" th:text="Galleries" class="title center"></h3>
 
 		<!-- a list of galleries, or... -->
 		<div class="row" th:if="${galleries}">
 			<div class="col-sm-6">
 				<ul>
-					<li class="noBullet" th:each="gallery : ${galleries}"><a
-						style="font-size: 16pt" th:href="@{'/gallery/' + ${gallery.name}}"
+					<li class="no-bullet" th:each="gallery : ${galleries}"><a
+						class="link" th:href="@{'/gallery/' + ${gallery.name}}"
 						th:text="${gallery.name}"></a> <img src="/images/lock_closed.png"
 						alt="Locked" title="Password Protected" th:if="${gallery.secret}"
 						style="margin-top: -10px;" /></li>
 				</ul>
 			</div>
-			<div class="col-sm-6" style="border-left: 2px solid #bf616a">
+			<div class="col-sm-6 left-red-border right">
 				<a title="Female Mallard" data-fancybox="gallery"
 					data-caption="Female Mallard" href="/images/duck.jpg"><img
-					class="bordered center" src="/images/duck.jpg" alt="Female Mallard"
+					class="bordered" src="/images/duck.jpg" alt="Female Mallard"
 					style="width: 50%" /></a>
 			</div>
 		</div>
 
 		<!-- a list of thumbnails in one gallery -->
 		<div class="row" th:if="${thumbs}">
-			<div class="col">
-				<ul class="center">
-					<li class="inline" th:each="thumb : ${thumbs}"><a
-						data-fancybox="gallery"
-						th:href="@{'/gallery/' + ${galleryName} + '/' + ${thumb.key}}"><img
-							th:title="${thumb.value}" class="padded"
-							th:src="@{'/gallery/thumbnails/' + ${galleryName} + '/' + ${thumb.key}}"
-							alt="thumbnail" th:alt="${thumb.key}" /></a></li>
-				</ul>
-			</div>
+			<ul class="center">
+				<li class="inline" th:each="thumb : ${thumbs}"><a
+					data-fancybox="gallery"
+					th:href="@{'/gallery/' + ${galleryName} + '/' + ${thumb.key}}"><img
+						th:title="${thumb.value}" class="padded"
+						th:src="@{'/gallery/thumbnails/' + ${galleryName} + '/' + ${thumb.key}}"
+						alt="thumbnail" th:alt="${thumb.key}" /></a></li>
+			</ul>
 		</div>
 	</div>
 	<footer th:replace="fragments/footer :: footer"></footer>

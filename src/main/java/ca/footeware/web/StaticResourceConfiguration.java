@@ -7,7 +7,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
  * Specify the resource folders from which to get images, etc.
- * 
+ *
  * @author Footeware.ca
  */
 @Configuration
