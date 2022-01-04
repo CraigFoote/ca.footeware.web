@@ -29,7 +29,7 @@ public class SslRestTemplate {
 	private String trustStorePassword;
 
 	@Bean
-	RestTemplate restTemplate() throws SslException {
+	public RestTemplate restTemplate() throws SslException {
 		try {
 			SSLContext sslContext = new SSLContextBuilder()
 					.loadTrustMaterial(trustStore.getURL(), trustStorePassword.toCharArray()).build();
