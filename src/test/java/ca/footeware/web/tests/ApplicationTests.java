@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import ca.footeware.web.SslRestTemplate;
 import ca.footeware.web.controllers.ImageController;
 import ca.footeware.web.controllers.JokeController;
 
@@ -23,6 +24,9 @@ class ApplicationTests {
 
 	@Autowired
 	private JokeController jokeController;
+	
+	@Autowired
+	private SslRestTemplate sslRestTemplate;
 
 	/**
 	 *
@@ -38,6 +42,14 @@ class ApplicationTests {
 	@Test
 	void jokeControllerLoads() {
 		Assertions.assertNotNull(jokeController);
+	}
+	
+	/**
+	 *
+	 */
+	@Test
+	void restTemplateLoads() {
+		Assertions.assertNotNull(sslRestTemplate);
 	}
 
 }

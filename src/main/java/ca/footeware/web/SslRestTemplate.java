@@ -20,7 +20,7 @@ import ca.footeware.web.exceptions.SslException;
  *
  */
 @Configuration
-public class MyRestTemplate {
+public class SslRestTemplate {
 
 	@Value("${server.ssl.trust-store}")
 	private Resource trustStore;
