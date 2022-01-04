@@ -11,6 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import ca.footeware.web.SslRestTemplate;
 import ca.footeware.web.controllers.ImageController;
 import ca.footeware.web.controllers.JokeController;
+import ca.footeware.web.exceptions.SslException;
 
 /**
  * @author Footeware.ca
@@ -24,7 +25,7 @@ class ApplicationTests {
 
 	@Autowired
 	private JokeController jokeController;
-	
+
 	@Autowired
 	private SslRestTemplate sslRestTemplate;
 
@@ -43,13 +44,29 @@ class ApplicationTests {
 	void jokeControllerLoads() {
 		Assertions.assertNotNull(jokeController);
 	}
-	
+
 	/**
 	 *
 	 */
 	@Test
 	void restTemplateLoads() {
 		Assertions.assertNotNull(sslRestTemplate);
+	}
+
+	@Test
+	void testSslException() {
+		Exception ex = new SslException();
+		Assertions.assertNull(ex.getCause());
+		Assertions.assertNull(ex.getMessage());
+
+		ex = new SslException("test");
+		Assertions.assertEquals(ex.getMessage(), "test");
+
+		ex = new SslException("test", new Exception());
+		Assertions.assertEquals(ex.getMessage(), "test");
+
+		ex = new SslException(new Exception());
+		Assertions.assertNotNull(ex.getCause());
 	}
 
 }
