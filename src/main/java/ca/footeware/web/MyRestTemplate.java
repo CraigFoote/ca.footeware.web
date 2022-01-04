@@ -13,6 +13,8 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 
+import ca.footeware.web.exceptions.SslException;
+
 /**
  * @author Footeware.ca
  *
@@ -27,12 +29,16 @@ public class MyRestTemplate {
 	private String trustStorePassword;
 
 	@Bean
-	RestTemplate restTemplate() throws Exception {
-		SSLContext sslContext = new SSLContextBuilder()
-				.loadTrustMaterial(trustStore.getURL(), trustStorePassword.toCharArray()).build();
-		SSLConnectionSocketFactory socketFactory = new SSLConnectionSocketFactory(sslContext);
-		CloseableHttpClient httpClient = HttpClients.custom().setSSLSocketFactory(socketFactory).build();
-		HttpComponentsClientHttpRequestFactory factory = new HttpComponentsClientHttpRequestFactory(httpClient);
-		return new RestTemplate(factory);
+	RestTemplate restTemplate() throws SslException {
+		try {
+			SSLContext sslContext = new SSLContextBuilder()
+					.loadTrustMaterial(trustStore.getURL(), trustStorePassword.toCharArray()).build();
+			SSLConnectionSocketFactory socketFactory = new SSLConnectionSocketFactory(sslContext);
+			CloseableHttpClient httpClient = HttpClients.custom().setSSLSocketFactory(socketFactory).build();
+			HttpComponentsClientHttpRequestFactory factory = new HttpComponentsClientHttpRequestFactory(httpClient);
+			return new RestTemplate(factory);
+		} catch (Exception e) {
+			throw new SslException("Error in RestTemplate bean.", e);
+		}
 	}
 }
