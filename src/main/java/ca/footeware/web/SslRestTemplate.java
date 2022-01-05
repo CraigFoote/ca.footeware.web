@@ -28,6 +28,10 @@ public class SslRestTemplate {
 	@Value("${server.ssl.trust-store-password}")
 	private String trustStorePassword;
 
+	/**
+	 * @return {@link RestTemplate}
+	 * @throws SslException when shit goes south
+	 */
 	@Bean
 	public RestTemplate restTemplate() throws SslException {
 		try {
