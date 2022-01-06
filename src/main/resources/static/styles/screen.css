@@ -101,3 +101,7 @@ padded {
 .margin{
 	margin: 5px;
 }
+
+iframe{
+    overflow:hidden;
+}

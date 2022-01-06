@@ -29,8 +29,19 @@
 	</nav>
 	<div class="container">
 		<h3 class="title center">Webcam</h3>
-		<img id="webcam" class="center bordered" alt="webcam" />
+		<!-- 		<img id="webcam" class="center bordered" alt="webcam" -->
+		<!-- 			th:src="@{'/webcamimage'}" /> -->
+		<iframe id="webcam" class="center bordered" th:src="@{'/webcamimage'}"
+			width="640" height="480" scrolling="no"></iframe>
 	</div>
+	<script type="text/javascript">
+		window.onload = function() {
+			var frameRefreshInterval = setInterval(function() {
+				document.getElementById("webcam").src = document
+						.getElementById("webcam").src
+			}, 1000);
+		}
+	</script>
 	<footer th:replace="fragments/footer :: footer"></footer>
 </body>
 </html>

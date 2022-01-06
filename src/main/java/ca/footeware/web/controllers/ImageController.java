@@ -4,6 +4,9 @@
 package ca.footeware.web.controllers;
 
 import java.io.File;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URLConnection;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -136,6 +139,17 @@ public class ImageController {
 	@ResponseBody
 	public byte[] getThumbnail(@PathVariable String galleryName, @PathVariable String imageName) throws ImageException {
 		return service.getThumbnailAsBytes(galleryName, imageName);
+	}
+
+	/**
+	 * @return byte[]
+	 * @throws MalformedURLException if url can't be read
+	 * @throws IOException           if image at url can't be read
+	 */
+	@GetMapping(value = "/webcamimage", produces = MediaType.IMAGE_JPEG_VALUE)
+	@ResponseBody
+	public byte[] getWebcam() throws MalformedURLException, IOException {
+		return service.getWecamImageAsBytes();
 	}
 
 }

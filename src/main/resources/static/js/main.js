@@ -37,7 +37,3 @@ function updateJoke() {
 		}
 	});
 }
-
-window.onload = function() {
-	document.getElementById("webcam").src = "http://foote:bogie97@192.168.1.113:8081/MJPEG.CGI?.mjpeg";
-}

@@ -12,8 +12,14 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -301,6 +307,18 @@ public class ImageService {
 		g.drawImage(originalImage, 0, 0, dim.width, dim.height, null);
 		g.dispose();
 		return resizedImage;
+	}
+
+	public byte[] getWecamImageAsBytes() throws IOException {
+		String credentials = "foote" + ":" + "bogie97";
+		byte[] encodedAuth = Base64.getEncoder().encode(credentials.getBytes(StandardCharsets.UTF_8));
+		String authHeaderValue = "Basic " + new String(encodedAuth);
+		URL url = new URL("http://192.168.1.113:8081/image/jpeg.cgi");
+		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+		connection.setRequestProperty("Authorization", authHeaderValue);
+		InputStream inputStream = connection.getInputStream();
+		BufferedImage imBuff = ImageIO.read(inputStream);
+		return convertToBytes(imBuff);
 	}
 
 }
