@@ -36,7 +36,7 @@ html, body {
 
 .active {
 	background-color: #3b4252;
-	border-radius: 1em;
+	border-radius: 0.3em;
 }
 
 .full-width {
@@ -102,6 +102,10 @@ padded {
 	margin: 5px;
 }
 
-iframe{
-    overflow:hidden;
+#webcamimage {
+	width: 640px;
+	height: 480px;
 }
+
+
+

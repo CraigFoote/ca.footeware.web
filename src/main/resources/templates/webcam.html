@@ -3,8 +3,7 @@
 <head th:replace="fragments/head :: head">
 </head>
 <body>
-	<nav class="navbar navbar-expand-lg navbar-dark navbar-bordered-bottom"
-		aria-label="Tenth navbar example">
+	<nav class="navbar navbar-expand-lg navbar-dark navbar-bordered-bottom">
 		<div class="container-fluid">
 			<button class="navbar-toggler" type="button"
 				data-bs-toggle="collapse" data-bs-target="#navbar"
@@ -29,19 +28,8 @@
 	</nav>
 	<div class="container">
 		<h3 class="title center">Webcam</h3>
-		<!-- 		<img id="webcam" class="center bordered" alt="webcam" -->
-		<!-- 			th:src="@{'/webcamimage'}" /> -->
-		<iframe id="webcam" class="center bordered" th:src="@{'/webcamimage'}"
-			width="640" height="480" scrolling="no"></iframe>
+		<img id="webcamimage" class="center bordered" />
 	</div>
-	<script type="text/javascript">
-		window.onload = function() {
-			var frameRefreshInterval = setInterval(function() {
-				document.getElementById("webcam").src = document
-						.getElementById("webcam").src
-			}, 1000);
-		}
-	</script>
 	<footer th:replace="fragments/footer :: footer"></footer>
 </body>
 </html>
