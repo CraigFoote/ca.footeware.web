@@ -52,8 +52,8 @@ class ImageControllerITTests {
 	@Test
 	void testGetGallery() {
 		String page = template.withBasicAuth(USERNAME, PASSWORD).getForObject("/gallery/gallery1/", String.class);
-		Assertions.assertTrue(page.contains("<a class=\"nav-link active\"\n"
-				+ "						href=\"/gallery\">Gallery</a>"),
+		Assertions.assertTrue(
+				page.contains("<a class=\"nav-link active\"\n" + "						href=\"/gallery\">Gallery</a>"),
 				"Should have been sent to gallery1 page.");
 		Assertions.assertTrue(page.contains("href=\"/gallery/gallery1/test-image-horizontal.png\""),
 				"Horizontal thumbnail not displayed.");

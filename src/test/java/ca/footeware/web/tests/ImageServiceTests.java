@@ -30,13 +30,10 @@ import ca.footeware.web.services.ImageService;
 @SpringBootTest
 class ImageServiceTests {
 
+	private static final String GALLERY_NAME = "gallery1";
+	private static final String IMAGE_HORIZONTAL = "test-image-horizontal.png";
 	private static final String IMAGE_SQUARE = "test-image-square.png";
 	private static final String IMAGE_VERTICAL = "test-image-vertical.png";
-	private static final String IMAGE_HORIZONTAL = "test-image-horizontal.png";
-	private static final String GALLERY_NAME = "gallery1";
-
-	@Autowired
-	private ImageService service;
 
 	@Value("${images.path}")
 	String imagesPath;
@@ -46,6 +43,9 @@ class ImageServiceTests {
 
 	@Value("${images.thumbnails.max.dimension}")
 	private Integer maxTnDim;
+
+	@Autowired
+	private ImageService service;
 
 	/**
 	 * Test method for {@link ca.footeware.web.services.ImageService#getExif(File)}

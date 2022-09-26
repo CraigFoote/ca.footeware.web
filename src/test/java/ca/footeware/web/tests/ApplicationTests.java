@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import ca.footeware.web.controllers.ImageController;
-import ca.footeware.web.controllers.JokeController;
 
 /**
  * @author Footeware.ca
@@ -21,23 +20,12 @@ class ApplicationTests {
 	@Autowired
 	private ImageController imageController;
 
-	@Autowired
-	private JokeController jokeController;
-
 	/**
 	 *
 	 */
 	@Test
 	void imageControllerLoads() {
 		Assertions.assertNotNull(imageController);
-	}
-
-	/**
-	 *
-	 */
-	@Test
-	void jokeControllerLoads() {
-		Assertions.assertNotNull(jokeController);
 	}
 
 }

@@ -8,9 +8,9 @@ import java.io.File;
  */
 public class Gallery {
 
+	private File folder;
 	private String name;
 	private boolean secret;
-	private File folder;
 
 	/**
 	 * @return the folder

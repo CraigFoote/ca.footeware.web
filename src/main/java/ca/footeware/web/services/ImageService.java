@@ -41,13 +41,13 @@ import ca.footeware.web.models.Gallery;
 @Service
 public class ImageService {
 
+	private String imagesPath;
+
 	@Value("${images.max.dimension}")
 	private String maxImgDim;
 
 	@Value("${images.thumbnails.max.dimension}")
 	private Integer maxTnDim;
-
-	private String imagesPath;
 
 	/**
 	 * Constructor

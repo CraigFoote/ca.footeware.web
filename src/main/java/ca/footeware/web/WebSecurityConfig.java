@@ -34,9 +34,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	public void configure(WebSecurity web) throws Exception {
 		super.configure(web);
-		web.ignoring().antMatchers("/", "/gear/**", "/jokes/**", "/addjoke/**", "/editjoke/**", "/deletejoke/**",
-				"/styles/**", "/js/**", "/images/**", "/fonts/**", "/gallery", "/gallery/Artsy-Fartsy/",
-				"/gallery/Artsy-Fartsy/**", "/gallery/thumbnails/Artsy-Fartsy/**");
+		web.ignoring().antMatchers("/", "/gear/**", "/styles/**", "/js/**", "/images/**", "/fonts/**", "/gallery",
+				"/gallery/Artsy-Fartsy/", "/gallery/Artsy-Fartsy/**", "/gallery/thumbnails/Artsy-Fartsy/**");
 		StrictHttpFirewall firewall = new StrictHttpFirewall();
 		firewall.setAllowUrlEncodedPercent(true);
 		web.httpFirewall(firewall);

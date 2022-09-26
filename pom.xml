@@ -11,13 +11,13 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.6.2</version>
+		<version>2.7.4</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<java.version>17</java.version>
+		<java.version>18</java.version>
 		<start-class>ca.footeware.web.Application</start-class>
 	</properties>
 
@@ -71,16 +71,6 @@
 			<artifactId>commons-imaging</artifactId>
 			<version>1.0-alpha2</version>
 		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-data-mongodb</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>de.flapdoodle.embed</groupId>
-			<artifactId>de.flapdoodle.embed.mongo</artifactId>
-			<version>3.2.5</version> <!--$NO-MVN-MAN-VER$-->
-			<scope>test</scope>
-		</dependency>
 	</dependencies>
 
 	<build>
@@ -128,7 +118,7 @@
 			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
-				<version>0.8.7</version>
+				<version>0.8.8</version>
 				<executions>
 					<execution>
 						<goals>
@@ -146,4 +136,11 @@
 			</plugin>
 		</plugins>
 	</build>
+
+	<scm>
+		<url>https://github.com/CraigFoote/ca.footeware.web.git</url>
+		<connection>scm:git:ssh://github.com/CraigFoote/ca.footeware.web.git</connection>
+		<developerConnection>scm:git:ssh://github.com/CraigFoote/ca.footeware.web.git</developerConnection>
+		<tag>HEAD</tag>
+	</scm>
 </project>
