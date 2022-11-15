@@ -22,6 +22,8 @@ public class Application {
 	private static final Logger LOG = LoggerFactory.getLogger(Application.class);
 
 	/**
+	 * Actual entry point.
+	 * 
 	 * @param args {@link String} array
 	 */
 	public static void main(String[] args) {

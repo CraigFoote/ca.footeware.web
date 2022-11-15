@@ -103,5 +103,9 @@ padded {
 	height: 480px;
 }
 
+img.padded {
+	padding: 20px;
+}
+
 
 

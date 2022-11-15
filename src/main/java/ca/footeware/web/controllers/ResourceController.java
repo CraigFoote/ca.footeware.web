@@ -7,8 +7,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
 /**
+ * Gets the 'Cookbook' page.
+ * 
  * @author Footeware.ca
- *
  */
 @Controller
 public class ResourceController {
