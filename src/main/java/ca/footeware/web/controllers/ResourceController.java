@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 /**
  * Gets the 'Cookbook' page.
- * 
+ *
  * @author Footeware.ca
  */
 @Controller

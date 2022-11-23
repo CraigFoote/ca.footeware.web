@@ -28,7 +28,7 @@ public class WebSecurityConfig {
 
 	/**
 	 * A bean that configures HTTP security.
-	 * 
+	 *
 	 * @param http {@link HttpSecurity}
 	 * @return {@link SecurityFilterChain}
 	 * @throws Exception when the internet falls over.
@@ -45,7 +45,7 @@ public class WebSecurityConfig {
 
 	/**
 	 * Specify pages to allow without credentials.
-	 * 
+	 *
 	 * @return {@link WebSecurityCustomizer}
 	 */
 	@Bean
@@ -59,7 +59,7 @@ public class WebSecurityConfig {
 
 	/**
 	 * Username and password.
-	 * 
+	 *
 	 * @return {@link InMemoryUserDetailsManager}
 	 */
 	@Bean
@@ -71,7 +71,7 @@ public class WebSecurityConfig {
 
 	/**
 	 * Use BCrypt for password encoding.
-	 * 
+	 *
 	 * @return {@link PasswordEncoder}
 	 */
 	@Bean

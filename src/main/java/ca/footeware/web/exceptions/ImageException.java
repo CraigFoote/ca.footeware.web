@@ -5,7 +5,7 @@ package ca.footeware.web.exceptions;
 
 /**
  * Indicates an exception occurred while working with images.
- * 
+ *
  * @author Footeware.ca
  */
 public class ImageException extends Exception {

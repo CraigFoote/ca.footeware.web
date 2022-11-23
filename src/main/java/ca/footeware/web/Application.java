@@ -23,7 +23,7 @@ public class Application {
 
 	/**
 	 * Actual entry point.
-	 * 
+	 *
 	 * @param args {@link String} array
 	 */
 	public static void main(String[] args) {

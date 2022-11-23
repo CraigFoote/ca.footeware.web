@@ -4,7 +4,7 @@ import java.io.File;
 
 /**
  * A named folder with optional 'secret' file.
- * 
+ *
  * @author Footeware.ca
  */
 public class Gallery {
