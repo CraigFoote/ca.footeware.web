@@ -14,7 +14,8 @@
 
 			<div class="collapse navbar-collapse justify-content-md-center"
 				id="navbar">
-				<span class="navbar-brand title animate__animated animate__zoomInLeft">Footeware</span>
+				<span
+					class="navbar-brand title animate__animated animate__zoomInLeft">Footeware</span>
 				<ul class="navbar-nav title-links">
 					<li class="nav-item"><a class="nav-link" aria-current="page"
 						href="/">Home</a></li>
@@ -22,7 +23,8 @@
 						href="/gallery">Gallery</a></li>
 					<li class="nav-item"><a class="nav-link" href="/gear">Gear</a></li>
 					<li class="nav-item"><a class="nav-link" href="/webcam">Webcam</a></li>
-					<li class="nav-item"><a class="nav-link" href="http://footeware.ca:8080">Cookbook</a></li>
+					<li class="nav-item"><a class="nav-link"
+						href="http://footeware.ca:8080">Cookbook</a></li>
 				</ul>
 			</div>
 		</div>
@@ -34,7 +36,7 @@
 
 		<!-- a list of galleries, or... -->
 		<div class="row" th:if="${galleries}">
-			<div class="col-sm-6">
+			<div class="col-sm-6 animate__animated animate__bounceInRight">
 				<ul>
 					<li class="no-bullet" th:each="gallery : ${galleries}"><a
 						class="link" th:href="@{'/gallery/' + ${gallery.name}}"
@@ -43,7 +45,8 @@
 						style="margin-top: -10px;" /></li>
 				</ul>
 			</div>
-			<div class="col-sm-6 left-red-border right">
+			<div
+				class="col-sm-6 left-red-border right animate__animated animate__bounceInLeft">
 				<a title="Female Mallard" data-fancybox="gallery"
 					data-caption="Female Mallard" href="/images/duck.jpg"><img
 					class="bordered" src="/images/duck.jpg" alt="Female Mallard"
