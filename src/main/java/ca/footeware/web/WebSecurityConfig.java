@@ -33,37 +33,26 @@ public class WebSecurityConfig {
 	 */
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-		http.csrf()
-			.disable()
-			.authorizeHttpRequests()
-			.requestMatchers("/cookbook", "webcam", "/gallery/Camping at Drumheller", 
-					"/gallery/Cookbook", "/gallery/Family", "/gallery/Karla Camping", 
-					"/gallery/Soccer", "/gallery/Youmans Camping", "/gallery/gallery1/**")
-			.hasRole("USER")
-			.requestMatchers("/styles/**", "/js/**", "/images/**", "/fonts/**", "/", "/gallery",
-					"/gallery/Artsy-Fartsy/", "/gallery/Artsy-Fartsy/**", "/gallery/thumbnails/**", 
-					"webcam", "error")
-			.permitAll()
-			.anyRequest()
-			.authenticated()
-			.and()
-			.formLogin()
-			.loginPage("/login")
-			.permitAll()
-			.failureUrl("/login?error=true");
+		http.csrf().disable().authorizeHttpRequests()
+				.requestMatchers("/gallery/Camping at Drumheller", "/gallery/Cookbook", "/gallery/Family",
+						"/gallery/Karla Camping", "/gallery/Soccer", "/gallery/Youmans Camping", "/gallery/gallery1",
+						"/gallery/gallery1/**")
+				.hasRole("USER")
+				.requestMatchers("/styles/**", "/js/**", "/images/**", "/fonts/**", "/", "/gallery",
+						"/gallery/Artsy-Fartsy", "/gallery/Artsy-Fartsy/**", "/gallery/thumbnails/**", "/gear",
+						"/webcam", "/error")
+				.permitAll().and().formLogin().loginPage("/login").permitAll().failureUrl("/login?error=true");
 		return http.build();
 	}
 
 	/**
-	 * Specify pages to allow without credentials.
+	 * Use BCrypt for password encoding.
 	 *
-	 * @return {@link WebSecurityCustomizer}
+	 * @return {@link PasswordEncoder}
 	 */
 	@Bean
-	public WebSecurityCustomizer webSecurityCustomizer() {
-		StrictHttpFirewall firewall = new StrictHttpFirewall();
-		firewall.setAllowUrlEncodedPercent(true);
-		return web -> web.httpFirewall(firewall);
+	public PasswordEncoder passwordEncoder() {
+		return PasswordEncoderFactories.createDelegatingPasswordEncoder();
 	}
 
 	/**
@@ -79,13 +68,14 @@ public class WebSecurityConfig {
 	}
 
 	/**
-	 * Use BCrypt for password encoding.
+	 * Specify pages to allow without credentials.
 	 *
-	 * @return {@link PasswordEncoder}
+	 * @return {@link WebSecurityCustomizer}
 	 */
 	@Bean
-	public PasswordEncoder passwordEncoder() {
-		return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+	public WebSecurityCustomizer webSecurityCustomizer() {
+		StrictHttpFirewall firewall = new StrictHttpFirewall();
+		firewall.setAllowUrlEncodedPercent(true);
+		return web -> web.httpFirewall(firewall);
 	}
-
 }

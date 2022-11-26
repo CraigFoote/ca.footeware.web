@@ -137,5 +137,4 @@ public class ImageController {
 	public byte[] getThumbnail(@PathVariable String galleryName, @PathVariable String imageName) throws ImageException {
 		return service.getThumbnailAsBytes(galleryName, imageName);
 	}
-
 }

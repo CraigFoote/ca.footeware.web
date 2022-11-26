@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/head :: head">
+<head th:replace="~{fragments/head :: head}">
 </head>
 <body>
 	<nav class="navbar navbar-expand-lg navbar-dark navbar-bordered-bottom">
@@ -31,6 +31,6 @@
 		<img src="/images/programmerMelt.jpg" class="bordered" alt="meltdown" />
 		<p th:text="${error}"></p>
 	</div>
-	<footer th:replace="fragments/footer :: footer"></footer>
+	<footer th:replace="~{fragments/footer :: footer}"></footer>
 </body>
 </html>

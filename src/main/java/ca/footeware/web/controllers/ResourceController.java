@@ -15,12 +15,32 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class ResourceController {
 
 	/**
-	 * Get the Cookbook page.
+	 * Get the Webcam page.
 	 *
 	 * @return {@link String} the view
 	 */
-	@GetMapping("/cookbook")
-	public String getCookbookPage() {
-		return "cookbook";
+	@GetMapping("/gear")
+	public String getGearPage() {
+		return "gear";
+	}
+
+	/**
+	 * Get the web page for logging in.
+	 *
+	 * @return {@link String}
+	 */
+	@GetMapping("/login")
+	public String getLoginPage() {
+		return "login";
+	}
+
+	/**
+	 * Get the webcam page.
+	 *
+	 * @return {@link String} the view
+	 */
+	@GetMapping("/webcam")
+	public String getWebcamPage() {
+		return "webcam";
 	}
 }

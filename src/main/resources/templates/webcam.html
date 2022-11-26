@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/head :: head">
+<head th:replace="~{fragments/head :: head}">
 </head>
 <body>
 	<nav class="navbar navbar-expand-lg navbar-dark navbar-bordered-bottom">
@@ -13,22 +13,25 @@
 			</button>
 			<div class="collapse navbar-collapse justify-content-md-center"
 				id="navbar">
-				<span class="navbar-brand title animate__animated animate__zoomInLeft">Footeware</span>
+				<span
+					class="navbar-brand title animate__animated animate__zoomInLeft">Footeware</span>
 				<ul class="navbar-nav title-links">
 					<li class="nav-item"><a class="nav-link" aria-current="page"
 						href="/">Home</a></li>
 					<li class="nav-item"><a class="nav-link" href="/gallery">Gallery</a></li>
 					<li class="nav-item"><a class="nav-link" href="/gear">Gear</a></li>
 					<li class="nav-item"><a class="nav-link active" href="/webcam">Webcam</a></li>
-					<li class="nav-item"><a class="nav-link" href="http://footeware.ca:8080">Cookbook</a></li>
+					<li class="nav-item"><a class="nav-link"
+						href="http://footeware.ca:8080">Cookbook</a></li>
 				</ul>
 			</div>
 		</div>
 	</nav>
 	<div class="container">
 		<h3 class="title center">Webcam</h3>
-		<img id="webcamimage" class="center bordered animate__animated animate__rubberBand" />
+		<img id="webcamimage"
+			class="center bordered animate__animated animate__rubberBand" />
 	</div>
-	<footer th:replace="fragments/footer :: footer"></footer>
+	<footer th:replace="~{fragments/footer :: footer}"></footer>
 </body>
 </html>

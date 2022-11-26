@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/head :: head">
+<head th:replace="~{fragments/head :: head}">
 </head>
 <body>
 	<nav class="navbar navbar-expand-lg navbar-dark navbar-bordered-bottom">
@@ -46,7 +46,7 @@
 				</ul>
 			</div>
 			<div
-				class="col-sm-6 left-red-border right animate__animated animate__bounceInLeft">
+				class="col left-red-border right animate__animated animate__bounceInLeft">
 				<a title="Female Mallard" data-fancybox="gallery"
 					data-caption="Female Mallard" href="/images/duck.jpg"><img
 					class="bordered" src="/images/duck.jpg" alt="Female Mallard"
@@ -66,6 +66,6 @@
 			</ul>
 		</div>
 	</div>
-	<footer th:replace="fragments/footer :: footer"></footer>
+	<footer th:replace="~{fragments/footer :: footer}"></footer>
 </body>
 </html>
