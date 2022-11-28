@@ -98,14 +98,11 @@ padded {
 	margin: 5px;
 }
 
-#webcamimage {
-	width: 640px;
-	height: 480px;
-}
-
 img.padded {
 	padding: 20px;
 }
 
-
+.width70p{
+	width: 70%;
+}
 
