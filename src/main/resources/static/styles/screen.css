@@ -102,7 +102,10 @@ img.padded {
 	padding: 20px;
 }
 
-.width50p{
-	width: 70%;
+.padded-top {
+	padding-top: 125px;
 }
 
+#webcamimage {
+	width: 55%;
+}

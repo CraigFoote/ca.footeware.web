@@ -40,7 +40,7 @@ public class WebSecurityConfig {
 				.hasRole("USER")
 				.requestMatchers("/styles/**", "/js/**", "/images/**", "/fonts/**", "/", "/gallery",
 						"/gallery/Artsy-Fartsy", "/gallery/Artsy-Fartsy/**", "/gallery/thumbnails/**", "/gear",
-						"/webcam", "/error")
+						"/webcam", "/error", "/**")
 				.permitAll().and().formLogin().loginPage("/login").permitAll().failureUrl("/login?error=true");
 		return http.build();
 	}
