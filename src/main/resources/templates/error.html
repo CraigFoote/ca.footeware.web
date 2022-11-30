@@ -26,10 +26,41 @@
 			</div>
 		</div>
 	</nav>
-	<div class="container center padded-top">
-		<h3 class="title">Oops! Something went wrong.</h3>
-		<img src="/images/programmerMelt.jpg" class="bordered" alt="meltdown" />
-		<p th:text="${error}"></p>
+	<div class="container padded-top">
+		<h3 class="title center">Oops! Something went wrong.</h3>
+		<div class="row">
+			<dl class="col-sm-8 animate__animated animate__bounceInDown">
+				<dt>Timestamp</dt>
+				<dd>
+					<span class="row-fluid pb-2" th:text="${timestamp}"></span>
+				</dd>
+				<dt>Path</dt>
+				<dd>
+					<span class="row-fluid pb-2" th:text="${path}"></span>
+				</dd>
+				<dt>Status</dt>
+				<dd>
+					<span class="row-fluid pb-2" th:text="${status}"></span>
+				</dd>
+				<dt>Error</dt>
+				<dd>
+					<span class="row-fluid pb-2" th:text="${error}"></span>
+				</dd>
+				<dt>Message</dt>
+				<dd>
+					<span class="row-fluid pb-2" th:text="${message}"></span>
+				</dd>
+				<dt>Trace</dt>
+				<dd>
+					<span class="row-fluid pb-2" th:text="${trace}"></span>
+				</dd>
+			</dl>
+			<div class="col-sm-4">
+				<img src="/images/programmerMelt.jpg"
+					class="bordered animate__animated animate__slideInRight"
+					alt="meltdown" />
+			</div>
+		</div>
 	</div>
 	<footer th:replace="~{fragments/footer :: footer}"></footer>
 </body>
