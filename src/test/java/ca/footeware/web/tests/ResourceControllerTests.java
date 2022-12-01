@@ -27,7 +27,7 @@ class ResourceControllerTests {
 	@Test
 	void testGetGearPage() {
 		String page = controller.getGearPage();
-		Assertions.assertEquals(page, "gear");
+		Assertions.assertEquals("gear", page);
 	}
 
 	/**
@@ -37,7 +37,7 @@ class ResourceControllerTests {
 	@Test
 	void testGetLoginPage() {
 		String page = controller.getLoginPage();
-		Assertions.assertEquals(page, "login");
+		Assertions.assertEquals("login", page);
 	}
 
 	/**
@@ -47,7 +47,7 @@ class ResourceControllerTests {
 	@Test
 	void testGetWebcamPage() {
 		String page = controller.getWebcamPage();
-		Assertions.assertEquals(page, "webcam");
+		Assertions.assertEquals("webcam", page);
 	}
 
 }
