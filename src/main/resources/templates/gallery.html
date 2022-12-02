@@ -34,7 +34,8 @@
 
 		<!-- a list of galleries, or... -->
 		<div class="row" th:if="${galleries}">
-			<div class="col-sm-6 animate__animated animate__bounceInRight">
+			<div
+				class="col right-red-border animate__animated animate__bounceInRight">
 				<ul>
 					<li class="no-bullet" th:each="gallery : ${galleries}"><a
 						class="link" th:href="@{'/gallery/' + ${gallery.name}}"
