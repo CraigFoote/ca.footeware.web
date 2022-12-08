@@ -35,7 +35,7 @@
 		<!-- a list of galleries, or... -->
 		<div class="row" th:if="${galleries}">
 			<div
-				class="col right-red-border animate__animated animate__bounceInRight">
+				class="col right-red-border animate__animated animate__fadeIn">
 				<ul>
 					<li class="no-bullet" th:each="gallery : ${galleries}"><a
 						class="link" th:href="@{'/gallery/' + ${gallery.name}}"
@@ -45,7 +45,7 @@
 				</ul>
 			</div>
 			<div
-				class="col left-red-border right animate__animated animate__bounceInLeft">
+				class="col left-red-border right">
 				<a title="Female Mallard" data-fancybox="gallery"
 					data-caption="Female Mallard" href="/images/duck.jpg"><img
 					class="bordered w50pc" src="/images/duck.jpg" alt="Female Mallard" /></a>
