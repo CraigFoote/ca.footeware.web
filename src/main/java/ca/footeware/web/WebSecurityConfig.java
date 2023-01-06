@@ -24,58 +24,58 @@ import org.springframework.security.web.firewall.StrictHttpFirewall;
 @Configuration
 public class WebSecurityConfig {
 
-	/**
-	 * A bean that configures HTTP security.
-	 *
-	 * @param http {@link HttpSecurity}
-	 * @return {@link SecurityFilterChain}
-	 * @throws Exception when the internet falls over.
-	 */
-	@Bean
-	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-		http.csrf().disable().authorizeHttpRequests()
-				.requestMatchers("/gallery/Camping at Drumheller", "/gallery/Cookbook", "/gallery/Family",
-						"/gallery/Karla Camping", "/gallery/Soccer", "/gallery/Youmans Camping", "/gallery/gallery1",
-						"/gallery/gallery1/**")
-				.hasRole("USER")
-				.requestMatchers("/styles/**", "/js/**", "/images/**", "/fonts/**", "/", "/gallery",
-						"/gallery/Artsy-Fartsy", "/gallery/Artsy-Fartsy/**", "/gallery/thumbnails/**", "/gear",
-						"/webcam", "/error", "/**")
-				.permitAll().and().formLogin().loginPage("/login").permitAll().failureUrl("/login?error=true");
-		return http.build();
-	}
+    /**
+     * A bean that configures HTTP security.
+     *
+     * @param http {@link HttpSecurity}
+     * @return {@link SecurityFilterChain}
+     * @throws Exception when the internet falls over.
+     */
+    @Bean
+    SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http.csrf().disable().authorizeHttpRequests()
+                .requestMatchers("/gallery/Camping at Drumheller", "/gallery/Cookbook", "/gallery/Family",
+                        "/gallery/Karla Camping", "/gallery/Soccer", "/gallery/Youmans Camping", "/gallery/gallery1",
+                        "/gallery/gallery1/**")
+                .hasRole("USER")
+                .requestMatchers("/styles/**", "/js/**", "/images/**", "/fonts/**", "/", "/gallery",
+                        "/gallery/Artsy-Fartsy", "/gallery/Artsy-Fartsy/**", "/gallery/thumbnails/**", "/gear",
+                        "/webcam", "/error", "/**")
+                .permitAll().and().formLogin().loginPage("/login").permitAll().failureUrl("/login?error=true");
+        return http.build();
+    }
 
-	/**
-	 * Use BCrypt for password encoding.
-	 *
-	 * @return {@link PasswordEncoder}
-	 */
-	@Bean
-	public PasswordEncoder passwordEncoder() {
-		return PasswordEncoderFactories.createDelegatingPasswordEncoder();
-	}
+    /**
+     * Use BCrypt for password encoding.
+     *
+     * @return {@link PasswordEncoder}
+     */
+    @Bean
+    PasswordEncoder passwordEncoder() {
+        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+    }
 
-	/**
-	 * Username and password.
-	 *
-	 * @return {@link InMemoryUserDetailsManager}
-	 */
-	@Bean
-	public InMemoryUserDetailsManager userDetailsService() {
-		UserDetails user = User.withUsername("foote").password(passwordEncoder().encode("bogie97")).roles("USER")
-				.build();
-		return new InMemoryUserDetailsManager(user);
-	}
+    /**
+     * Username and password.
+     *
+     * @return {@link InMemoryUserDetailsManager}
+     */
+    @Bean
+    InMemoryUserDetailsManager userDetailsService() {
+        UserDetails user = User.withUsername("foote").password(passwordEncoder().encode("bogie97")).roles("USER")
+                .build();
+        return new InMemoryUserDetailsManager(user);
+    }
 
-	/**
-	 * Specify pages to allow without credentials.
-	 *
-	 * @return {@link WebSecurityCustomizer}
-	 */
-	@Bean
-	public WebSecurityCustomizer webSecurityCustomizer() {
-		StrictHttpFirewall firewall = new StrictHttpFirewall();
-		firewall.setAllowUrlEncodedPercent(true);
-		return web -> web.httpFirewall(firewall);
-	}
+    /**
+     * Specify pages to allow without credentials.
+     *
+     * @return {@link WebSecurityCustomizer}
+     */
+    @Bean
+    WebSecurityCustomizer webSecurityCustomizer() {
+        StrictHttpFirewall firewall = new StrictHttpFirewall();
+        firewall.setAllowUrlEncodedPercent(true);
+        return web -> web.httpFirewall(firewall);
+    }
 }

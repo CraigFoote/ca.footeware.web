@@ -4,14 +4,14 @@
 
 	<groupId>ca.footeware</groupId>
 	<artifactId>ca.footeware.web</artifactId>
-	<version>7.9.0-SNAPSHOT</version>
+	<version>7.9.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>Footeware.ca</name>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.0.0</version>
+		<version>3.0.1</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 
